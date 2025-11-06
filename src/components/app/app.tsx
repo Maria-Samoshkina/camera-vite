@@ -1,0 +1,51 @@
+import { Routes, Route } from 'react-router-dom';
+import {HelmetProvider} from 'react-helmet-async';
+import { AppRoute } from '../../const';
+import CatalogPage from '../../pages/catalog-page/catalog-page';
+import NotFoundPage from '../../pages/not-found-page/not-fonund-page';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/catalog-selectors';
+import { useEffect } from 'react';
+import { fetchCamerasAction } from '../../store/api-actions';
+import FetchingError from '../error-message/fetching-error';
+import LoadingPage from '../../pages/loading -page/loading-page';
+
+
+function App (): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  const isCamerasDataLoading = useAppSelector(getIsCamerasDataLoading);
+  const isCamerasFetchingError = useAppSelector(getIsCamerasFetchingError);
+
+  useEffect(()=> {
+    dispatch(fetchCamerasAction());
+  }, [dispatch]);
+
+  if (isCamerasFetchingError) {
+    return (
+      <FetchingError/>
+    );
+  }
+
+  if (isCamerasDataLoading) {
+    return (
+      <LoadingPage/>
+    );
+  }
+
+
+  return (
+    <HelmetProvider>
+      <Routes>
+        <Route path = {AppRoute.Main}>
+          <Route index element = {<CatalogPage/>}/>
+        </Route>
+        <Route path='*' element ={<NotFoundPage/>}/>
+      </Routes>
+
+    </HelmetProvider>
+  );
+}
+
+export default App;
