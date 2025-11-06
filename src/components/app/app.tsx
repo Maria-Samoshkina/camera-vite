@@ -4,11 +4,12 @@ import { AppRoute } from '../../const';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
 import NotFoundPage from '../../pages/not-found-page/not-fonund-page';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/catalog-selectors';
+import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/cameras-selectors';
 import { useEffect } from 'react';
 import { fetchCamerasAction } from '../../store/api-actions';
 import FetchingError from '../error-message/fetching-error';
 import LoadingPage from '../../pages/loading -page/loading-page';
+import DetailedCameraPage from '../../pages/detailed-camera-page/detailed-camera-page';
 
 
 function App (): JSX.Element {
@@ -41,6 +42,11 @@ function App (): JSX.Element {
         <Route path = {AppRoute.Main}>
           <Route index element = {<CatalogPage/>}/>
         </Route>
+
+        <Route path={`${AppRoute.Camera}/:cameraId`} element={
+          <DetailedCameraPage/>
+        }
+        />
         <Route path='*' element ={<NotFoundPage/>}/>
       </Routes>
 

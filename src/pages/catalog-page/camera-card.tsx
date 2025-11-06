@@ -31,23 +31,13 @@ function CameraCard (props: CameraCardProps): JSX.Element {
 
 
         <div className="rate product-card__rate">
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-full-star"></use>
-          </svg>
-          <svg width="17" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-star"></use>
-          </svg>
-          <p className="visually-hidden">Рейтинг: 4</p>
-          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>12</p>
+          {Array.from({ length: 5 }, (_, i) => (
+            <svg key={`star-${camera.id}-${i}`} width="17" height="16" aria-hidden="true">
+              <use xlinkHref={i < camera.rating ? '#icon-full-star' : '#icon-star'}></use>
+            </svg>
+          ))}
+          <p className="visually-hidden">Рейтинг: {camera.rating}</p>
+          <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{camera.reviewCount}</p>
         </div>
 
 

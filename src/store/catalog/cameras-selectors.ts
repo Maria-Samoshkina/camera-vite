@@ -5,7 +5,7 @@ import { CamerasState } from '../../types/state';
 
 const getCamerasSlice = (state: Pick<State, NameSpace.Cameras>): CamerasState => state[NameSpace.Cameras];
 
-export const getOffers = createSelector(
+export const getCameras = createSelector(
   [getCamerasSlice],
   (state: CamerasState) => state.cameras
 );

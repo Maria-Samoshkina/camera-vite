@@ -15,3 +15,9 @@ previewImgWebp2x: string;
 }
 
 export type Cameras = Camera[];
+
+export type DetailedCamera = Camera & {
+level: string;
+}
+
+export type DetailedCameras = DetailedCamera[];
