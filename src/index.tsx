@@ -5,6 +5,7 @@ import browserHistory from './browser-history';
 import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import '../public/css/style.min.css';
 
 
 const root = ReactDOM.createRoot(
