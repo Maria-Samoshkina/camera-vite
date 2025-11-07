@@ -21,3 +21,4 @@ level: string;
 }
 
 export type DetailedCameras = DetailedCamera[];
+

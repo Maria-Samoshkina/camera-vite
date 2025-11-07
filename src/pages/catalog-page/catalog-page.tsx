@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
@@ -7,6 +8,11 @@ import CameraCard from './camera-card';
 function CatalogPage (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
+
+  const handleCameraHover = useCallback((cameraId: string) => {
+    const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
+    return currentCamera;
+  }, [cameras]);
 
   return (
     <div className="wrapper">
@@ -156,7 +162,14 @@ function CatalogPage (): JSX.Element {
                   </div>
                   <div className="cards catalog__cards">
 
-                    {cameras.map((cameraItem)=> <CameraCard key={cameraItem.id} camera = {cameraItem}/>)}
+                    {cameras.map((cameraItem)=>
+                      (
+                        <CameraCard
+                          key={cameraItem.id}
+                          camera = {cameraItem}
+                          onCameraMouseEnter = {()=> handleCameraHover((cameraItem.id).toString()) }
+                        />)
+                    )}
                   </div>
                   <div className="pagination">
                     <ul className="pagination__list">

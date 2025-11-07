@@ -1,13 +1,21 @@
+import { Link } from 'react-router-dom';
 import { Camera } from '../../types/camera';
 
 type CameraCardProps = {
   camera: Camera;
+  onCameraMouseEnter?: (cameraId: string)=> void;
 }
 
 
 function CameraCard (props: CameraCardProps): JSX.Element {
 
-  const {camera} = props;
+  const {camera, onCameraMouseEnter} = props;
+
+  const handleCameraMouseEnter = (cameraId: string) => {
+    if (onCameraMouseEnter) {
+      onCameraMouseEnter(cameraId);
+    }
+  };
 
 
   return (
@@ -16,11 +24,11 @@ function CameraCard (props: CameraCardProps): JSX.Element {
         <picture>
           <source
             type="image/webp"
-            srcSet={`${camera.previewImgWebp}, ${camera.previewImgWebp2x} 2x`}
+            srcSet={`/${camera.previewImgWebp}, /${camera.previewImgWebp2x} 2x`}
           />
           <img
-            src={camera.previewImg}
-            srcSet={`${camera.previewImg2x} 2x`}
+            src={`/${camera.previewImg}`}
+            srcSet={`/${camera.previewImg2x} 2x`}
             width="280"
             height="240"
             alt={camera.name}
@@ -59,9 +67,13 @@ function CameraCard (props: CameraCardProps): JSX.Element {
           В корзине
         </a>
 
-        <a className="btn btn--transparent" href="#">
+        <Link
+          className="btn btn--transparent"
+          to={`/camera/${camera.id}`}
+          onMouseEnter={() => handleCameraMouseEnter(camera.id.toString())}
+        >
           Подробнее
-        </a>
+        </Link>
       </div>
     </div>
   );

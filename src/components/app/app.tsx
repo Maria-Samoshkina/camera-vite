@@ -39,17 +39,10 @@ function App (): JSX.Element {
   return (
     <HelmetProvider>
       <Routes>
-        <Route path = {AppRoute.Main}>
-          <Route index element = {<CatalogPage/>}/>
-        </Route>
-
-        <Route path={`${AppRoute.Camera}/:cameraId`} element={
-          <DetailedCameraPage/>
-        }
-        />
-        <Route path='*' element ={<NotFoundPage/>}/>
+        <Route path={AppRoute.Main} element={<CatalogPage/>}/>
+        <Route path={`${AppRoute.Camera}/:cameraId`} element={<DetailedCameraPage/>}/>
+        <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
-
     </HelmetProvider>
   );
 }
