@@ -6,7 +6,7 @@ import NotFoundPage from '../../pages/not-found-page/not-fonund-page';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/cameras-selectors';
 import { useEffect } from 'react';
-import { fetchCamerasAction } from '../../store/api-actions';
+import { fetchCamerasAction, fetchPromoCamerasAction } from '../../store/api-actions';
 import FetchingError from '../error-message/fetching-error';
 import LoadingPage from '../../pages/loading -page/loading-page';
 import DetailedCameraPage from '../../pages/detailed-camera-page/detailed-camera-page';
@@ -21,6 +21,7 @@ function App (): JSX.Element {
 
   useEffect(()=> {
     dispatch(fetchCamerasAction());
+    dispatch(fetchPromoCamerasAction());
   }, [dispatch]);
 
   if (isCamerasFetchingError) {

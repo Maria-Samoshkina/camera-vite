@@ -7,9 +7,11 @@ export enum AppRoute {
 export enum NameSpace {
 Cameras = 'CAMERAS',
 DetailedCamera = 'DETAILED_CAMERA',
-SimilarCameras = 'SIMILAR_CAMERAS'
+SimilarCameras = 'SIMILAR_CAMERAS',
+PromoCameras= 'PROMO_CAMERAS'
 }
 
 export enum ApiRoute {
   Cameras = '/cameras',
+  Promo = '/promo'
 }
