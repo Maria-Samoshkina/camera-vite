@@ -1,19 +1,31 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCameras } from '../../store/catalog/cameras-selectors';
 import CameraCard from './camera-card';
 import PromoBlock from './promo-block';
+import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
+import { fetchDetailedCameraAction } from '../../store/api-actions';
+
 
 function CatalogPage (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
+  const dispatch = useAppDispatch();
 
   const handleCameraHover = useCallback((cameraId: string) => {
     const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
     return currentCamera;
   }, [cameras]);
+
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+
+  const handleAddToCartClick = (id:string)=> {
+    setIsModalOpen(true);
+    dispatch(fetchDetailedCameraAction(id));
+  };
 
   return (
     <div className="wrapper">
@@ -163,6 +175,7 @@ function CatalogPage (): JSX.Element {
                           key={cameraItem.id}
                           camera = {cameraItem}
                           onCameraMouseEnter = {()=> handleCameraHover((cameraItem.id).toString()) }
+                          onAddToCartClick = {()=> handleAddToCartClick((cameraItem.id).toString())}
                         />)
                     )}
                   </div>
@@ -183,6 +196,9 @@ function CatalogPage (): JSX.Element {
             </div>
           </section>
         </div>
+        <AddCameraToCartModal
+          isOpen={isModalOpen}
+        />
       </main>
       <Footer/>
 

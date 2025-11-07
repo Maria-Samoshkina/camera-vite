@@ -4,12 +4,13 @@ import { Camera } from '../../types/camera';
 type CameraCardProps = {
   camera: Camera;
   onCameraMouseEnter?: (cameraId: string)=> void;
+  onAddToCartClick?:() => void;
 }
 
 
 function CameraCard (props: CameraCardProps): JSX.Element {
 
-  const {camera, onCameraMouseEnter} = props;
+  const {camera, onCameraMouseEnter, onAddToCartClick} = props;
 
   const handleCameraMouseEnter = (cameraId: string) => {
     if (onCameraMouseEnter) {
@@ -60,12 +61,15 @@ function CameraCard (props: CameraCardProps): JSX.Element {
 
 
       <div className="product-card__buttons">
-        <a className="btn btn--purple-border product-card__btn product-card__btn--in-cart" href="#">
+        <Link className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
+          onClick = {onAddToCartClick}
+          to="#"
+        >
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
           В корзине
-        </a>
+        </Link>
 
         <Link
           className="btn btn--transparent"
