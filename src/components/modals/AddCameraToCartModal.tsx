@@ -1,20 +1,42 @@
 import { useAppSelector } from '../../hooks';
 import { getDetailedCamera } from '../../store/detailed-camera/detailed-camera-selectors';
+import { useEffect } from 'react';
 
 type AddCameraToCartModalProps = {
   isOpen: boolean;
+  onModalClose: ()=> void;
 }
 
 function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
 
-  const {isOpen} = props;
+  const {isOpen, onModalClose} = props;
 
   const selectedCamera = useAppSelector(getDetailedCamera);
+
+  useEffect(() => {
+    const handleEscKeyDown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape' && isOpen) {
+        onModalClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKeyDown);
+    };
+  }, [isOpen, onModalClose]);
 
   return (
     <div className={isOpen ? 'modal is-active' : 'modal'}>
       <div className="modal__wrapper">
-        <div className="modal__overlay"></div>
+        <div
+          className="modal__overlay"
+          onClick={()=> onModalClose()}
+        >
+        </div>
         <div className="modal__content">
           <p className="title title--h4">Добавить товар в корзину</p>
           <div className="basket-item basket-item--short">
@@ -45,7 +67,12 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
               </svg>Добавить в корзину
             </button>
           </div>
-          <button className="cross-btn" type="button" aria-label="Закрыть попап">
+          <button
+            className="cross-btn"
+            type="button"
+            aria-label="Закрыть попап"
+            onClick={()=> onModalClose()}
+          >
             <svg width="10" height="10" aria-hidden="true">
               <use xlinkHref="#icon-close"></use>
             </svg>

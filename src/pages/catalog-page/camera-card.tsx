@@ -5,6 +5,7 @@ type CameraCardProps = {
   camera: Camera;
   onCameraMouseEnter?: (cameraId: string)=> void;
   onAddToCartClick?:() => void;
+
 }
 
 
@@ -59,17 +60,14 @@ function CameraCard (props: CameraCardProps): JSX.Element {
         </p>
       </div>
 
-
       <div className="product-card__buttons">
-        <Link className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
+        <button
+          className="btn btn--purple product-card__btn"
+          type="button"
           onClick = {onAddToCartClick}
-          to="#"
         >
-          <svg width="16" height="16" aria-hidden="true">
-            <use xlinkHref="#icon-basket"></use>
-          </svg>
-          В корзине
-        </Link>
+          Купить
+        </button>
 
         <Link
           className="btn btn--transparent"
@@ -78,6 +76,7 @@ function CameraCard (props: CameraCardProps): JSX.Element {
         >
           Подробнее
         </Link>
+
       </div>
     </div>
   );

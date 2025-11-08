@@ -21,11 +21,16 @@ function CatalogPage (): JSX.Element {
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-
   const handleAddToCartClick = (id:string)=> {
-    setIsModalOpen(true);
-    dispatch(fetchDetailedCameraAction(id));
+    dispatch(fetchDetailedCameraAction(id)).then(() => {
+      setIsModalOpen(true);
+    });
   };
+
+  const handleModalClose = ()=> {
+    setIsModalOpen(false);
+  };
+
 
   return (
     <div className="wrapper">
@@ -176,6 +181,7 @@ function CatalogPage (): JSX.Element {
                           camera = {cameraItem}
                           onCameraMouseEnter = {()=> handleCameraHover((cameraItem.id).toString()) }
                           onAddToCartClick = {()=> handleAddToCartClick((cameraItem.id).toString())}
+
                         />)
                     )}
                   </div>
@@ -198,6 +204,7 @@ function CatalogPage (): JSX.Element {
         </div>
         <AddCameraToCartModal
           isOpen={isModalOpen}
+          onModalClose = {handleModalClose}
         />
       </main>
       <Footer/>
