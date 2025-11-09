@@ -7,12 +7,17 @@ import CameraCard from './camera-card';
 import PromoBlock from './promo-block';
 import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
 import { fetchDetailedCameraAction } from '../../store/api-actions';
+import Filter from '../../components/filter/filter';
+import { changeCamerasCategory } from '../../store/filters/filters-slice';
+import { getCamerasByCategory } from '../../utils/filters/filters';
+import { getCamerasCategory } from '../../store/filters/filters-selectors';
 
 
 function CatalogPage (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
   const dispatch = useAppDispatch();
+  const selectedCamerasCategory = useAppSelector(getCamerasCategory);
 
   const handleCameraHover = useCallback((cameraId: string) => {
     const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
@@ -30,6 +35,12 @@ function CatalogPage (): JSX.Element {
   const handleModalClose = ()=> {
     setIsModalOpen(false);
   };
+
+  const handleCamerasCategoryClick = useCallback((category: string)=> {
+    dispatch(changeCamerasCategory(category));
+  }, [dispatch]);
+
+  const camerasByCategory = getCamerasByCategory(cameras, selectedCamerasCategory);
 
 
   return (
@@ -59,82 +70,7 @@ function CatalogPage (): JSX.Element {
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
               <div className="page-content__columns">
                 <div className="catalog__aside">
-                  <div className="catalog-filter">
-                    <form action="#">
-                      <h2 className="visually-hidden">Фильтр</h2>
-                      <fieldset className="catalog-filter__block">
-                        <legend className="title title&#45;&#45;h5">Цена, ₽</legend>
-                        <div className="catalog-filter__price-range">
-                          <div className="custom-input">
-                            <label>
-                              <input type="number" name="price" placeholder="от"/>
-                            </label>
-                          </div>
-                          <div className="custom-input">
-                            <label>
-                              <input type="number" name="priceUp" placeholder="до"/>
-                            </label>
-                          </div>
-                        </div>
-                      </fieldset>
-                      <fieldset className="catalog-filter__block">
-                        <legend className="title title&#45;&#45;h5">Категория</legend>
-                        <div className="custom-radio catalog-filter__item">
-                          <label>
-                            <input type="radio" name="category" value="photocamera" checked/><span className="custom-radio__icon"></span><span className="custom-radio__label">Фотокамера</span>
-                          </label>
-                        </div>
-                        <div className="custom-radio catalog-filter__item">
-                          <label>
-                            <input type="radio" name="category" value="videocamera"/><span className="custom-radio__icon"></span><span className="custom-radio__label">Видеокамера</span>
-                          </label>
-                        </div>
-                      </fieldset>
-                      <fieldset className="catalog-filter__block">
-                        <legend className="title title&#45;&#45;h5">Тип камеры</legend>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="digital" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
-                          </label>
-                        </div>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="film" disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
-                          </label>
-                        </div>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="snapshot"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Моментальная</span>
-                          </label>
-                        </div>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="collection" checked disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
-                          </label>
-                        </div>
-                      </fieldset>
-                      <fieldset className="catalog-filter__block">
-                        <legend className="title title&#45;&#45;h5">Уровень</legend>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="zero" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
-                          </label>
-                        </div>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="non-professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Любительский</span>
-                          </label>
-                        </div>
-                        <div className="custom-checkbox catalog-filter__item">
-                          <label>
-                            <input type="checkbox" name="professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Профессиональный</span>
-                          </label>
-                        </div>
-                      </fieldset>
-                      <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
-                      </button>
-                    </form>
-                  </div>
+                  <Filter onCamerasCategoryClick={handleCamerasCategoryClick}/>
                 </div>
                 <div className="catalog__content">
                   <div className="catalog-sort">
@@ -174,7 +110,7 @@ function CatalogPage (): JSX.Element {
                   </div>
                   <div className="cards catalog__cards">
 
-                    {cameras.map((cameraItem)=>
+                    {camerasByCategory.map((cameraItem)=>
                       (
                         <CameraCard
                           key={cameraItem.id}

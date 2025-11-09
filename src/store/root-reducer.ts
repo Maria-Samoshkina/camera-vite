@@ -5,6 +5,7 @@ import { detailedCameraSlice } from './detailed-camera/detailed-camera-slice';
 import { similarCamerasSlice } from './similar-cameras/similar-cameras-slice';
 import { promoCamerasSlice } from './promo-cameras/promo-cameras-slice';
 import { errorSlice } from './error/error-slice';
+import { filtersSlice } from './filters/filters-slice';
 
 
 export const rootReducer = combineReducers(
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers(
     [NameSpace.SimilarCameras]:similarCamerasSlice.reducer,
     [NameSpace.PromoCameras]:promoCamerasSlice.reducer,
     [NameSpace.Error]:errorSlice.reducer,
+    [NameSpace.Filters]:filtersSlice.reducer
 
   }
 );
