@@ -18,10 +18,12 @@ export const camerasSlice = createSlice ({
     builder
       .addCase(fetchCamerasAction.pending, (state)=> {
         state.isCamerasDataLoading = true;
+        state.isCamerasFetchingError = false;
       })
       .addCase(fetchCamerasAction.fulfilled, (state, action)=> {
         state.cameras = action.payload;
         state.isCamerasDataLoading = false;
+        state.isCamerasFetchingError = false;
       })
       .addCase(fetchCamerasAction.rejected, (state)=> {
         state.isCamerasDataLoading = false;

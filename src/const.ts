@@ -8,7 +8,8 @@ export enum NameSpace {
 Cameras = 'CAMERAS',
 DetailedCamera = 'DETAILED_CAMERA',
 SimilarCameras = 'SIMILAR_CAMERAS',
-PromoCameras= 'PROMO_CAMERAS'
+PromoCameras= 'PROMO_CAMERAS',
+Error = 'ERROR'
 }
 
 export enum ApiRoute {

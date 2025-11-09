@@ -21,6 +21,8 @@ export type InitialState = {
   isPromoCamerasLoading: boolean;
   isPromoCamerasFetchingError: boolean;
 
+  error: string|null;
+
 
 };
 
@@ -28,3 +30,4 @@ export type CamerasState = Pick<InitialState, 'cameras'| 'isCamerasDataLoading'|
 export type DetailedCameraState = Pick<InitialState, 'detailedCamera'| 'isDetailedCameraLoading'| 'isDetailedCameraFetchingError'>;
 export type SimilarCamerasState = Pick<InitialState, 'similarCameras'| 'isSimilarCamerasLoading'| 'isSimilarCamerasFetchingError'>;
 export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamerasLoading'| 'isPromoCamerasFetchingError'>;
+export type ErrorState = Pick<InitialState, 'error'>;

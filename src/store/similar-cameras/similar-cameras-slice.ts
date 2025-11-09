@@ -19,10 +19,14 @@ export const similarCamerasSlice = createSlice ({
     builder
       .addCase(fetchSimilarCamerasAction.pending, (state)=> {
         state.isSimilarCamerasLoading = true;
+        state.isSimilarCamerasFetchingError = false;
+
       })
       .addCase(fetchSimilarCamerasAction.fulfilled, (state, action)=> {
         state.similarCameras = action.payload;
         state.isSimilarCamerasLoading = false;
+        state.isSimilarCamerasFetchingError = false;
+
       })
       .addCase(fetchSimilarCamerasAction.rejected, (state)=> {
         state.isSimilarCamerasLoading = false;

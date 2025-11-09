@@ -1,15 +1,18 @@
 import { Routes, Route } from 'react-router-dom';
 import {HelmetProvider} from 'react-helmet-async';
+import { toast } from 'react-toastify';
 import { AppRoute } from '../../const';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
 import NotFoundPage from '../../pages/not-found-page/not-fonund-page';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/cameras-selectors';
+import { getError } from '../../store/error/error-selectors';
+import { setError } from '../../store/error/error-slice';
 import { useEffect } from 'react';
 import { fetchCamerasAction, fetchPromoCamerasAction } from '../../store/api-actions';
-import FetchingError from '../error-message/fetching-error';
 import LoadingPage from '../../pages/loading -page/loading-page';
 import DetailedCameraPage from '../../pages/detailed-camera-page/detailed-camera-page';
+import { getIsPromoCamerasFetchingError } from '../../store/promo-cameras/promo-cameras-selectors';
 
 
 function App (): JSX.Element {
@@ -18,17 +21,34 @@ function App (): JSX.Element {
 
   const isCamerasDataLoading = useAppSelector(getIsCamerasDataLoading);
   const isCamerasFetchingError = useAppSelector(getIsCamerasFetchingError);
+  const error = useAppSelector(getError);
+  const isPromoCamerasFetchingError = useAppSelector(getIsPromoCamerasFetchingError);
+
 
   useEffect(()=> {
     dispatch(fetchCamerasAction());
     dispatch(fetchPromoCamerasAction());
   }, [dispatch]);
 
-  if (isCamerasFetchingError) {
-    return (
-      <FetchingError/>
-    );
-  }
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(setError(null));
+    }
+  }, [error, dispatch]);
+
+  useEffect(() => {
+    if (isCamerasFetchingError) {
+      toast.error('Не удалось загрузить каталог камер. Попробуйте обновить страницу.');
+    }
+  }, [isCamerasFetchingError]);
+
+  useEffect(() => {
+    if (isPromoCamerasFetchingError) {
+      toast.error('Не удалось загрузить промо-товары. Попробуйте обновить страницу.');
+    }
+  }, [isPromoCamerasFetchingError]);
+
 
   if (isCamerasDataLoading) {
     return (

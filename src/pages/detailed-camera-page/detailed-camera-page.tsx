@@ -5,8 +5,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getDetailedCamera, getIsDetailedCameraLoading, getIsDetailedCameraFetchingError } from '../../store/detailed-camera/detailed-camera-selectors';
 import { useEffect } from 'react';
 import { fetchDetailedCameraAction } from '../../store/api-actions';
-import FetchingError from '../../components/error-message/fetching-error';
 import DetailedCameraTabs from './detailed-camera-tabs';
+import { toast } from 'react-toastify';
 
 function DetailedCameraPage (): JSX.Element {
   const {cameraId} = useParams();
@@ -16,19 +16,21 @@ function DetailedCameraPage (): JSX.Element {
   const isDetailedCameraLoading = useAppSelector(getIsDetailedCameraLoading);
   const isDetailedCameraFetchingError = useAppSelector(getIsDetailedCameraFetchingError);
 
-
   useEffect(()=> {
     if(cameraId) {
       dispatch(fetchDetailedCameraAction(cameraId));
     }
   }, [cameraId,dispatch]);
 
+  useEffect(() => {
+    if (isDetailedCameraFetchingError) {
+      toast.error('Не удалось загрузить подробную информацию о камере. Попробуйте обновить страницу.');
+    }
+  }, [isDetailedCameraFetchingError]);
+
+
   if (isDetailedCameraLoading) {
     return <div>Loading...</div>;
-  }
-
-  if (isDetailedCameraFetchingError){
-    return <FetchingError/>;
   }
 
   if(!detailedCamera){

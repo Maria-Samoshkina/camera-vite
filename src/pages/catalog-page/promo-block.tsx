@@ -1,22 +1,16 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
-import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/cameras-selectors';
-import { getPromoCameras } from '../../store/promo-cameras/promo-cameras-selectors';
+import { getIsPromoCamerasDataLoading, getPromoCameras } from '../../store/promo-cameras/promo-cameras-selectors';
 
 function PromoBlock (): JSX.Element {
 
   const promoCameras = useAppSelector(getPromoCameras);
-  const isPromoCamerasLoading = useAppSelector(getIsCamerasDataLoading);
-  const isPromoCamerasFetchingError = useAppSelector(getIsCamerasFetchingError);
+  const isPromoCamerasLoading = useAppSelector(getIsPromoCamerasDataLoading);
 
   const firstPromoCamera = promoCameras[0];
 
   if (isPromoCamerasLoading){
     return <div>Loading...</div>;
-  }
-
-  if (isPromoCamerasFetchingError){
-    return <div>Server Error...</div>;
   }
 
   if (!firstPromoCamera) {

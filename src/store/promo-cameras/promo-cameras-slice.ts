@@ -19,9 +19,11 @@ export const promoCamerasSlice = createSlice ({
     builder
       .addCase(fetchPromoCamerasAction.pending, (state)=> {
         state.isPromoCamerasLoading = true;
+        state.isPromoCamerasFetchingError = false;
       })
       .addCase(fetchPromoCamerasAction.fulfilled, (state, action)=> {
         state.promoCameras = action.payload;
+        state.isPromoCamerasLoading = false;
         state.isPromoCamerasFetchingError = false;
       })
       .addCase(fetchPromoCamerasAction.rejected, (state)=> {

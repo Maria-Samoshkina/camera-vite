@@ -1,3 +1,5 @@
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import HistoryRouter from './components/history-route/history-route';
@@ -16,6 +18,7 @@ root.render(
   <React.StrictMode>
     <Provider store = {store}>
       <HistoryRouter history={browserHistory}>
+        <ToastContainer/>
         <App/>
       </HistoryRouter>
     </Provider>
