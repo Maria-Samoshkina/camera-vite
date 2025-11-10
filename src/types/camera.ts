@@ -5,6 +5,7 @@ vendorCode: string;
 type:string;
 category: string;
 description: string;
+level: string;
 price: number;
 rating: number;
 reviewCount: number;
@@ -16,9 +17,7 @@ previewImgWebp2x: string;
 
 export type Cameras = Camera[];
 
-export type DetailedCamera = Camera & {
-level: string;
-}
+export type DetailedCamera = Camera;
 
 export type DetailedCameras = DetailedCamera[];
 

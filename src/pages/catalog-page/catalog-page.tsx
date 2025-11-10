@@ -8,9 +8,9 @@ import PromoBlock from './promo-block';
 import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
 import { fetchDetailedCameraAction } from '../../store/api-actions';
 import Filter from '../../components/filter/filter';
-import { changeCamerasCategory } from '../../store/filters/filters-slice';
-import { getCamerasByCategory } from '../../utils/filters/filters';
-import { getCamerasCategory } from '../../store/filters/filters-selectors';
+import { changeCamerasCategory, changeCamerasLevel, changeCamerasTypes } from '../../store/filters/filters-slice';
+import { getFilteredCameras } from '../../utils/filters/filters';
+import { getCamerasCategory, getCamerasLevels, getCamerasTypes } from '../../store/filters/filters-selectors';
 
 
 function CatalogPage (): JSX.Element {
@@ -18,6 +18,8 @@ function CatalogPage (): JSX.Element {
   const cameras = useAppSelector(getCameras);
   const dispatch = useAppDispatch();
   const selectedCamerasCategory = useAppSelector(getCamerasCategory);
+  const selectedCamerasTypes = useAppSelector(getCamerasTypes);
+  const selectedCamerasLevels = useAppSelector(getCamerasLevels);
 
   const handleCameraHover = useCallback((cameraId: string) => {
     const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
@@ -36,12 +38,19 @@ function CatalogPage (): JSX.Element {
     setIsModalOpen(false);
   };
 
-  const handleCamerasCategoryClick = useCallback((category: string)=> {
+  const handleCamerasCategoryChange = useCallback((category: string)=> {
     dispatch(changeCamerasCategory(category));
   }, [dispatch]);
 
-  const camerasByCategory = getCamerasByCategory(cameras, selectedCamerasCategory);
+  const handleCamerasTypeChange = useCallback((type: string)=> {
+    dispatch(changeCamerasTypes(type));
+  }, [dispatch]);
 
+  const handleCamerasLevelChange = useCallback((level: string)=> {
+    dispatch(changeCamerasLevel(level));
+  }, [dispatch]);
+
+  const filteredCameras = getFilteredCameras(cameras, selectedCamerasCategory, selectedCamerasTypes,selectedCamerasLevels);
 
   return (
     <div className="wrapper">
@@ -70,7 +79,14 @@ function CatalogPage (): JSX.Element {
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>
               <div className="page-content__columns">
                 <div className="catalog__aside">
-                  <Filter onCamerasCategoryClick={handleCamerasCategoryClick}/>
+                  <Filter
+                    onCamerasCategoryChange={handleCamerasCategoryChange}
+                    selectedCategory = {selectedCamerasCategory}
+                    onCamerasTypeChange = {handleCamerasTypeChange}
+                    selectedTypes = {selectedCamerasTypes}
+                    onCamerasLevelChange = {handleCamerasLevelChange}
+                    selectedLevels = {selectedCamerasLevels}
+                  />
                 </div>
                 <div className="catalog__content">
                   <div className="catalog-sort">
@@ -110,7 +126,7 @@ function CatalogPage (): JSX.Element {
                   </div>
                   <div className="cards catalog__cards">
 
-                    {camerasByCategory.map((cameraItem)=>
+                    {filteredCameras.map((cameraItem)=>
                       (
                         <CameraCard
                           key={cameraItem.id}

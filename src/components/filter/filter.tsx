@@ -1,13 +1,23 @@
 import { CAMERA_CATEGORIES, CAMERA_LEVELS, CAMERA_TYPES} from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { resetFilters } from '../../store/filters/filters-slice';
+
 
 type FilterProps = {
-  onCamerasCategoryClick: (category: string) => void;
+  onCamerasCategoryChange: (category: string) => void;
+  selectedCategory: string | null;
+  onCamerasTypeChange: (type: string)=> void;
+  selectedTypes: string[];
+  onCamerasLevelChange: (level: string)=> void;
+  selectedLevels: string[];
 }
 
 
 function Filter (props: FilterProps): JSX.Element {
 
-  const {onCamerasCategoryClick} = props;
+  const dispatch = useAppDispatch();
+
+  const {onCamerasCategoryChange, selectedCategory, onCamerasTypeChange, selectedTypes, onCamerasLevelChange, selectedLevels} = props;
 
   return (
     <div className="catalog-filter">
@@ -42,31 +52,13 @@ function Filter (props: FilterProps): JSX.Element {
                   type="radio"
                   name="category"
                   value={category}
-                  onChange={(evt) => onCamerasCategoryClick(evt.target.value)}
+                  onChange={(evt) => onCamerasCategoryChange(evt.target.value)}
                 />{' '}
                 <span className="custom-radio__icon"></span>
                 <span className="custom-radio__label">{category}</span>
               </label>
             </div>
           ))}
-
-
-          {/* <div className="custom-radio catalog-filter__item">
-            <label>
-              <input
-                type="radio"
-                name="category"
-                value="photocamera" checked
-              />
-              <span className="custom-radio__icon"></span>
-              <span className="custom-radio__label">Фотокамера</span>
-            </label>
-          </div>
-          <div className="custom-radio catalog-filter__item">
-            <label>
-              <input type="radio" name="category" value="videocamera"/><span className="custom-radio__icon"></span><span className="custom-radio__label">Видеокамера</span>
-            </label>
-          </div> */}
         </fieldset>
 
 
@@ -80,33 +72,16 @@ function Filter (props: FilterProps): JSX.Element {
               <label>
                 <input type="checkbox"
                   name={type}
+                  value={type}
+                  checked={selectedTypes.includes(type)}
+                  disabled={(type === 'Плёночная' || type === 'Моментальная') && selectedCategory === 'Видеокамера'}
+                  onChange={() => onCamerasTypeChange(type)}
                 />{' '}
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">{type}</span>
               </label>
             </div>
           ))}
-          {/* <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox"
-              name="digital" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Цифровая</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="film" disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Плёночная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="snapshot"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Моментальная</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="collection" checked disabled/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Коллекционная</span>
-            </label>
-          </div> */}
         </fieldset>
 
 
@@ -118,31 +93,26 @@ function Filter (props: FilterProps): JSX.Element {
               className="custom-checkbox catalog-filter__item"
             >
               <label>
-                <input type="checkbox" name={level}/>{' '}
+                <input type="checkbox"
+                  name={level}
+                  value={level}
+                  checked={selectedLevels.includes(level)}
+                  onChange={() => onCamerasLevelChange(level)}
+                />{' '}
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">{level}</span>
               </label>
             </div>
           ))}
-          {/* <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="zero" checked/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Нулевой</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="non-professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Любительский</span>
-            </label>
-          </div>
-          <div className="custom-checkbox catalog-filter__item">
-            <label>
-              <input type="checkbox" name="professional"/><span className="custom-checkbox__icon"></span><span className="custom-checkbox__label">Профессиональный</span>
-            </label>
-          </div> */}
         </fieldset>
 
 
-        <button className="btn catalog-filter__reset-btn" type="reset">Сбросить фильтры
+        <button
+          className="btn catalog-filter__reset-btn"
+          type="reset"
+          onClick={() => dispatch(resetFilters())}
+        >
+          Сбросить фильтры
         </button>
 
       </form>
@@ -152,3 +122,4 @@ function Filter (props: FilterProps): JSX.Element {
 
 
 export default Filter;
+

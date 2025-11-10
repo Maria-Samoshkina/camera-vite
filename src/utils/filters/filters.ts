@@ -13,18 +13,42 @@ const getCamerasByCategory = (cameras: Cameras, category: string | null) => {
   return cameras.filter((camera) => camera.category === serverCategory);
 };
 
-const getCamerasByType = (cameras: Cameras, type: string| null) => {
-  if (!type) {
+const getCamerasByType = (cameras: Cameras, types: string[]) => {
+  if (!types.length) {
     return cameras;
   }
-  return cameras.filter((camera) => camera.type === type);
+  return cameras.filter((camera) => types.includes(camera.type));
 };
 
-const getCamerasByLevel = (detailedCameras: DetailedCameras, level: string | null) => {
-  if (!level) {
+const getCamerasByLevel = (detailedCameras: DetailedCameras, levels: string[]) => {
+  if (!levels.length) {
     return detailedCameras;
   }
-  return detailedCameras.filter((detailedCamera) => detailedCamera.level === level);
+  return detailedCameras.filter((detailedCamera) => levels.includes(detailedCamera.level));
 };
 
-export {getCamerasByCategory, getCamerasByType, getCamerasByLevel};
+const getFilteredCameras = (
+  cameras: Cameras,
+  category: string | null,
+  types: string[],
+  levels: string[],
+) => {
+  let filteredCameras = cameras;
+
+  if (category) {
+    filteredCameras = getCamerasByCategory(filteredCameras, category);
+  }
+
+  if (types.length) {
+    filteredCameras = getCamerasByType(filteredCameras, types);
+  }
+
+  if(levels.length) {
+    filteredCameras = getCamerasByLevel(filteredCameras, levels);
+  }
+
+
+  return filteredCameras;
+};
+
+export {getCamerasByCategory, getCamerasByType, getCamerasByLevel, getFilteredCameras};

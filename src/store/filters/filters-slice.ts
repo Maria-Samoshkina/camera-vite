@@ -4,25 +4,47 @@ import { FiltersState } from '../../types/state';
 
 
 const initialState: FiltersState = {
-  camerasType: null,
   camerasCategory: null,
-  camerasLevel: null
+  camerasTypes: [],
+  camerasLevels: []
 };
 
 export const filtersSlice = createSlice({
   name: NameSpace.Filters,
   initialState,
   reducers: {
-    changeCamerasType: (state, action: PayloadAction<string>) => {
-      state.camerasType = action.payload;
+    changeCamerasCategory: (state, action: PayloadAction<string | null>)=> {
+      const selectedCategory = action.payload;
+      state.camerasCategory = selectedCategory;
+
+      if (selectedCategory === 'Видеокамера') {
+        state.camerasTypes = state.camerasTypes.filter(
+          (type) => type !== 'Плёночная' && type !== 'Моментальная'
+        );
+      }
     },
-    changeCamerasCategory: (state, action: PayloadAction<string>)=> {
-      state.camerasCategory = action.payload;
+    changeCamerasTypes: (state, action: PayloadAction<string>) => {
+      const selectedCamerasType = action.payload;
+      if (state.camerasTypes.includes(selectedCamerasType)) {
+        state.camerasTypes = state.camerasTypes.filter((type)=> type !== selectedCamerasType);
+      } else {
+        state.camerasTypes.push(selectedCamerasType);
+      }
     },
     changeCamerasLevel: (state, action: PayloadAction<string>)=> {
-      state.camerasLevel = action.payload;
+      const selectedLevel = action.payload;
+      if(state.camerasLevels.includes(selectedLevel)) {
+        state.camerasLevels = state.camerasLevels.filter((level)=> level !== selectedLevel);
+      } else {
+        state.camerasLevels.push(selectedLevel);
+      }
     },
+    resetFilters:(state)=> {
+      state.camerasCategory = null;
+      state.camerasTypes = [];
+      state.camerasLevels = [];
+    }
   },
 });
 
-export const {changeCamerasType, changeCamerasCategory, changeCamerasLevel } = filtersSlice.actions;
+export const {changeCamerasTypes, changeCamerasCategory, changeCamerasLevel, resetFilters } = filtersSlice.actions;

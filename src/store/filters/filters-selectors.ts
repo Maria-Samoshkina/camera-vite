@@ -8,12 +8,15 @@ export const getCamerasCategory = createSelector(
   [getFiltersSlice],
   (state: FiltersState) => state.camerasCategory
 );
-export const getCamerasLevel = createSelector(
+
+export const getCamerasTypes = createSelector(
   [getFiltersSlice],
-  (state: FiltersState) => state.camerasLevel
+  (state: FiltersState) => state.camerasTypes
 );
 
-export const getCamerasType = createSelector(
+export const getCamerasLevels = createSelector(
   [getFiltersSlice],
-  (state: FiltersState) => state.camerasType
+  (state: FiltersState) => state.camerasLevels
 );
+
+
