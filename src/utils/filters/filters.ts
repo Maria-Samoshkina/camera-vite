@@ -1,4 +1,5 @@
 import { Cameras, DetailedCameras } from '../../types/camera';
+import { getCamerasByPrice } from './price';
 
 const CATEGORY_MAPPING = {
   'Фотокамера': 'Фотоаппарат',
@@ -32,6 +33,8 @@ const getFilteredCameras = (
   category: string | null,
   types: string[],
   levels: string[],
+  priceFrom: number | null,
+  priceTo: number | null
 ) => {
   let filteredCameras = cameras;
 
@@ -47,6 +50,9 @@ const getFilteredCameras = (
     filteredCameras = getCamerasByLevel(filteredCameras, levels);
   }
 
+  if(priceFrom !== null && priceFrom !== undefined || priceTo !== null && priceTo !== undefined) {
+    filteredCameras = getCamerasByPrice(filteredCameras, priceFrom, priceTo);
+  }
 
   return filteredCameras;
 };

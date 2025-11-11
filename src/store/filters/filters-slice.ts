@@ -6,7 +6,9 @@ import { FiltersState } from '../../types/state';
 const initialState: FiltersState = {
   camerasCategory: null,
   camerasTypes: [],
-  camerasLevels: []
+  camerasLevels: [],
+  priceFrom: null,
+  priceTo: null
 };
 
 export const filtersSlice = createSlice({
@@ -39,12 +41,22 @@ export const filtersSlice = createSlice({
         state.camerasLevels.push(selectedLevel);
       }
     },
+    changePriceFrom: (state, action: PayloadAction<number | null>)=> {
+      const selectedPriceFrom = action.payload;
+      state.priceFrom = selectedPriceFrom;
+    },
+    changePriceTo: (state, action: PayloadAction<number | null>)=> {
+      const selectedPriceTo = action.payload;
+      state.priceTo = selectedPriceTo;
+    },
     resetFilters:(state)=> {
       state.camerasCategory = null;
       state.camerasTypes = [];
       state.camerasLevels = [];
+      state.priceFrom = null;
+      state.priceTo = null;
     }
   },
 });
 
-export const {changeCamerasTypes, changeCamerasCategory, changeCamerasLevel, resetFilters } = filtersSlice.actions;
+export const {changeCamerasTypes, changeCamerasCategory, changeCamerasLevel, changePriceFrom, changePriceTo, resetFilters } = filtersSlice.actions;

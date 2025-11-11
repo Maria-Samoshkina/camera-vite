@@ -8,9 +8,9 @@ import PromoBlock from './promo-block';
 import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
 import { fetchDetailedCameraAction } from '../../store/api-actions';
 import Filter from '../../components/filter/filter';
-import { changeCamerasCategory, changeCamerasLevel, changeCamerasTypes } from '../../store/filters/filters-slice';
+import { changeCamerasCategory, changeCamerasLevel, changeCamerasTypes, changePriceFrom, changePriceTo } from '../../store/filters/filters-slice';
 import { getFilteredCameras } from '../../utils/filters/filters';
-import { getCamerasCategory, getCamerasLevels, getCamerasTypes } from '../../store/filters/filters-selectors';
+import { getCamerasCategory, getCamerasLevels, getCamerasTypes, getPriceFrom, getPriceTo } from '../../store/filters/filters-selectors';
 
 
 function CatalogPage (): JSX.Element {
@@ -20,6 +20,8 @@ function CatalogPage (): JSX.Element {
   const selectedCamerasCategory = useAppSelector(getCamerasCategory);
   const selectedCamerasTypes = useAppSelector(getCamerasTypes);
   const selectedCamerasLevels = useAppSelector(getCamerasLevels);
+  const priceFrom = useAppSelector(getPriceFrom);
+  const priceTo = useAppSelector(getPriceTo);
 
   const handleCameraHover = useCallback((cameraId: string) => {
     const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
@@ -50,7 +52,21 @@ function CatalogPage (): JSX.Element {
     dispatch(changeCamerasLevel(level));
   }, [dispatch]);
 
-  const filteredCameras = getFilteredCameras(cameras, selectedCamerasCategory, selectedCamerasTypes,selectedCamerasLevels);
+  const handleCamerasPriceFromChange = useCallback((price: number | null)=> {
+    dispatch(changePriceFrom(price));
+  }, [dispatch]);
+
+  const handleCamerasPriceToChange = useCallback((price: number | null)=> {
+    dispatch(changePriceTo(price));
+  }, [dispatch]);
+
+
+  const filteredCameras = getFilteredCameras(cameras,
+    selectedCamerasCategory,
+    selectedCamerasTypes,
+    selectedCamerasLevels,
+    priceFrom,
+    priceTo);
 
   return (
     <div className="wrapper">
@@ -86,6 +102,12 @@ function CatalogPage (): JSX.Element {
                     selectedTypes = {selectedCamerasTypes}
                     onCamerasLevelChange = {handleCamerasLevelChange}
                     selectedLevels = {selectedCamerasLevels}
+                    filteredCameras = {filteredCameras}
+                    onCamerasPriceFromChange = {handleCamerasPriceFromChange}
+                    selectedPriceFrom = {priceFrom}
+                    onCamerasPriceToChange = {handleCamerasPriceToChange}
+                    selectedPriceTo = {priceTo}
+
                   />
                 </div>
                 <div className="catalog__content">

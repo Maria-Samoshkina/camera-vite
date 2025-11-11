@@ -19,4 +19,13 @@ export const getCamerasLevels = createSelector(
   (state: FiltersState) => state.camerasLevels
 );
 
+export const getPriceFrom = createSelector(
+  [getFiltersSlice],
+  (state: FiltersState) => state.priceFrom
+);
+
+export const getPriceTo = createSelector(
+  [getFiltersSlice],
+  (state: FiltersState) => state.priceTo
+);
 

@@ -1,7 +1,8 @@
 import { CAMERA_CATEGORIES, CAMERA_LEVELS, CAMERA_TYPES} from '../../const';
 import { useAppDispatch } from '../../hooks';
-import { resetFilters } from '../../store/filters/filters-slice';
-import { useState } from 'react';
+import {resetFilters } from '../../store/filters/filters-slice';
+import { getMinMax } from '../../utils/filters/price';
+import { Cameras } from '../../types/camera';
 
 
 type FilterProps = {
@@ -11,32 +12,55 @@ type FilterProps = {
   selectedTypes: string[];
   onCamerasLevelChange: (level: string)=> void;
   selectedLevels: string[];
+  filteredCameras: Cameras;
+  onCamerasPriceFromChange: (priceFrom: number | null)=> void;
+  selectedPriceFrom: number | null;
+  onCamerasPriceToChange: (priceTo: number | null)=> void;
+  selectedPriceTo: number | null;
 }
-
 
 function Filter (props: FilterProps): JSX.Element {
 
-  const [priceFrom, setPriceFrom] = useState<number | null >(null);
-  const [priceTo, setPriceTo] = useState<number | null >(null);
+  const dispatch = useAppDispatch();
 
-  const handlePriceFromChange = (value: number)=> {
-    setPriceFrom(value);
+  const {onCamerasCategoryChange,
+    selectedCategory,
+    onCamerasTypeChange,
+    selectedTypes,
+    onCamerasLevelChange,
+    selectedLevels,
+    filteredCameras,
+    onCamerasPriceFromChange,
+    selectedPriceFrom,
+    onCamerasPriceToChange,
+    selectedPriceTo
+  } = props;
+
+  const priceForPlaceholder = getMinMax(filteredCameras);
+
+  const handlePriceFromChange = (value: number | null)=> {
+    onCamerasPriceFromChange(value);
   };
 
-  const handlePriceToChange = (value: number)=> {
-    setPriceTo(value);
-  };
-
-  const handlePriceToBlur = (value: number) => {
-    if (priceFrom !== null && value < priceFrom) {
-      setPriceTo(null);
+  const handlePriceFromBlur = (value: number) => {
+    if(value < priceForPlaceholder.minPrice){
+      onCamerasPriceFromChange(priceForPlaceholder.minPrice);
     }
   };
 
+  const handlePriceToChange = (value: number | null)=> {
+    onCamerasPriceToChange(value);
+  };
 
-  const dispatch = useAppDispatch();
+  const handlePriceToBlur = (value: number) => {
+    if (selectedPriceFrom && value < selectedPriceFrom) {
+      onCamerasPriceToChange(0);
+    }
+    if (value > priceForPlaceholder.maxPrice) {
+      onCamerasPriceToChange(priceForPlaceholder.maxPrice);
+    }
+  };
 
-  const {onCamerasCategoryChange, selectedCategory, onCamerasTypeChange, selectedTypes, onCamerasLevelChange, selectedLevels} = props;
 
   return (
     <div className="catalog-filter">
@@ -50,9 +74,10 @@ function Filter (props: FilterProps): JSX.Element {
                 <input
                   type="number"
                   name="price"
-                  placeholder="от"
-                  value = {priceFrom || ''}
-                  onChange = {(evt)=> handlePriceFromChange(Number(evt.target.value)) }
+                  placeholder={(priceForPlaceholder.minPrice.toString())}
+                  value = {selectedPriceFrom || ''}
+                  onChange = {(evt)=> handlePriceFromChange(evt.target.value ? Number(evt.target.value) : null) }
+                  onBlur={(evt) => handlePriceFromBlur(Number(evt.target.value))}
                 />
               </label>
             </div>
@@ -61,10 +86,10 @@ function Filter (props: FilterProps): JSX.Element {
                 <input
                   type="number"
                   name="priceUp"
-                  placeholder="до"
-                  min={priceFrom || undefined}
-                  value={priceTo || ''}
-                  onChange={(evt) => handlePriceToChange(Number(evt.target.value))}
+                  placeholder={(priceForPlaceholder.maxPrice.toString())}
+                  min={selectedPriceFrom || undefined}
+                  value={selectedPriceTo || ''}
+                  onChange={(evt) => handlePriceToChange(evt.target.value ? Number(evt.target.value) : null)}
                   onBlur={(evt) => handlePriceToBlur(Number(evt.target.value))}
                 />
               </label>
@@ -145,8 +170,6 @@ function Filter (props: FilterProps): JSX.Element {
           type="reset"
           onClick={() => {
             dispatch(resetFilters());
-            setPriceFrom(null);
-            setPriceTo(null);
           }}
         >
           Сбросить фильтры

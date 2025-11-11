@@ -26,7 +26,8 @@ export type InitialState = {
   camerasCategory: string | null;
   camerasTypes: string [];
   camerasLevels: string [];
-
+  priceFrom: number | null;
+  priceTo: number | null;
 };
 
 export type CamerasState = Pick<InitialState, 'cameras'| 'isCamerasDataLoading'| 'isCamerasFetchingError'>;
@@ -34,4 +35,4 @@ export type DetailedCameraState = Pick<InitialState, 'detailedCamera'| 'isDetail
 export type SimilarCamerasState = Pick<InitialState, 'similarCameras'| 'isSimilarCamerasLoading'| 'isSimilarCamerasFetchingError'>;
 export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamerasLoading'| 'isPromoCamerasFetchingError'>;
 export type ErrorState = Pick<InitialState, 'error'>;
-export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'>
+export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'>
