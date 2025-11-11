@@ -1,6 +1,7 @@
 import { CAMERA_CATEGORIES, CAMERA_LEVELS, CAMERA_TYPES} from '../../const';
 import { useAppDispatch } from '../../hooks';
 import { resetFilters } from '../../store/filters/filters-slice';
+import { useState } from 'react';
 
 
 type FilterProps = {
@@ -15,6 +16,24 @@ type FilterProps = {
 
 function Filter (props: FilterProps): JSX.Element {
 
+  const [priceFrom, setPriceFrom] = useState<number | null >(null);
+  const [priceTo, setPriceTo] = useState<number | null >(null);
+
+  const handlePriceFromChange = (value: number)=> {
+    setPriceFrom(value);
+  };
+
+  const handlePriceToChange = (value: number)=> {
+    setPriceTo(value);
+  };
+
+  const handlePriceToBlur = (value: number) => {
+    if (priceFrom !== null && value < priceFrom) {
+      setPriceTo(null);
+    }
+  };
+
+
   const dispatch = useAppDispatch();
 
   const {onCamerasCategoryChange, selectedCategory, onCamerasTypeChange, selectedTypes, onCamerasLevelChange, selectedLevels} = props;
@@ -28,12 +47,26 @@ function Filter (props: FilterProps): JSX.Element {
           <div className="catalog-filter__price-range">
             <div className="custom-input">
               <label>
-                <input type="number" name="price" placeholder="от"/>
+                <input
+                  type="number"
+                  name="price"
+                  placeholder="от"
+                  value = {priceFrom || ''}
+                  onChange = {(evt)=> handlePriceFromChange(Number(evt.target.value)) }
+                />
               </label>
             </div>
             <div className="custom-input">
               <label>
-                <input type="number" name="priceUp" placeholder="до"/>
+                <input
+                  type="number"
+                  name="priceUp"
+                  placeholder="до"
+                  min={priceFrom || undefined}
+                  value={priceTo || ''}
+                  onChange={(evt) => handlePriceToChange(Number(evt.target.value))}
+                  onBlur={(evt) => handlePriceToBlur(Number(evt.target.value))}
+                />
               </label>
             </div>
           </div>
@@ -110,7 +143,11 @@ function Filter (props: FilterProps): JSX.Element {
         <button
           className="btn catalog-filter__reset-btn"
           type="reset"
-          onClick={() => dispatch(resetFilters())}
+          onClick={() => {
+            dispatch(resetFilters());
+            setPriceFrom(null);
+            setPriceTo(null);
+          }}
         >
           Сбросить фильтры
         </button>
