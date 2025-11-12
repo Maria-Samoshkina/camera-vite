@@ -61,6 +61,20 @@ function Filter (props: FilterProps): JSX.Element {
     }
   };
 
+  const handleResetKeyDown = (evt: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (evt.key === 'Enter' || evt.key === ' ') {
+      evt.preventDefault();
+      dispatch(resetFilters());
+    }
+  };
+
+  const handleCheckboxKeyDown = (evt: React.KeyboardEvent<HTMLInputElement>, action: () => void) => {
+    if (evt.key === 'Enter' || evt.key === ' ') {
+      evt.preventDefault();
+      action();
+    }
+  };
+
 
   return (
     <div className="catalog-filter">
@@ -111,6 +125,7 @@ function Filter (props: FilterProps): JSX.Element {
                   name="category"
                   value={category}
                   onChange={(evt) => onCamerasCategoryChange(evt.target.value)}
+                  onKeyDown={(evt) => handleCheckboxKeyDown(evt, () => onCamerasCategoryChange(category))}
                 />{' '}
                 <span className="custom-radio__icon"></span>
                 <span className="custom-radio__label">{category}</span>
@@ -134,6 +149,7 @@ function Filter (props: FilterProps): JSX.Element {
                   checked={selectedTypes.includes(type)}
                   disabled={(type === 'Плёночная' || type === 'Моментальная') && selectedCategory === 'Видеокамера'}
                   onChange={() => onCamerasTypeChange(type)}
+                  onKeyDown={(evt) => handleCheckboxKeyDown(evt, () => onCamerasTypeChange(type))}
                 />{' '}
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">{type}</span>
@@ -156,6 +172,7 @@ function Filter (props: FilterProps): JSX.Element {
                   value={level}
                   checked={selectedLevels.includes(level)}
                   onChange={() => onCamerasLevelChange(level)}
+                  onKeyDown={(evt) => handleCheckboxKeyDown(evt, () => onCamerasLevelChange(level))}
                 />{' '}
                 <span className="custom-checkbox__icon"></span>
                 <span className="custom-checkbox__label">{level}</span>
@@ -171,6 +188,7 @@ function Filter (props: FilterProps): JSX.Element {
           onClick={() => {
             dispatch(resetFilters());
           }}
+          onKeyDown={handleResetKeyDown}
         >
           Сбросить фильтры
         </button>
