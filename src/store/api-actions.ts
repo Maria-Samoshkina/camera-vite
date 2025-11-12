@@ -3,6 +3,7 @@ import { Cameras, DetailedCamera, DetailedCameras, PromoCameras } from '../types
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { ApiRoute } from '../const';
+import { Reviews } from '../types/review';
 
 export const fetchCamerasAction = createAsyncThunk<Cameras, undefined, {
   dispatch: AppDispatch;
@@ -57,6 +58,19 @@ export const fetchPromoCamerasAction = createAsyncThunk<PromoCameras, undefined,
   async (_arg, {extra: api})=> {
     const {data} = await api.get<PromoCameras>(ApiRoute.Promo);
     return data;
+
+  }
+);
+
+export const fetchReviewsAction = createAsyncThunk<Reviews, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'DATA/fetchReview',
+  async (id, { extra: api})=> {
+    const {data: reviews} = await api.get<Reviews>(`${ApiRoute.Cameras}/${id}/reviews`);
+    return reviews;
 
   }
 );

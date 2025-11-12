@@ -10,7 +10,8 @@ DetailedCamera = 'DETAILED_CAMERA',
 SimilarCameras = 'SIMILAR_CAMERAS',
 PromoCameras= 'PROMO_CAMERAS',
 Error = 'ERROR',
-Filters = 'FILTERS'
+Filters = 'FILTERS',
+Reviews = 'REVIEWS'
 }
 
 export enum ApiRoute {
@@ -22,4 +23,5 @@ export const CAMERA_CATEGORIES = ['Фотокамера', 'Видеокамер�
 export const CAMERA_TYPES = ['Цифровая', 'Плёночная', 'Моментальная', 'Коллекционная'] as const;
 export const CAMERA_LEVELS = ['Нулевой', 'Любительский', 'Профессиональный'] as const;
 
-
+export const INITIAL_REVIEWS_COUNT = 3;
+export const REVIEWS_COUNT_STEP = 3;

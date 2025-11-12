@@ -1,5 +1,6 @@
 import { store } from '../store';
 import { Cameras, DetailedCamera, DetailedCameras, PromoCameras } from './camera';
+import { Reviews } from './review';
 
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
@@ -28,6 +29,11 @@ export type InitialState = {
   camerasLevels: string [];
   priceFrom: number | null;
   priceTo: number | null;
+
+  reviews: Reviews;
+  isReviewsLoading:boolean;
+  isReviewsFetchingError: boolean;
+  displayedReviewsCount: number;
 };
 
 export type CamerasState = Pick<InitialState, 'cameras'| 'isCamerasDataLoading'| 'isCamerasFetchingError'>;
@@ -36,3 +42,4 @@ export type SimilarCamerasState = Pick<InitialState, 'similarCameras'| 'isSimila
 export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamerasLoading'| 'isPromoCamerasFetchingError'>;
 export type ErrorState = Pick<InitialState, 'error'>;
 export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'>
+export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>

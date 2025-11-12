@@ -1,0 +1,92 @@
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getDisplayedReviews, getHasMoreReviews } from '../../store/reviews/reviews-selectors';
+import { showMoreReviews } from '../../store/reviews/reviews-slice';
+import { formatReviewDate } from '../../utils/reviews/date';
+
+function ReviewsList (): JSX.Element {
+
+  const renderStars = (rating: number) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <svg key={i} width="17" height="16" aria-hidden="true">
+          <use xlinkHref={i <= rating ? '#icon-full-star' : '#icon-star'}></use>
+        </svg>
+      );
+    }
+    return stars;
+  };
+
+  const displayedReviews = useAppSelector(getDisplayedReviews);
+  const hasMoreReviews = useAppSelector(getHasMoreReviews);
+  const dispatch = useAppDispatch();
+
+
+  const handleShowMoreRewiewsClick = ()=> {
+    dispatch(showMoreReviews());
+
+  };
+
+  return (
+    <div className="page-content__section">
+      <section className="review-block">
+        <div className="container">
+          <div className="page-content__headed">
+            <h2 className="title title--h3">Отзывы</h2>
+
+            <button
+              className="btn"
+              type="button"
+              style={{ display: 'none' }}
+            >
+              Оставить свой отзы
+            </button>
+          </div>
+
+          <ul className="review-block__list">
+
+            {displayedReviews.map((review)=> (
+              <li key = {review.id}
+                className="review-card"
+              >
+                <div className="review-card__head">
+                  <p className="title title--h4">{review.userName}</p>
+                  <time className="review-card__data" dateTime={review.createAt}>{formatReviewDate(review.createAt)}</time>
+                </div>
+                <div className="rate review-card__rate">
+                  {renderStars(review.rating)}
+                  <p className="visually-hidden">Оценка: {review.rating}</p>
+                </div>
+                <ul className="review-card__list">
+                  <li className="item-list"><span className="item-list__title">Достоинства:</span>
+                    <p className="item-list__text">{review.advantage}</p>
+                  </li>
+                  <li className="item-list"><span className="item-list__title">Недостатки:</span>
+                    <p className="item-list__text">{review.disadvantage}</p>
+                  </li>
+                  <li className="item-list"><span className="item-list__title">Комментарий:</span>
+                    <p className="item-list__text">{review.review}</p>
+                  </li>
+                </ul>
+              </li>
+            ))}
+          </ul>
+
+
+          <div className="review-block__buttons">
+            {hasMoreReviews && (
+              <button
+                className="btn btn--purple"
+                type="button"
+                onClick={handleShowMoreRewiewsClick}
+              >Показать больше отзывов
+              </button>
+            )}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+export default ReviewsList;

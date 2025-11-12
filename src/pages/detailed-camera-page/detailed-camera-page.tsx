@@ -4,9 +4,10 @@ import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getDetailedCamera, getIsDetailedCameraLoading, getIsDetailedCameraFetchingError } from '../../store/detailed-camera/detailed-camera-selectors';
 import { useEffect } from 'react';
-import { fetchDetailedCameraAction } from '../../store/api-actions';
+import { fetchDetailedCameraAction, fetchReviewsAction } from '../../store/api-actions';
 import DetailedCameraTabs from './detailed-camera-tabs';
 import { toast } from 'react-toastify';
+import ReviewsList from './reviews-list';
 
 function DetailedCameraPage (): JSX.Element {
   const {cameraId} = useParams();
@@ -16,9 +17,11 @@ function DetailedCameraPage (): JSX.Element {
   const isDetailedCameraLoading = useAppSelector(getIsDetailedCameraLoading);
   const isDetailedCameraFetchingError = useAppSelector(getIsDetailedCameraFetchingError);
 
+
   useEffect(()=> {
     if(cameraId) {
       dispatch(fetchDetailedCameraAction(cameraId));
+      dispatch(fetchReviewsAction(cameraId));
     }
   }, [cameraId,dispatch]);
 
@@ -344,7 +347,7 @@ function DetailedCameraPage (): JSX.Element {
               </div>
             </section>
           </div>
-          <div className="page-content__section">
+          {/* <div className="page-content__section">
             <section className="review-block">
               <div className="container">
                 <div className="page-content__headed">
@@ -464,7 +467,8 @@ function DetailedCameraPage (): JSX.Element {
                 </div>
               </div>
             </section>
-          </div>
+          </div> */}
+          <ReviewsList/>
         </div>
       </main>
       <a className="up-btn" href="#header">
