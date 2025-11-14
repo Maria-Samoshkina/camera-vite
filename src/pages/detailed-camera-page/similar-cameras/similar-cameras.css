@@ -1,0 +1,35 @@
+.product-similar .swiper-slide {
+  width: calc(33.333% - 11px) !important;
+}
+
+.product-similar .swiper-slide .product-card {
+  width: 280px !important;
+  margin: 0 !important;
+}
+
+.product-similar .swiper-button-prev,
+.product-similar .swiper-button-next {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  margin-top: 0;
+  color: #000;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-similar .swiper-button-prev {
+  left: -50px;
+}
+
+.product-similar .swiper-button-next {
+  right: 30px;
+}
+
+.product-similar .swiper-button-prev:after,
+.product-similar .swiper-button-next:after {
+  font-size: 18px;
+  font-weight: 600;
+}
