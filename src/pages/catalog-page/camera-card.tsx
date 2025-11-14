@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Camera } from '../../types/camera';
 
 type CameraCardProps = {
+  className: string;
   camera: Camera;
   onCameraMouseEnter?: (cameraId: string)=> void;
   onAddToCartClick?:() => void;
@@ -11,7 +12,7 @@ type CameraCardProps = {
 
 function CameraCard (props: CameraCardProps): JSX.Element {
 
-  const {camera, onCameraMouseEnter, onAddToCartClick} = props;
+  const {camera, onCameraMouseEnter, onAddToCartClick, className} = props;
 
   const handleCameraMouseEnter = (cameraId: string) => {
     if (onCameraMouseEnter) {
@@ -21,7 +22,7 @@ function CameraCard (props: CameraCardProps): JSX.Element {
 
 
   return (
-    <div className="product-card">
+    <div className={`product-card ${className}`}>
       <div className="product-card__img">
         <picture>
           <source

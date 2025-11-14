@@ -4,10 +4,11 @@ import Header from '../../components/header/header';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getDetailedCamera, getIsDetailedCameraLoading, getIsDetailedCameraFetchingError } from '../../store/detailed-camera/detailed-camera-selectors';
 import { useEffect } from 'react';
-import { fetchDetailedCameraAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchDetailedCameraAction, fetchReviewsAction, fetchSimilarCamerasAction } from '../../store/api-actions';
 import DetailedCameraTabs from './detailed-camera-tabs';
 import { toast } from 'react-toastify';
 import ReviewsList from './reviews-list';
+import SimilarCameras from './similar-cameras';
 
 function DetailedCameraPage (): JSX.Element {
   const {cameraId} = useParams();
@@ -21,6 +22,7 @@ function DetailedCameraPage (): JSX.Element {
   useEffect(()=> {
     if(cameraId) {
       dispatch(fetchDetailedCameraAction(cameraId));
+      dispatch(fetchSimilarCamerasAction(cameraId));
       dispatch(fetchReviewsAction(cameraId));
     }
   }, [cameraId,dispatch]);
@@ -99,7 +101,7 @@ function DetailedCameraPage (): JSX.Element {
             </section>
           </div>
           <div className="page-content__section">
-            <section className="product-similar">
+            {/* <section className="product-similar">
               <div className="container">
                 <h2 className="title title--h3">Похожие товары</h2>
                 <div className="product-similar__slider">
@@ -345,7 +347,8 @@ function DetailedCameraPage (): JSX.Element {
                   </button>
                 </div>
               </div>
-            </section>
+            </section> */}
+            <SimilarCameras/>
           </div>
 
           <ReviewsList/>

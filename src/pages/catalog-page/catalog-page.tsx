@@ -151,6 +151,7 @@ function CatalogPage (): JSX.Element {
                     {filteredCameras.map((cameraItem)=>
                       (
                         <CameraCard
+                          className = ''
                           key={cameraItem.id}
                           camera = {cameraItem}
                           onCameraMouseEnter = {()=> handleCameraHover((cameraItem.id).toString()) }
