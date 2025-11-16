@@ -9,15 +9,21 @@ import DetailedCameraTabs from './detailed-camera-tabs';
 import { toast } from 'react-toastify';
 import ReviewsList from './reviews-list';
 import SimilarCameras from './similar-cameras/similar-cameras';
+import useAddToCartModal from '../../components/hooks/useAddToCartModal';
+import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
 
 function DetailedCameraPage (): JSX.Element {
+
+  const { isAddToCartModalOpen,
+    handleOpenAddToCartModal,
+    handleCloseAddToCartModal } = useAddToCartModal();
+
   const {cameraId} = useParams();
 
   const dispatch = useAppDispatch();
   const detailedCamera = useAppSelector(getDetailedCamera);
   const isDetailedCameraLoading = useAppSelector(getIsDetailedCameraLoading);
   const isDetailedCameraFetchingError = useAppSelector(getIsDetailedCameraFetchingError);
-
 
   useEffect(()=> {
     if(cameraId) {
@@ -41,6 +47,7 @@ function DetailedCameraPage (): JSX.Element {
   if(!detailedCamera){
     return <Navigate to = '*'/>;
   }
+
 
   return (
     <div className="wrapper">
@@ -90,11 +97,19 @@ function DetailedCameraPage (): JSX.Element {
                     <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{detailedCamera.reviewCount}</p>
                   </div>
                   <p className="product__price"><span className="visually-hidden">Цена:</span>{detailedCamera.price.toLocaleString('ru-RU')} ₽</p>
-                  <button className="btn btn--purple" type="button">
+
+
+                  <button
+                    className="btn btn--purple"
+                    type="button"
+                    onClick={()=> handleOpenAddToCartModal(detailedCamera.id.toString())}
+                  >
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>
                     </svg>Добавить в корзину
                   </button>
+
+
                   <DetailedCameraTabs detailedCamera = {detailedCamera}/>
                 </div>
               </div>
@@ -102,7 +117,7 @@ function DetailedCameraPage (): JSX.Element {
           </div>
           <div className="page-content__section">
 
-            <SimilarCameras/>
+            <SimilarCameras />
           </div>
 
           <ReviewsList/>
@@ -124,6 +139,10 @@ function DetailedCameraPage (): JSX.Element {
         </svg>
       </button>
 
+      <AddCameraToCartModal
+        isOpen={isAddToCartModalOpen}
+        onModalClose = {handleCloseAddToCartModal}
+      />
 
       <Footer/>
     </div>

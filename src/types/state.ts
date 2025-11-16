@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { Cameras, DetailedCamera, DetailedCameras, PromoCameras } from './camera';
+import { Camera, Cameras, DetailedCamera, DetailedCameras, PromoCameras } from './camera';
 import { Reviews } from './review';
 
 export type State = ReturnType<typeof store.getState>;
@@ -34,6 +34,10 @@ export type InitialState = {
   isReviewsLoading:boolean;
   isReviewsFetchingError: boolean;
   displayedReviewsCount: number;
+
+  isAddToCartModalOpen: boolean;
+  selectedCameraForCart: Camera| null;
+
 };
 
 export type CamerasState = Pick<InitialState, 'cameras'| 'isCamerasDataLoading'| 'isCamerasFetchingError'>;
@@ -43,3 +47,4 @@ export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamer
 export type ErrorState = Pick<InitialState, 'error'>;
 export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'>
 export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
+export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' >

@@ -7,6 +7,7 @@ import { promoCamerasSlice } from './promo-cameras/promo-cameras-slice';
 import { errorSlice } from './error/error-slice';
 import { filtersSlice } from './filters/filters-slice';
 import { reviewsSlice } from './reviews/reviews-slice';
+import { modalsSlice } from './modals/modals-slice';
 
 
 export const rootReducer = combineReducers(
@@ -17,7 +18,8 @@ export const rootReducer = combineReducers(
     [NameSpace.PromoCameras]:promoCamerasSlice.reducer,
     [NameSpace.Error]:errorSlice.reducer,
     [NameSpace.Filters]:filtersSlice.reducer,
-    [NameSpace.Reviews]:reviewsSlice.reducer
+    [NameSpace.Reviews]:reviewsSlice.reducer,
+    [NameSpace.Modals]: modalsSlice.reducer
 
   }
 );

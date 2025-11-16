@@ -1,6 +1,6 @@
 import { useAppSelector } from '../../hooks';
-import { getDetailedCamera } from '../../store/detailed-camera/detailed-camera-selectors';
 import { useEffect, useRef } from 'react';
+import { getSelectedCameraForCart } from '../../store/modals/modals-selectors';
 
 type AddCameraToCartModalProps = {
   isOpen: boolean;
@@ -9,9 +9,10 @@ type AddCameraToCartModalProps = {
 
 function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
 
+
   const {isOpen, onModalClose} = props;
 
-  const selectedCamera = useAppSelector(getDetailedCamera);
+  const selectedCameraForCart = useAppSelector(getSelectedCameraForCart);
   const addToCartButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
@@ -81,6 +82,7 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
     };
   }, [isOpen]);
 
+
   return (
     <div className={isOpen ? 'modal is-active' : 'modal'}>
       <div className="modal__wrapper">
@@ -94,19 +96,19 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
           <div className="basket-item basket-item--short">
             <div className="basket-item__img">
               <picture>
-                <source type="image/webp" srcSet={selectedCamera ? `${selectedCamera.previewImgWebp}, ${selectedCamera.previewImgWebp2x} 2x` : ''}/>
-                <img src={selectedCamera?.previewImg} srcSet={selectedCamera ? `${selectedCamera.previewImg2x} 2x` : ''} width="140" height="120" alt={selectedCamera?.name}/>
+                <source type="image/webp" srcSet={selectedCameraForCart ? `/${selectedCameraForCart.previewImgWebp}, /${selectedCameraForCart.previewImgWebp2x} 2x` : ''}/>
+                <img src={selectedCameraForCart?.previewImg ? `/${selectedCameraForCart.previewImg}` : ''} srcSet={selectedCameraForCart ? `/${selectedCameraForCart.previewImg2x} 2x` : ''} width="140" height="120" alt={selectedCameraForCart?.name}/>
               </picture>
             </div>
             <div className="basket-item__description">
-              <p className="basket-item__title">{selectedCamera?.name}</p>
+              <p className="basket-item__title">{selectedCameraForCart?.name}</p>
               <ul className="basket-item__list">
-                <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">{selectedCamera?.vendorCode}</span>
+                <li className="basket-item__list-item"><span className="basket-item__article">Артикул:</span> <span className="basket-item__number">{selectedCameraForCart?.vendorCode}</span>
                 </li>
-                <li className="basket-item__list-item">{selectedCamera?.category}</li>
-                <li className="basket-item__list-item">{selectedCamera?.level}</li>
+                <li className="basket-item__list-item">{selectedCameraForCart?.category}</li>
+                <li className="basket-item__list-item">{selectedCameraForCart?.level}</li>
               </ul>
-              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{selectedCamera?.price?.toLocaleString('ru-RU')} ₽</p>
+              <p className="basket-item__price"><span className="visually-hidden">Цена:</span>{selectedCameraForCart?.price?.toLocaleString('ru-RU')} ₽</p>
             </div>
           </div>
           <div className="modal__buttons">

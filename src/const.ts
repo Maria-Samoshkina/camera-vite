@@ -11,7 +11,8 @@ SimilarCameras = 'SIMILAR_CAMERAS',
 PromoCameras= 'PROMO_CAMERAS',
 Error = 'ERROR',
 Filters = 'FILTERS',
-Reviews = 'REVIEWS'
+Reviews = 'REVIEWS',
+Modals = 'MODALS'
 }
 
 export enum ApiRoute {
