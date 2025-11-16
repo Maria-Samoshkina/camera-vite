@@ -1,7 +1,7 @@
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getCameras } from '../../store/catalog/cameras-selectors';
-import { getIsAddToCartModalOpen, getSelectedCameraForCart } from '../../store/modals/modals-selectors';
-import { closeAddToCartModal, openAddToCartModal, setSelectedCameraForCart } from '../../store/modals/modals-slice';
+import { useAppDispatch, useAppSelector } from '.';
+import { getCameras } from '../store/catalog/cameras-selectors';
+import { getIsAddToCartModalOpen, getSelectedCameraForCart } from '../store/modals/modals-selectors';
+import { closeAddToCartModal, openAddToCartModal, setSelectedCameraForCart } from '../store/modals/modals-slice';
 
 const useAddToCartModal = ()=> {
   const dispatch = useAppDispatch();
@@ -9,7 +9,7 @@ const useAddToCartModal = ()=> {
   const selectedCameraForCart = useAppSelector(getSelectedCameraForCart);
   const cameras = useAppSelector(getCameras);
 
-  const handleOpenAddToCartModal = (cameraId:string) => {
+  const handleBuyButtonClick = (cameraId:string) => {
     const currentCamera = cameras.find((camera)=> camera.id.toString() === cameraId);
 
     if (currentCamera) {
@@ -18,14 +18,14 @@ const useAddToCartModal = ()=> {
     }
   };
 
-  const handleCloseAddToCartModal = () => {
+  const handleAddToCartModalClose = () => {
     dispatch(closeAddToCartModal());
   };
 
   return {
     isAddToCartModalOpen,
-    handleOpenAddToCartModal,
-    handleCloseAddToCartModal,
+    handleBuyButtonClick,
+    handleAddToCartModalClose,
     selectedCameraForCart
   };
 };

@@ -9,14 +9,13 @@ import DetailedCameraTabs from './detailed-camera-tabs';
 import { toast } from 'react-toastify';
 import ReviewsList from './reviews-list';
 import SimilarCameras from './similar-cameras/similar-cameras';
-import useAddToCartModal from '../../components/hooks/useAddToCartModal';
+import useAddToCartModal from '../../hooks/useAddToCartModal';
 import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
 
 function DetailedCameraPage (): JSX.Element {
 
   const { isAddToCartModalOpen,
-    handleOpenAddToCartModal,
-    handleCloseAddToCartModal } = useAddToCartModal();
+    handleAddToCartModalClose } = useAddToCartModal();
 
   const {cameraId} = useParams();
 
@@ -102,7 +101,7 @@ function DetailedCameraPage (): JSX.Element {
                   <button
                     className="btn btn--purple"
                     type="button"
-                    onClick={()=> handleOpenAddToCartModal(detailedCamera.id.toString())}
+
                   >
                     <svg width="24" height="16" aria-hidden="true">
                       <use xlinkHref="#icon-add-basket"></use>
@@ -141,7 +140,7 @@ function DetailedCameraPage (): JSX.Element {
 
       <AddCameraToCartModal
         isOpen={isAddToCartModalOpen}
-        onModalClose = {handleCloseAddToCartModal}
+        onModalClose = {handleAddToCartModalClose}
       />
 
       <Footer/>

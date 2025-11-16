@@ -10,7 +10,7 @@ import Filter from '../../components/filter/filter';
 import { changeCamerasCategory, changeCamerasLevel, changeCamerasTypes, changePriceFrom, changePriceTo } from '../../store/filters/filters-slice';
 import { getFilteredCameras } from '../../utils/filters/filters';
 import { getCamerasCategory, getCamerasLevels, getCamerasTypes, getPriceFrom, getPriceTo } from '../../store/filters/filters-selectors';
-import useAddToCartModal from '../../components/hooks/useAddToCartModal';
+import useAddToCartModal from '../../hooks/useAddToCartModal';
 
 
 function CatalogPage (): JSX.Element {
@@ -29,8 +29,8 @@ function CatalogPage (): JSX.Element {
   }, [cameras]);
 
   const { isAddToCartModalOpen,
-    handleOpenAddToCartModal,
-    handleCloseAddToCartModal } = useAddToCartModal();
+    handleBuyButtonClick,
+    handleAddToCartModalClose } = useAddToCartModal();
 
   const handleCamerasCategoryChange = useCallback((category: string)=> {
     dispatch(changeCamerasCategory(category));
@@ -147,7 +147,7 @@ function CatalogPage (): JSX.Element {
                           key={cameraItem.id}
                           camera = {cameraItem}
                           onCameraMouseEnter = {()=> handleCameraHover((cameraItem.id).toString()) }
-                          onAddToCartClick = {()=> handleOpenAddToCartModal((cameraItem.id).toString())}
+                          onAddToCartClick = {()=> handleBuyButtonClick((cameraItem.id).toString())}
 
                         />)
                     )}
@@ -171,7 +171,7 @@ function CatalogPage (): JSX.Element {
         </div>
         <AddCameraToCartModal
           isOpen={isAddToCartModalOpen}
-          onModalClose = {handleCloseAddToCartModal}
+          onModalClose = {handleAddToCartModalClose}
         />
       </main>
       <Footer/>

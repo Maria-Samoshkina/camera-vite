@@ -6,12 +6,12 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import './similar-cameras.css';
-import useAddToCartModal from '../../../components/hooks/useAddToCartModal';
+import useAddToCartModal from '../../../hooks/useAddToCartModal';
 
 function SimilarCameras(): JSX.Element | null {
   const similarCameras = useAppSelector(getSimilarCameras);
 
-  const{handleOpenAddToCartModal} = useAddToCartModal();
+  const{handleBuyButtonClick} = useAddToCartModal();
 
   if (!similarCameras || similarCameras.length === 0) {
     return null;
@@ -45,7 +45,7 @@ function SimilarCameras(): JSX.Element | null {
                 <CameraCard
                   className="is-active"
                   camera={camera}
-                  onAddToCartClick = {()=> handleOpenAddToCartModal((camera.id).toString())}
+                  onAddToCartClick = {()=> handleBuyButtonClick((camera.id).toString())}
 
                 />
               </SwiperSlide>
