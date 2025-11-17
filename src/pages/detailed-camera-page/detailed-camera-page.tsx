@@ -11,6 +11,8 @@ import ReviewsList from './reviews-list';
 import SimilarCameras from './similar-cameras/similar-cameras';
 import useAddToCartModal from '../../hooks/useAddToCartModal';
 import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
+import { getIsSimilarCamerasFetchingError, getIsSimilarCamerasDataLoading } from '../../store/similar-cameras/similar-cameras-selectors';
+import { getIsReviewsFetchingError, getIsReviewsLoading } from '../../store/reviews/reviews-selectors';
 
 function DetailedCameraPage (): JSX.Element {
 
@@ -23,6 +25,10 @@ function DetailedCameraPage (): JSX.Element {
   const detailedCamera = useAppSelector(getDetailedCamera);
   const isDetailedCameraLoading = useAppSelector(getIsDetailedCameraLoading);
   const isDetailedCameraFetchingError = useAppSelector(getIsDetailedCameraFetchingError);
+  const isSimilarCamerasFetchingError = useAppSelector(getIsSimilarCamerasFetchingError);
+  const isSimilarCamerasLoading = useAppSelector(getIsSimilarCamerasDataLoading);
+  const isReviewsFetchingError = useAppSelector(getIsReviewsFetchingError);
+  const isReviewsLoading = useAppSelector(getIsReviewsLoading);
 
   useEffect(()=> {
     if(cameraId) {
@@ -36,10 +42,18 @@ function DetailedCameraPage (): JSX.Element {
     if (isDetailedCameraFetchingError) {
       toast.error('Не удалось загрузить подробную информацию о камере. Попробуйте обновить страницу.');
     }
-  }, [isDetailedCameraFetchingError]);
+    if(isSimilarCamerasFetchingError){
+      toast.error('Не удалось загрузить похожие товары. Попробуйте обновить страницу.');
+
+    }
+    if(isReviewsFetchingError) {
+      toast.error('Не удалось загрузить отзывы. Попробуйте обновить страницу.');
+
+    }
+  }, [isDetailedCameraFetchingError,isSimilarCamerasFetchingError, isReviewsFetchingError ]);
 
 
-  if (isDetailedCameraLoading) {
+  if (isDetailedCameraLoading || isSimilarCamerasLoading || isReviewsLoading) {
     return <div>Loading...</div>;
   }
 
