@@ -1,5 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { getDisplayedReviews, getHasMoreReviews } from '../../store/reviews/reviews-selectors';
+import { getDisplayedReviews, getDisplayedReviewsCount, getHasMoreReviews } from '../../store/reviews/reviews-selectors';
 import { showMoreReviews } from '../../store/reviews/reviews-slice';
 import { formatReviewDate } from '../../utils/reviews/date';
 
@@ -20,12 +21,47 @@ function ReviewsList (): JSX.Element {
   const displayedReviews = useAppSelector(getDisplayedReviews);
   const hasMoreReviews = useAppSelector(getHasMoreReviews);
   const dispatch = useAppDispatch();
+  const displayedReviewsCount = useAppSelector(getDisplayedReviewsCount);
 
 
   const handleShowMoreRewiewsClick = ()=> {
     dispatch(showMoreReviews());
 
   };
+
+  const lastReviewRef = useRef<HTMLLIElement | null>(null);
+
+  useEffect(() => {
+    if (!lastReviewRef.current) {
+      return;
+    }
+
+    let timeoutId: NodeJS.Timeout;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          timeoutId = setTimeout(() => {
+            dispatch(showMoreReviews());
+          }, 1000);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 1,
+      }
+    );
+
+    observer.observe(lastReviewRef.current);
+
+    return () => {
+      observer.disconnect();
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [displayedReviewsCount, dispatch]);
+
 
   return (
     <div className="page-content__section">
@@ -45,31 +81,37 @@ function ReviewsList (): JSX.Element {
 
           <ul className="review-block__list">
 
-            {displayedReviews.map((review)=> (
-              <li key = {review.id}
-                className="review-card"
-              >
-                <div className="review-card__head">
-                  <p className="title title--h4">{review.userName}</p>
-                  <time className="review-card__data" dateTime={review.createAt}>{formatReviewDate(review.createAt)}</time>
-                </div>
-                <div className="rate review-card__rate">
-                  {renderStars(review.rating)}
-                  <p className="visually-hidden">Оценка: {review.rating}</p>
-                </div>
-                <ul className="review-card__list">
-                  <li className="item-list"><span className="item-list__title">Достоинства:</span>
-                    <p className="item-list__text">{review.advantage}</p>
-                  </li>
-                  <li className="item-list"><span className="item-list__title">Недостатки:</span>
-                    <p className="item-list__text">{review.disadvantage}</p>
-                  </li>
-                  <li className="item-list"><span className="item-list__title">Комментарий:</span>
-                    <p className="item-list__text">{review.review}</p>
-                  </li>
-                </ul>
-              </li>
-            ))}
+            {displayedReviews.map((review, index) => {
+              const isLast = index === displayedReviews.length - 1;
+
+              return (
+                <li
+                  key={review.id}
+                  className="review-card"
+                  ref={isLast ? lastReviewRef : null}
+                >
+                  <div className="review-card__head">
+                    <p className="title title--h4">{review.userName}</p>
+                    <time className="review-card__data" dateTime={review.createAt}>{formatReviewDate(review.createAt)}</time>
+                  </div>
+                  <div className="rate review-card__rate">
+                    {renderStars(review.rating)}
+                    <p className="visually-hidden">Оценка: {review.rating}</p>
+                  </div>
+                  <ul className="review-card__list">
+                    <li className="item-list"><span className="item-list__title">Достоинства:</span>
+                      <p className="item-list__text">{review.advantage}</p>
+                    </li>
+                    <li className="item-list"><span className="item-list__title">Недостатки:</span>
+                      <p className="item-list__text">{review.disadvantage}</p>
+                    </li>
+                    <li className="item-list"><span className="item-list__title">Комментарий:</span>
+                      <p className="item-list__text">{review.review}</p>
+                    </li>
+                  </ul>
+                </li>
+              );
+            })}
           </ul>
 
 
