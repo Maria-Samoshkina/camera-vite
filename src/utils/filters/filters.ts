@@ -28,7 +28,7 @@ const getCamerasByLevel = (detailedCameras: DetailedCameras, levels: string[]) =
   return detailedCameras.filter((detailedCamera) => levels.includes(detailedCamera.level));
 };
 
-const getFilteredCameras = (
+const getFilteredCamerasUtils = (
   cameras: Cameras,
   category: string | null,
   types: string[],
@@ -57,4 +57,27 @@ const getFilteredCameras = (
   return filteredCameras;
 };
 
-export {getCamerasByCategory, getCamerasByType, getCamerasByLevel, getFilteredCameras};
+const getFilteredCamerasWithoutPriceUtils = (
+  cameras: Cameras,
+  category: string | null,
+  types: string[],
+  levels: string[],
+) => {
+  let filteredCamerasWhithoutPrice = cameras;
+
+  if (category) {
+    filteredCamerasWhithoutPrice = getCamerasByCategory(filteredCamerasWhithoutPrice, category);
+  }
+
+  if (types.length) {
+    filteredCamerasWhithoutPrice = getCamerasByType(filteredCamerasWhithoutPrice, types);
+  }
+
+  if(levels.length) {
+    filteredCamerasWhithoutPrice = getCamerasByLevel(filteredCamerasWhithoutPrice, levels);
+  }
+
+  return filteredCamerasWhithoutPrice;
+};
+
+export {getCamerasByCategory, getCamerasByType, getCamerasByLevel, getFilteredCamerasUtils, getFilteredCamerasWithoutPriceUtils};
