@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { DetailedCamera } from '../../types/camera';
+import { useSearchParams } from 'react-router-dom';
 
 type DetailedCameraTabsProps = {
   detailedCamera: DetailedCamera;
@@ -7,12 +8,22 @@ type DetailedCameraTabsProps = {
 
 type Tab = 'characteristics' | 'description';
 
+const VALID_TABS: Tab[] = ['characteristics', 'description'];
+
 function DetailedCameraTabs (props: DetailedCameraTabsProps): JSX.Element {
 
   const {detailedCamera} = props;
   const { vendorCode, category, type, level, description } = detailedCamera;
 
-  const [active, setActive] = useState<Tab>('description');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabFromUrl = searchParams.get('tab') as Tab;
+  const activeTabFromUrl = VALID_TABS.includes(tabFromUrl) ? tabFromUrl : 'description';
+
+  useEffect(() => {
+    if (tabFromUrl && !VALID_TABS.includes(tabFromUrl)) {
+      setSearchParams({ tab: 'description' }, { replace: true });
+    }
+  }, [tabFromUrl, setSearchParams]);
 
   return (
     <div className="tabs product__tabs">
@@ -20,11 +31,13 @@ function DetailedCameraTabs (props: DetailedCameraTabsProps): JSX.Element {
         <button
           type="button"
           role="tab"
-          aria-selected={active === 'characteristics'}
+          aria-selected={activeTabFromUrl === 'characteristics'}
           aria-controls="tab-specs"
           id="tab-specs-btn"
-          className={`tabs__control ${active === 'characteristics' ? 'is-active' : ''}`}
-          onClick={() => setActive('characteristics')}
+          className={`tabs__control ${activeTabFromUrl === 'characteristics' ? 'is-active' : ''}`}
+          onClick={() => {
+            setSearchParams({tab: 'characteristics'});
+          }}
         >
           Характеристики
         </button>
@@ -32,11 +45,13 @@ function DetailedCameraTabs (props: DetailedCameraTabsProps): JSX.Element {
         <button
           type="button"
           role="tab"
-          aria-selected={active === 'description'}
+          aria-selected={activeTabFromUrl === 'description'}
           aria-controls="tab-desc"
           id="tab-desc-btn"
-          className={`tabs__control ${active === 'description' ? 'is-active' : ''}`}
-          onClick={() => setActive('description')}
+          className={`tabs__control ${activeTabFromUrl === 'description' ? 'is-active' : ''}`}
+          onClick={() => {
+            setSearchParams({tab: 'description'});
+          }}
         >
           Описание
         </button>
@@ -48,8 +63,8 @@ function DetailedCameraTabs (props: DetailedCameraTabsProps): JSX.Element {
           id="tab-specs"
           role="tabpanel"
           aria-labelledby="tab-specs-btn"
-          className={`tabs__element ${active === 'characteristics' ? 'is-active' : ''}`}
-          hidden={active !== 'characteristics'}
+          className={`tabs__element ${activeTabFromUrl === 'characteristics' ? 'is-active' : ''}`}
+          hidden={activeTabFromUrl !== 'characteristics'}
         >
           <ul className="product__tabs-list">
             <li className="item-list">
@@ -76,8 +91,8 @@ function DetailedCameraTabs (props: DetailedCameraTabsProps): JSX.Element {
           id="tab-desc"
           role="tabpanel"
           aria-labelledby="tab-desc-btn"
-          className={`tabs__element ${active === 'description' ? 'is-active' : ''}`}
-          hidden={active !== 'description'}
+          className={`tabs__element ${activeTabFromUrl === 'description' ? 'is-active' : ''}`}
+          hidden={activeTabFromUrl !== 'description'}
         >
           <div className="product__tabs-text">
             <p>{description}</p>
