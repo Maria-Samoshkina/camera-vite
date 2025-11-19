@@ -1,10 +1,12 @@
 import { useCallback } from 'react';
 import { CAMERA_CATEGORIES } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeCamerasCategory } from '../../store/filters/filters-slice';
+import { getCamerasCategory } from '../../store/filters/filters-selectors';
 
 function FilterCategory (): JSX.Element{
   const dispatch = useAppDispatch();
+  const selectedCamerasCategory = useAppSelector(getCamerasCategory);
 
 
   const handleCamerasCategoryChange = useCallback((category: string)=> {
@@ -32,6 +34,7 @@ function FilterCategory (): JSX.Element{
               type="radio"
               name="category"
               value={category}
+              checked={selectedCamerasCategory === category}
               onChange={(evt) => handleCamerasCategoryChange(evt.target.value)}
               onKeyDown={(evt) => handleCheckboxKeyDown(evt, () => handleCamerasCategoryChange(category))}
             />{' '}

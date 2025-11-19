@@ -24,6 +24,7 @@ function FilterType (): JSX.Element {
     }
   };
 
+
   return (
     <fieldset className="catalog-filter__block">
       <legend className="title title&#45;&#45;h5">Тип камеры</legend>
