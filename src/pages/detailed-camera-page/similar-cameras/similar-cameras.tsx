@@ -6,7 +6,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import './similar-cameras.css';
-import useAddToCartModal from '../../../hooks/useAddToCartModal';
+import useAddToCartModal from '../../../hooks/use-add-to-cart-modal';
 
 function SimilarCameras(): JSX.Element | null {
   const similarCameras = useAppSelector(getSimilarCameras);
@@ -29,6 +29,11 @@ function SimilarCameras(): JSX.Element | null {
             slidesPerGroup={3}
             spaceBetween={16}
             allowTouchMove={false}
+            speed={800}
+            effect="slide"
+            cssMode={false}
+            resistance
+            resistanceRatio={0.85}
             navigation={{
               nextEl: '.swiper-button-next',
               prevEl: '.swiper-button-prev',

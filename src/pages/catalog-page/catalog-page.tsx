@@ -5,10 +5,10 @@ import { useAppSelector } from '../../hooks';
 import { getCameras } from '../../store/catalog/cameras-selectors';
 import CameraCard from './camera-card';
 import PromoBlock from './promo-block';
-import AddCameraToCartModal from '../../components/modals/AddCameraToCartModal';
+import AddCameraToCartModal from '../../components/modals/add-camera-to-cart-modal';
 import Filter from '../../components/filter/filter';
 import { getFilteredCameras} from '../../store/filters/filters-selectors';
-import useAddToCartModal from '../../hooks/useAddToCartModal';
+import useAddToCartModal from '../../hooks/use-add-to-cart-modal';
 import Sort from '../../components/sort/sort';
 import Pagination from '../../components/pagination/pagination';
 

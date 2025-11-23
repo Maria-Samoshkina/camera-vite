@@ -14,11 +14,11 @@ function Header (): JSX.Element {
           <ul className="main-nav__list">
             <li className="main-nav__item"><Link className="main-nav__link" to="/">Каталог </Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">Гарантии</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to="#">Гарантии</Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">Доставка</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to="#">Доставка</Link>
             </li>
-            <li className="main-nav__item"><a className="main-nav__link" href="#">О компании</a>
+            <li className="main-nav__item"><Link className="main-nav__link" to="#">О компании</Link>
             </li>
           </ul>
         </nav>
@@ -44,11 +44,11 @@ function Header (): JSX.Element {
             </svg><span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        <a className="header__basket-link" href="#">
+        <Link className="header__basket-link" to="#">
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
-        </a>
+        </Link>
       </div>
     </header>
   );
