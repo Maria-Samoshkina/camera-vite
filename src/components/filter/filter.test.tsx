@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { withStore } from '../../utils-mocks/mock-components';
+import { withStore, withHistory } from '../../utils-mocks/mock-components';
 import { makeFakeStore, makeFakeCamera } from '../../utils-mocks/mocks';
 import { NameSpace } from '../../const';
 import Filter from './filter';
@@ -31,9 +30,7 @@ describe('Component: Filter', () => {
 
   const renderComponent = (initialState = {}) => {
     const { withStoreComponent } = withStore(
-      <MemoryRouter>
-        <Filter />
-      </MemoryRouter>,
+      <Filter />,
       makeFakeStore({
         [NameSpace.Cameras]: {
           cameras: mockCameras,
@@ -44,7 +41,8 @@ describe('Component: Filter', () => {
       })
     );
 
-    return render(withStoreComponent);
+    const componentWithHistory = withHistory(withStoreComponent);
+    return render(componentWithHistory);
   };
 
   it('should render main filter structure', () => {

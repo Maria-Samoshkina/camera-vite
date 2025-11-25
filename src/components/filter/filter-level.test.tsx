@@ -4,6 +4,7 @@ import { withStore } from '../../utils-mocks/mock-components';
 import { makeFakeStore } from '../../utils-mocks/mocks';
 import { NameSpace, CAMERA_LEVELS } from '../../const';
 import FilterLevel from './filter-level';
+import { changeCamerasLevel } from '../../store/filters/filters-slice';
 
 describe('Component: FilterLevel', () => {
   it('should render filter level component with all levels', () => {
@@ -52,8 +53,8 @@ describe('Component: FilterLevel', () => {
     fireEvent.click(professionalCheckbox);
 
     const actions = mockStore.getActions();
-    expect(actions[0].type).toBe('FILTERS/changeCamerasLevel');
-    expect(actions[0].payload).toBe('Профессиональный');
+    expect(actions).toEqual([changeCamerasLevel('Профессиональный')]);
+
   });
 
   it('should display selected levels as checked', () => {

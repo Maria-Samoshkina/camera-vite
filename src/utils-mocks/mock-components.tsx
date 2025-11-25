@@ -61,6 +61,12 @@ type ComponentWithMockStore = {
   mockAxiosAdapter: MockAdapter;
 };
 
+type HookWrapper = {
+  wrapper: ({ children }: { children: React.ReactNode }) => JSX.Element;
+  mockStore: MockStore;
+  mockAxiosAdapter: MockAdapter;
+};
+
 export function withStore(
   component: JSX.Element,
   initialState: Partial<State> = {},
@@ -73,6 +79,26 @@ export function withStore(
 
   return ({
     withStoreComponent: <Provider store={mockStore}>{component}</Provider>,
+    mockStore,
+    mockAxiosAdapter,
+  });
+}
+
+export function withStoreForHooks(
+  initialState: Partial<State> = {},
+): HookWrapper {
+  const axiosInstance = axios.create();
+  const mockAxiosAdapter = new MockAdapter(axiosInstance);
+  const middleware = [thunk.withExtraArgument(axiosInstance)];
+  const mockStoreCreator = configureMockStore<State, Action<string>, AppThunkDispatch>(middleware);
+  const mockStore = mockStoreCreator(initialState);
+
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <Provider store={mockStore}>{children}</Provider>
+  );
+
+  return ({
+    wrapper,
     mockStore,
     mockAxiosAdapter,
   });

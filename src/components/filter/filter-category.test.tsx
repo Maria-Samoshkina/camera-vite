@@ -4,6 +4,7 @@ import { withStore } from '../../utils-mocks/mock-components';
 import { makeFakeStore } from '../../utils-mocks/mocks';
 import { NameSpace, CAMERA_CATEGORIES } from '../../const';
 import FilterCategory from './filter-category';
+import { changeCamerasCategory } from '../../store/filters/filters-slice';
 
 describe('Component: FilterCategory', () => {
   it('should render filter category component with all categories', () => {
@@ -51,9 +52,7 @@ describe('Component: FilterCategory', () => {
     fireEvent.click(photoRadio);
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/changeCamerasCategory');
-    expect(actions[0].payload).toBe('Фотокамера');
+    expect(actions).toEqual([changeCamerasCategory('Фотокамера')]);
   });
 
   it('should display selected category as checked', () => {

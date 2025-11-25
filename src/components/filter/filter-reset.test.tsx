@@ -5,6 +5,7 @@ import { withStore } from '../../utils-mocks/mock-components';
 import { makeFakeStore } from '../../utils-mocks/mocks';
 import { NameSpace } from '../../const';
 import FilterReset from './filter-reset';
+import { resetFilters } from '../../store/filters/filters-slice';
 
 
 describe('Component: FilterReset', () => {
@@ -38,8 +39,9 @@ describe('Component: FilterReset', () => {
     fireEvent.click(resetButton);
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/resetFilters');
+
+    expect(actions).toEqual([resetFilters()]);
+
   });
 
 
@@ -66,8 +68,8 @@ describe('Component: FilterReset', () => {
     fireEvent.click(resetButton);
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/resetFilters');
+    expect(actions).toEqual([resetFilters()]);
+
   });
 
 
@@ -93,8 +95,8 @@ describe('Component: FilterReset', () => {
     fireEvent.click(resetButton);
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/resetFilters');
+    expect(actions).toEqual([resetFilters()]);
+
   });
 
 });

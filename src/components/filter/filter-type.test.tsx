@@ -4,6 +4,7 @@ import { withStore } from '../../utils-mocks/mock-components';
 import { makeFakeStore } from '../../utils-mocks/mocks';
 import { NameSpace, CAMERA_TYPES } from '../../const';
 import FilterType from './filter-type';
+import { changeCamerasTypes } from '../../store/filters/filters-slice';
 
 describe('Component: FilterType', ()=> {
   it ('should render FilterType component with all types', ()=>{
@@ -34,8 +35,9 @@ describe('Component: FilterType', ()=> {
     fireEvent.click(digitalTypeCheckbox);
 
     const actions = mockStore.getActions();
-    expect(actions[0].type).toBe('FILTERS/changeCamerasTypes');
-    expect(actions[0].payload).toBe('Цифровая');
+
+    expect(actions).toEqual([changeCamerasTypes('Цифровая')]);
+
 
   });
 

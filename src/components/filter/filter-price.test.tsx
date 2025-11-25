@@ -4,6 +4,7 @@ import { withStore } from '../../utils-mocks/mock-components';
 import { makeFakeStore, makeFakeCamera } from '../../utils-mocks/mocks';
 import { NameSpace } from '../../const';
 import FilterPrice from './filter-price';
+import { changePriceFrom, changePriceTo } from '../../store/filters/filters-slice';
 
 describe('Component: FilterPrice', () => {
   const mockCameras = [
@@ -75,9 +76,10 @@ describe('Component: FilterPrice', () => {
     fireEvent.change(priceFromInput, { target: { value: '1200' } });
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/changePriceFrom');
-    expect(actions[0].payload).toBe(1200);
+
+    expect(actions).toEqual([changePriceFrom(1200)]);
+
+
   });
 
   it('should dispatch changePriceTo action when price to input changes', () => {
@@ -87,9 +89,9 @@ describe('Component: FilterPrice', () => {
     fireEvent.change(priceToInput, { target: { value: '2800' } });
 
     const actions = mockStore.getActions();
-    expect(actions).toHaveLength(1);
-    expect(actions[0].type).toBe('FILTERS/changePriceTo');
-    expect(actions[0].payload).toBe(2800);
+
+    expect(actions).toEqual([changePriceTo(2800)]);
+
   });
 
 });
