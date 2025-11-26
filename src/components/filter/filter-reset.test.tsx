@@ -1,7 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect} from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
-import { withStore } from '../../utils-mocks/mock-components';
+import { withStore, withHistory } from '../../utils-mocks/mock-components';
 import { makeFakeStore } from '../../utils-mocks/mocks';
 import { NameSpace } from '../../const';
 import FilterReset from './filter-reset';
@@ -12,13 +11,12 @@ describe('Component: FilterReset', () => {
 
   it('should render reset button with correct text', () => {
     const {withStoreComponent} = withStore (
-      <MemoryRouter>
-        <FilterReset/>
-      </MemoryRouter>,
+      <FilterReset/>,
       makeFakeStore()
     );
 
-    render(withStoreComponent);
+    const componentWithHistory = withHistory(withStoreComponent);
+    render(componentWithHistory);
 
     const resetButton = screen.getByRole('button', { name: /сбросить фильтры/i });
     expect(resetButton).toBeInTheDocument();
@@ -27,13 +25,12 @@ describe('Component: FilterReset', () => {
 
   it('should dispatch resetFilters action when button is clicked', () => {
     const {withStoreComponent, mockStore} = withStore (
-      <MemoryRouter>
-        <FilterReset/>
-      </MemoryRouter>,
+      <FilterReset/>,
       makeFakeStore()
     );
 
-    render(withStoreComponent);
+    const componentWithHistory = withHistory(withStoreComponent);
+    render(componentWithHistory);
 
     const resetButton = screen.getByRole('button', { name: /сбросить фильтры/i });
     fireEvent.click(resetButton);
@@ -48,9 +45,7 @@ describe('Component: FilterReset', () => {
   it('should work when filters are already set', () => {
 
     const {withStoreComponent, mockStore} = withStore (
-      <MemoryRouter>
-        <FilterReset/>
-      </MemoryRouter>,
+      <FilterReset/>,
       makeFakeStore({
         [NameSpace.Filters]: {
           camerasCategory: 'Фотокамера',
@@ -62,7 +57,8 @@ describe('Component: FilterReset', () => {
       })
     );
 
-    render(withStoreComponent);
+    const componentWithHistory = withHistory(withStoreComponent);
+    render(componentWithHistory);
 
     const resetButton = screen.getByRole('button', { name: /сбросить фильтры/i });
     fireEvent.click(resetButton);
@@ -75,9 +71,7 @@ describe('Component: FilterReset', () => {
 
   it('should work with empty initial state', () => {
     const {withStoreComponent, mockStore} = withStore (
-      <MemoryRouter>
-        <FilterReset/>
-      </MemoryRouter>,
+      <FilterReset/>,
       makeFakeStore({
         [NameSpace.Filters]: {
           camerasCategory: null,
@@ -89,7 +83,8 @@ describe('Component: FilterReset', () => {
       })
     );
 
-    render(withStoreComponent);
+    const componentWithHistory = withHistory(withStoreComponent);
+    render(componentWithHistory);
 
     const resetButton = screen.getByRole('button', { name: /сбросить фильтры/i });
     fireEvent.click(resetButton);

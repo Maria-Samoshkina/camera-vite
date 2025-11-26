@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
 import Footer from './footer';
+import { withHistory } from '../../utils-mocks/mock-components';
 
 describe('Component: Footer', () => {
-  const renderComponent = () => render(
-    <MemoryRouter>
-      <Footer />
-    </MemoryRouter>
-  );
+  const renderComponent = () => {
+    const componentWithHistory = withHistory(<Footer />);
+    return render(componentWithHistory);
+  };
 
   it('should render footer component correctly', () => {
     renderComponent();

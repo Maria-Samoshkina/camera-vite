@@ -26,3 +26,5 @@ export const CAMERA_LEVELS = ['Нулевой', 'Любительский', 'П�
 
 export const INITIAL_REVIEWS_COUNT = 3;
 export const REVIEWS_COUNT_STEP = 3;
+
+export const TIMEOUT_SHOW_ERROR = 2000;

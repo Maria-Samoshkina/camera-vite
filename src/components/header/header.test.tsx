@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { MemoryRouter } from 'react-router-dom';
+import { withHistory } from '../../utils-mocks/mock-components';
 import Header from './header';
 
 describe('Component: Header', () => {
-  const renderComponent = () => render(
-    <MemoryRouter>
-      <Header />
-    </MemoryRouter>
-  );
+  const renderComponent = () => {
+    const componentWithHistory = withHistory(<Header />);
+    return render(componentWithHistory);
+  };
 
   it('should render header component correctly', () => {
     renderComponent();

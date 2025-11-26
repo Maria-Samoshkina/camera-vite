@@ -2,8 +2,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Cameras, DetailedCamera, DetailedCameras, PromoCameras } from '../types/camera';
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
-import { ApiRoute } from '../const';
+import { ApiRoute, TIMEOUT_SHOW_ERROR } from '../const';
 import { Reviews } from '../types/review';
+import { setError } from './error/error-slice';
 
 export const fetchCamerasAction = createAsyncThunk<Cameras, undefined, {
   dispatch: AppDispatch;
@@ -72,5 +73,13 @@ export const fetchReviewsAction = createAsyncThunk<Reviews, string, {
     const {data: reviews} = await api.get<Reviews>(`${ApiRoute.Cameras}/${id}/reviews`);
     return reviews;
 
+  }
+);
+
+
+export const clearErrorAction = createAsyncThunk(
+  'ERROR/clearError',
+  (_arg, { dispatch }) => {
+    setTimeout(() => dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
   }
 );
