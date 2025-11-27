@@ -9,27 +9,52 @@
 
 .product-similar .swiper-button-prev,
 .product-similar .swiper-button-next {
+  position: absolute;
   top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  margin-top: 0;
-  color: #000;
-  background: rgba(255, 255, 255, 0.9);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  color: #7575e2;
+  background-color: #f4f4fc;
+  border: none;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
 }
 
-.product-similar .swiper-button-prev {
-  left: -50px;
+.product-similar .swiper-button-prev svg,
+.product-similar .swiper-button-next svg {
+  width: 7px;
+  height: 12px;
+  fill: currentColor;
 }
 
-.product-similar .swiper-button-next {
-  right: 30px;
+.product-similar .swiper-button-prev svg {
+  transform: rotate(180deg);
 }
 
-.product-similar .swiper-button-prev:after,
-.product-similar .swiper-button-next:after {
-  font-size: 18px;
-  font-weight: 600;
+.product-similar .swiper-button-prev:hover,
+.product-similar .swiper-button-next:hover,
+.product-similar .swiper-button-prev:focus-visible,
+.product-similar .swiper-button-next:focus-visible {
+  background-color: #e8e8fa;
+}
+
+.product-similar .swiper-button-prev:active,
+.product-similar .swiper-button-next:active {
+  color: #7575e2;
+  background-color: #a2a2ff;
+}
+
+.product-similar .swiper-button-disabled {
+  color: #dddddd;
+  background-color: #f8f8f8;
 }

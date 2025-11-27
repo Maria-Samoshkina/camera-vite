@@ -4,7 +4,6 @@ import CameraCard from '../../catalog-page/camera-card';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
-import 'swiper/css/navigation';
 import './similar-cameras.css';
 import useAddToCartModal from '../../../hooks/use-add-to-cart-modal';
 
@@ -25,9 +24,10 @@ function SimilarCameras(): JSX.Element | null {
         <div className="product-similar__slider">
           <Swiper
             modules={[Navigation]}
+            className="product-similar__slider-list"
             slidesPerView={3}
             slidesPerGroup={3}
-            spaceBetween={16}
+            spaceBetween={14}
             allowTouchMove={false}
             speed={800}
             effect="slide"
@@ -57,9 +57,18 @@ function SimilarCameras(): JSX.Element | null {
             ))}
           </Swiper>
 
-          <div className="swiper-button-prev "></div>
-          <div className="swiper-button-next"></div>
 
+          <div className="swiper-button-prev slider-controls--prev">
+            <svg width="7" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-arrow"></use>
+            </svg>
+          </div>
+
+          <div className="swiper-button-next slider-controls--next">
+            <svg width="7" height="12" aria-hidden="true">
+              <use xlinkHref="#icon-arrow"></use>
+            </svg>
+          </div>
 
         </div>
       </div>
