@@ -1,6 +1,7 @@
 import { useAppSelector } from '../../hooks';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { getSelectedCameraForCart } from '../../store/modals/modals-selectors';
+import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
 
 type AddCameraToCartModalProps = {
   isOpen: boolean;
@@ -16,71 +17,12 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
   const addToCartButtonRef = useRef<HTMLButtonElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleEscKeyDown = (evt: KeyboardEvent) => {
-      if (evt.key === 'Escape' && isOpen) {
-        onModalClose();
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscKeyDown);
-    };
-  }, [isOpen, onModalClose]);
-
-  useEffect(() => {
-    if (isOpen && addToCartButtonRef.current) {
-      addToCartButtonRef.current.focus();
-    }
-  }, [isOpen]);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isOpen]);
-
-  useEffect(() => {
-    const handleTabKeyDown = (evt: KeyboardEvent) => {
-      if (evt.key === 'Tab' && isOpen && modalRef.current) {
-        const focusableElements = modalRef.current.querySelectorAll(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        const firstElement = focusableElements[0] as HTMLElement;
-        const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
-
-        if (evt.shiftKey) {
-          if (document.activeElement === firstElement) {
-            evt.preventDefault();
-            lastElement.focus();
-          }
-        } else {
-          if (document.activeElement === lastElement) {
-            evt.preventDefault();
-            firstElement.focus();
-          }
-        }
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleTabKeyDown);
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleTabKeyDown);
-    };
-  }, [isOpen]);
+  UseModalAccessibility({
+    isOpen,
+    onModalClose,
+    modalRef,
+    initialFocusRef: addToCartButtonRef as unknown as React.RefObject<HTMLElement>,
+  });
 
 
   return (
