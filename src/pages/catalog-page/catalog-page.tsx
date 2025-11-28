@@ -4,7 +4,7 @@ import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
 import { getCameras } from '../../store/catalog/cameras-selectors';
 import CameraCard from './camera-card';
-import PromoBlock from './promo-block';
+import PromoBlock from './promo-block/promo-block';
 import AddCameraToCartModal from '../../components/modals/add-camera-to-cart-modal';
 import Filter from '../../components/filter/filter';
 import { getFilteredCameras} from '../../store/filters/filters-selectors';

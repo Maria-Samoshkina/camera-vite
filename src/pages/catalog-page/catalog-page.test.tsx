@@ -21,7 +21,7 @@ vi.mock('../../components/footer/footer', () => ({
   default: () => <div data-testid="footer">Footer</div>,
 }));
 
-vi.mock('./promo-block', () => ({
+vi.mock('../../pages/catalog-page/promo-block/promo-block', () => ({
   default: () => <div data-testid="promo-block">PromoBlock</div>,
 }));
 

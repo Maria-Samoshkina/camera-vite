@@ -1,12 +1,12 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import PromoBlock from './promo-block';
-import { makeFakePromoCamera, makeFakeStore } from '../../utils-mocks/mocks';
-import { NameSpace } from '../../const';
-import { getPromoCameras, getIsPromoCamerasDataLoading } from '../../store/promo-cameras/promo-cameras-selectors';
-import { withStore, withHistory } from '../../utils-mocks/mock-components';
+import { makeFakePromoCamera, makeFakeStore } from '../../../utils-mocks/mocks';
+import { NameSpace } from '../../../const';
+import { getPromoCameras, getIsPromoCamerasDataLoading } from '../../../store/promo-cameras/promo-cameras-selectors';
+import { withStore,withHistory } from '../../../utils-mocks/mock-components';
 
-vi.mock('../../store/promo-cameras/promo-cameras-selectors', () => ({
+vi.mock('../../../store/promo-cameras/promo-cameras-selectors', () => ({
   getPromoCameras: vi.fn(),
   getIsPromoCamerasDataLoading: vi.fn(),
 }));
