@@ -14,6 +14,7 @@ import AddCameraToCartModal from '../../components/modals/add-camera-to-cart-mod
 import { getIsSimilarCamerasFetchingError, getIsSimilarCamerasDataLoading } from '../../store/similar-cameras/similar-cameras-selectors';
 import { getIsReviewsFetchingError, getIsReviewsLoading } from '../../store/reviews/reviews-selectors';
 import { AppRoute } from '../../const';
+import StarsRaiting from '../../components/stars-rating/stars-rating';
 
 function DetailedCameraPage (): JSX.Element {
 
@@ -101,17 +102,14 @@ function DetailedCameraPage (): JSX.Element {
                 </div>
                 <div className="product__content">
                   <h1 className="title title--h3">{detailedCamera.name}</h1>
-                  <div className="rate product__rate">
-                    {Array.from({ length: 5 }, (_, i) => (
-                      <svg key={`star-${detailedCamera.id}-${i}`} width="17" height="16" aria-hidden="true">
-                        <use xlinkHref={i < detailedCamera.rating ? '#icon-full-star' : '#icon-star'}></use>
-                      </svg>
-                    ))}
-                    <p className="visually-hidden">Рейтинг: {detailedCamera.rating}</p>
-                    <p className="rate__count"><span className="visually-hidden">Всего оценок:</span>{detailedCamera.reviewCount}</p>
-                  </div>
-                  <p className="product__price"><span className="visually-hidden">Цена:</span>{detailedCamera.price.toLocaleString('ru-RU')} ₽</p>
 
+                  <StarsRaiting
+                    rating={detailedCamera.rating}
+                    reviewCount={detailedCamera.reviewCount}
+                    className='product__rate'
+                  />
+
+                  <p className="product__price"><span className="visually-hidden">Цена:</span>{detailedCamera.price.toLocaleString('ru-RU')} ₽</p>
 
                   <button
                     className="btn btn--purple"

@@ -3,20 +3,9 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getDisplayedReviews, getDisplayedReviewsCount, getHasMoreReviews } from '../../store/reviews/reviews-selectors';
 import { showMoreReviews } from '../../store/reviews/reviews-slice';
 import { formatReviewDate } from '../../utils/reviews/date';
+import StarsRating from '../../components/stars-rating/stars-rating';
 
 function ReviewsList (): JSX.Element {
-
-  const renderStars = (rating: number) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <svg key={i} width="17" height="16" aria-hidden="true">
-          <use xlinkHref={i <= rating ? '#icon-full-star' : '#icon-star'}></use>
-        </svg>
-      );
-    }
-    return stars;
-  };
 
   const displayedReviews = useAppSelector(getDisplayedReviews);
   const hasMoreReviews = useAppSelector(getHasMoreReviews);
@@ -94,10 +83,12 @@ function ReviewsList (): JSX.Element {
                     <p className="title title--h4">{review.userName}</p>
                     <time className="review-card__data" dateTime={review.createAt}>{formatReviewDate(review.createAt)}</time>
                   </div>
-                  <div className="rate review-card__rate">
-                    {renderStars(review.rating)}
-                    <p className="visually-hidden">Оценка: {review.rating}</p>
-                  </div>
+
+                  <StarsRating
+                    rating={review.rating}
+                    className='review-card__rate'
+                  />
+
                   <ul className="review-card__list">
                     <li className="item-list"><span className="item-list__title">Достоинства:</span>
                       <p className="item-list__text">{review.advantage}</p>

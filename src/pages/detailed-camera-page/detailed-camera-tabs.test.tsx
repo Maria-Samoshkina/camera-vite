@@ -41,7 +41,6 @@ describe('Component: DetailedCameraTabs', () => {
     const descriptionButton = screen.getByText('Описание');
     const characteristicsButton = screen.getByText('Характеристики');
 
-    // По умолчанию активна вкладка "Описание"
     expect(descriptionButton).toHaveClass('is-active');
     expect(characteristicsButton).not.toHaveClass('is-active');
   });
