@@ -29,6 +29,8 @@ export type InitialState = {
   camerasLevels: string [];
   priceFrom: number | null;
   priceTo: number | null;
+  sortType: string;
+  sortDirection: string;
 
   reviews: Reviews;
   isReviewsLoading:boolean;
@@ -45,6 +47,6 @@ export type DetailedCameraState = Pick<InitialState, 'detailedCamera'| 'isDetail
 export type SimilarCamerasState = Pick<InitialState, 'similarCameras'| 'isSimilarCamerasLoading'| 'isSimilarCamerasFetchingError'>;
 export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamerasLoading'| 'isPromoCamerasFetchingError'>;
 export type ErrorState = Pick<InitialState, 'error'>;
-export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'>
+export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'| 'sortType'| 'sortDirection'>
 export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
 export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' >

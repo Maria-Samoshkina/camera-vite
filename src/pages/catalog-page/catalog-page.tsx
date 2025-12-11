@@ -7,7 +7,7 @@ import CameraCard from './camera-card';
 import PromoBlock from './promo-block/promo-block';
 import AddCameraToCartModal from '../../components/modals/add-camera-to-cart-modal';
 import Filter from '../../components/filter/filter';
-import { getFilteredCameras} from '../../store/filters/filters-selectors';
+import { getFilteredSortedCameras} from '../../store/filters/filters-selectors';
 import useAddToCartModal from '../../hooks/use-add-to-cart-modal';
 import Sort from '../../components/sort/sort';
 import Pagination from '../../components/pagination/pagination';
@@ -18,7 +18,7 @@ import { AppRoute } from '../../const';
 function CatalogPage (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
-  const filteredCameras = useAppSelector(getFilteredCameras);
+  const filteredSortedCameras = useAppSelector(getFilteredSortedCameras);
 
 
   const handleCameraHover = useCallback((cameraId: string) => {
@@ -65,7 +65,7 @@ function CatalogPage (): JSX.Element {
                   <Sort/>
                   <div className="cards catalog__cards">
 
-                    {filteredCameras.map((cameraItem)=>
+                    {filteredSortedCameras.map((cameraItem)=>
                       (
                         <CameraCard
                           className = ''

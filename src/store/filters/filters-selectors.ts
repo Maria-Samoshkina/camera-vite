@@ -3,6 +3,7 @@ import {NameSpace} from '../../const';
 import {FiltersState, State } from '../../types/state';
 import { getCameras } from '../catalog/cameras-selectors';
 import { getFilteredCamerasUtils, getFilteredCamerasWithoutPriceUtils } from '../../utils/filters/filters';
+import { sortCameras } from '../../utils/sort/sort';
 
 const getFiltersSlice = (state: Pick<State, NameSpace.Filters>): FiltersState => state[NameSpace.Filters];
 
@@ -31,6 +32,16 @@ export const getPriceTo = createSelector(
   (state: FiltersState) => state.priceTo
 );
 
+export const getSortType = createSelector(
+  [getFiltersSlice],
+  (state: FiltersState) => state.sortType
+);
+
+export const getSortDirection = createSelector(
+  [getFiltersSlice],
+  (state: FiltersState) => state.sortDirection
+);
+
 export const getFilteredCameras = createSelector(
   [
     getCameras,
@@ -38,10 +49,19 @@ export const getFilteredCameras = createSelector(
     getCamerasTypes,
     getCamerasLevels,
     getPriceFrom,
-    getPriceTo
+    getPriceTo,
   ],
   (cameras, category, types, levels, priceFrom, priceTo) =>
     getFilteredCamerasUtils(cameras, category, types, levels, priceFrom, priceTo)
+);
+
+export const getFilteredSortedCameras = createSelector(
+  [getFilteredCameras,
+    getSortType,
+    getSortDirection
+  ],
+  (filteredCameras, sortType, sortDirection)=>
+    sortCameras(filteredCameras, sortType,sortDirection)
 );
 
 export const getFilteredCamerasWithoutPrice = createSelector (

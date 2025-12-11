@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace} from '../../const';
+import { NameSpace, SortDirection, SortType} from '../../const';
 import { FiltersState } from '../../types/state';
 
 
@@ -8,7 +8,9 @@ const initialState: FiltersState = {
   camerasTypes: [],
   camerasLevels: [],
   priceFrom: null,
-  priceTo: null
+  priceTo: null,
+  sortType: SortType.price,
+  sortDirection: SortDirection.ascending
 };
 
 export const filtersSlice = createSlice({
@@ -55,8 +57,23 @@ export const filtersSlice = createSlice({
       state.camerasLevels = [];
       state.priceFrom = null;
       state.priceTo = null;
+    },
+
+    changeSortType: (state, action: PayloadAction<string>)=> {
+      state.sortType = action.payload;
+    },
+    changeSortDirection: (state, action: PayloadAction<string>)=> {
+      state.sortDirection = action.payload;
     }
   },
 });
 
-export const {changeCamerasTypes, changeCamerasCategory, changeCamerasLevel, changePriceFrom, changePriceTo, resetFilters } = filtersSlice.actions;
+export const {changeCamerasTypes,
+  changeCamerasCategory,
+  changeCamerasLevel,
+  changePriceFrom,
+  changePriceTo,
+  resetFilters,
+  changeSortDirection,
+  changeSortType
+} = filtersSlice.actions;

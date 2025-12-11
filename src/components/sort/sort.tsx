@@ -1,24 +1,51 @@
+import { SortDirection, SortType } from '../../const';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getSortDirection, getSortType } from '../../store/filters/filters-selectors';
+import { changeSortDirection, changeSortType } from '../../store/filters/filters-slice';
+
 function Sort (): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  const selectedSortType = useAppSelector(getSortType);
+  const selectedSortDirection = useAppSelector(getSortDirection);
+
+  const handleSortTypeChange = (sortType: string)=> {
+    dispatch(changeSortType(sortType));
+  };
+
+  const handleSortDirection = (sortDirection: string)=> {
+    dispatch(changeSortDirection(sortDirection));
+  };
+
   return (
     <div className="catalog-sort">
       <form action="#">
         <div className="catalog-sort__inner">
           <p className="title title--h5">Сортировать:</p>
           <div className="catalog-sort__type">
+
             <div className="catalog-sort__btn-text">
               <input
                 type="radio"
                 id="sortPrice"
                 name="sort"
-                defaultChecked
+                value={SortType.price}
+                checked ={selectedSortType === SortType.price}
+                onChange={(evt)=> handleSortTypeChange(evt.target.value) }
               />
               <label htmlFor="sortPrice">по цене</label>
             </div>
+
+
             <div className="catalog-sort__btn-text">
               <input
                 type="radio"
                 id="sortPopular"
                 name="sort"
+                value={SortType.popularity}
+                checked = {selectedSortType === SortType.popularity}
+                onChange={(evt)=> handleSortTypeChange(evt.target.value) }
+
               />
               <label htmlFor="sortPopular">по популярности</label>
             </div>
@@ -29,7 +56,9 @@ function Sort (): JSX.Element {
                 type="radio"
                 id="up"
                 name="sort-icon"
-                defaultChecked
+                value={SortDirection.ascending}
+                checked = {selectedSortDirection === SortDirection.ascending}
+                onChange={(evt)=> handleSortDirection(evt.target.value)}
                 aria-label="По возрастанию"
               />
               <label htmlFor="up">
@@ -39,7 +68,15 @@ function Sort (): JSX.Element {
               </label>
             </div>
             <div className="catalog-sort__btn catalog-sort__btn--down">
-              <input type="radio" id="down" name="sort-icon" aria-label="По убыванию"/>
+              <input
+                type="radio"
+                id="down"
+                name="sort-icon"
+                aria-label="По убыванию"
+                value={SortDirection.descending}
+                checked = {selectedSortDirection === SortDirection.descending}
+                onChange={(evt)=> handleSortDirection(evt.target.value)}
+              />
               <label htmlFor="down">
                 <svg width="16" height="14" aria-hidden="true">
                   <use xlinkHref="#icon-sort"></use>
