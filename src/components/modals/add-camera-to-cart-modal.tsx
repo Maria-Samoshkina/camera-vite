@@ -2,6 +2,7 @@ import { useAppSelector } from '../../hooks';
 import { useRef } from 'react';
 import { getSelectedCameraForCart } from '../../store/modals/modals-selectors';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
+import useAddToCartModal from '../../hooks/use-add-to-cart-modal';
 
 type AddCameraToCartModalProps = {
   isOpen: boolean;
@@ -23,6 +24,10 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
     modalRef,
     initialFocusRef: addToCartButtonRef as unknown as React.RefObject<HTMLElement>,
   });
+
+  const {
+    handleAddToCartButtonClick
+  } = useAddToCartModal();
 
 
   return (
@@ -54,15 +59,19 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
             </div>
           </div>
           <div className="modal__buttons">
+
             <button
               ref={addToCartButtonRef}
               className="btn btn--purple modal__btn modal__btn--fit-width"
               type="button"
+              onClick={handleAddToCartButtonClick}
             >
               <svg width="24" height="16" aria-hidden="true">
                 <use xlinkHref="#icon-add-basket"></use>
-              </svg>Добавить в корзину
+              </svg>
+              Добавить в корзину
             </button>
+
           </div>
           <button
             className="cross-btn"
@@ -77,6 +86,8 @@ function AddCameraToCartModal (props: AddCameraToCartModalProps): JSX.Element {
         </div>
       </div>
     </div>
+
+
   );
 }
 

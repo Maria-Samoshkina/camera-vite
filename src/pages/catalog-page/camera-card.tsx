@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Camera } from '../../types/camera';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
+import { useAppSelector } from '../../hooks';
+import { getCamerasInCart } from '../../store/cart/cart-selectors';
 
 type CameraCardProps = {
   className: string;
@@ -21,6 +23,8 @@ function CameraCard (props: CameraCardProps): JSX.Element {
     }
   };
 
+  const camerasInCart = useAppSelector(getCamerasInCart);
+  const isCameraInCart = camerasInCart.includes(camera);
 
   return (
     <div className={`product-card ${className}`}>
@@ -57,13 +61,25 @@ function CameraCard (props: CameraCardProps): JSX.Element {
       </div>
 
       <div className="product-card__buttons">
-        <button
-          className="btn btn--purple product-card__btn"
-          type="button"
-          onClick = {onAddToCartClick}
-        >
-          Купить
-        </button>
+        {!isCameraInCart ? (
+          <button
+            className="btn btn--purple product-card__btn"
+            type="button"
+            onClick={onAddToCartClick}
+          >
+            Купить
+          </button>
+        ) : (
+          <button
+            className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
+            type="button"
+          >
+            <svg width="16" height="16" aria-hidden="true">
+              <use xlinkHref="#icon-basket"></use>
+            </svg>
+            В корзине
+          </button>
+        )}
 
         <Link
           className="btn btn--transparent"
@@ -72,7 +88,6 @@ function CameraCard (props: CameraCardProps): JSX.Element {
         >
           Подробнее
         </Link>
-
       </div>
     </div>
   );

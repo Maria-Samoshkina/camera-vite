@@ -39,6 +39,9 @@ export type InitialState = {
 
   isAddToCartModalOpen: boolean;
   selectedCameraForCart: Camera| null;
+  isAddCameraSuccessModalOpen: boolean;
+
+  camerasInCart: Cameras;
 
 };
 
@@ -49,4 +52,5 @@ export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamer
 export type ErrorState = Pick<InitialState, 'error'>;
 export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'| 'sortType'| 'sortDirection'>
 export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
-export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' >
+export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' | 'isAddCameraSuccessModalOpen'>
+export type CartState = Pick<InitialState, 'camerasInCart'>;

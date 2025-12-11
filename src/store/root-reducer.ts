@@ -8,6 +8,7 @@ import { errorSlice } from './error/error-slice';
 import { filtersSlice } from './filters/filters-slice';
 import { reviewsSlice } from './reviews/reviews-slice';
 import { modalsSlice } from './modals/modals-slice';
+import { cartSlice } from './cart/cart-slice';
 
 
 export const rootReducer = combineReducers(
@@ -19,7 +20,8 @@ export const rootReducer = combineReducers(
     [NameSpace.Error]:errorSlice.reducer,
     [NameSpace.Filters]:filtersSlice.reducer,
     [NameSpace.Reviews]:reviewsSlice.reducer,
-    [NameSpace.Modals]: modalsSlice.reducer
+    [NameSpace.Modals]: modalsSlice.reducer,
+    [NameSpace.Cart]:cartSlice.reducer
 
   }
 );

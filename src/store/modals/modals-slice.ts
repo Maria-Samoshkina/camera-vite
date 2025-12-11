@@ -6,8 +6,8 @@ import { Camera } from '../../types/camera';
 
 const initialState: ModalsState = {
   isAddToCartModalOpen: false,
-  selectedCameraForCart:  null
-
+  selectedCameraForCart:  null,
+  isAddCameraSuccessModalOpen: false
 };
 
 export const modalsSlice = createSlice({
@@ -23,6 +23,17 @@ export const modalsSlice = createSlice({
     setSelectedCameraForCart: (state, action: PayloadAction<Camera>) => {
       state.selectedCameraForCart = action.payload;
     },
+    openAddCameraSuccessModal: (state)=> {
+      state.isAddCameraSuccessModalOpen = true;
+    },
+    closeAddCameraSuccessModal: (state)=> {
+      state.isAddCameraSuccessModalOpen = false;
+    },
   }});
 
-export const {openAddToCartModal, closeAddToCartModal, setSelectedCameraForCart } = modalsSlice.actions;
+export const {openAddToCartModal,
+  closeAddToCartModal,
+  setSelectedCameraForCart,
+  openAddCameraSuccessModal,
+  closeAddCameraSuccessModal
+} = modalsSlice.actions;

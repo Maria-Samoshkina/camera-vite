@@ -13,6 +13,7 @@ import Sort from '../../components/sort/sort';
 import Pagination from '../../components/pagination/pagination';
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
 
 
 function CatalogPage (): JSX.Element {
@@ -28,7 +29,10 @@ function CatalogPage (): JSX.Element {
 
   const { isAddToCartModalOpen,
     handleBuyButtonClick,
-    handleAddToCartModalClose } = useAddToCartModal();
+    handleAddToCartModalClose,
+    isAddCameraSuccessModalOpen,
+    handleAddCameraSuccessModalClose
+  } = useAddToCartModal();
 
 
   return (
@@ -87,6 +91,11 @@ function CatalogPage (): JSX.Element {
         <AddCameraToCartModal
           isOpen={isAddToCartModalOpen}
           onModalClose = {handleAddToCartModalClose}
+        />
+
+        <AddCameraSuccessModal
+          isOpen = {isAddCameraSuccessModalOpen}
+          onModalClose = {handleAddCameraSuccessModalClose}
         />
       </main>
       <Footer/>

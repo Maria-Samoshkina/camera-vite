@@ -12,7 +12,8 @@ PromoCameras= 'PROMO_CAMERAS',
 Error = 'ERROR',
 Filters = 'FILTERS',
 Reviews = 'REVIEWS',
-Modals = 'MODALS'
+Modals = 'MODALS',
+Cart = 'CART'
 }
 
 export enum ApiRoute {
