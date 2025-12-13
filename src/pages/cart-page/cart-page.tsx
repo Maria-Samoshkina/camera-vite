@@ -72,7 +72,7 @@ function CartPage(): JSX.Element {
                           </svg>
                         </button>
                         <label className="visually-hidden" htmlFor={`counter${camera.id}`}></label>
-                        <input type="number" id={`counter${camera.id}`} value={quantity} min="1" max="99" aria-label="количество товара" readOnly/>
+                        <input type="number" id={`counter${camera.id}`} value={quantity} min="1" max="9" aria-label="количество товара" readOnly/>
 
 
                         <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">

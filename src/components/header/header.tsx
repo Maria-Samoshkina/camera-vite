@@ -6,6 +6,7 @@ import { getCamerasInCart } from '../../store/cart/cart-selectors';
 function Header (): JSX.Element {
 
   const camerasInCart = useAppSelector(getCamerasInCart);
+  const total = camerasInCart.reduce((sum, item)=> sum + item.quantity, 0);
 
   return (
     <header className="header" id="header">
@@ -54,7 +55,7 @@ function Header (): JSX.Element {
             <use xlinkHref="#icon-basket"></use>
           </svg>
           {camerasInCart.length !== 0
-            ? <span className="header__basket-count">{camerasInCart.length}</span>
+            ? <span className="header__basket-count">{total}</span>
             : null}
         </Link>
       </div>

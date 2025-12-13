@@ -24,7 +24,7 @@ function CameraCard (props: CameraCardProps): JSX.Element {
   };
 
   const camerasInCart = useAppSelector(getCamerasInCart);
-  const isCameraInCart = camerasInCart.includes(camera);
+  const isCameraInCart = camerasInCart.some((item) => item.camera.id === camera.id);
 
   return (
     <div className={`product-card ${className}`}>
