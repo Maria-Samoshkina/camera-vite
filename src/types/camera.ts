@@ -17,6 +17,13 @@ previewImgWebp2x: string;
 
 export type Cameras = Camera[];
 
+export type CartItem = {
+  camera: Camera;
+  quantity: number;
+};
+
+export type CartItems = CartItem[];
+
 export type DetailedCamera = Camera;
 
 export type DetailedCameras = DetailedCamera[];

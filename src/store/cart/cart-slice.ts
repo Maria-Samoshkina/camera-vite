@@ -13,7 +13,16 @@ export const cartSlice = createSlice ({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Camera>) => {
-      state.camerasInCart.push(action.payload);
+
+      const existingItem = state.camerasInCart.find((cameraInCart)=> cameraInCart.camera.id === action.payload.id);
+      if(existingItem){
+        existingItem.quantity += 1;
+      } else {
+        state.camerasInCart.push({
+          camera:action.payload,
+          quantity:1
+        });
+      }
     },
 
   },

@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { Camera, Cameras, DetailedCamera, DetailedCameras, PromoCameras } from './camera';
+import { Camera, Cameras, DetailedCamera, DetailedCameras, PromoCameras, CartItems } from './camera';
 import { Reviews } from './review';
 
 export type State = ReturnType<typeof store.getState>;
@@ -41,7 +41,7 @@ export type InitialState = {
   selectedCameraForCart: Camera| null;
   isAddCameraSuccessModalOpen: boolean;
 
-  camerasInCart: Cameras;
+  camerasInCart: CartItems;
 
 };
 
