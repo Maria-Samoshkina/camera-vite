@@ -1,5 +1,7 @@
 import { useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
+import { AppRoute } from '../../const';
 
 type AddCameraSuccessModalProps = {
   isOpen: boolean;
@@ -11,6 +13,15 @@ function AddCameraSuccessModal (props: AddCameraSuccessModalProps) : JSX.Element
   const {isOpen, onModalClose} = props;
   const modalRef = useRef<HTMLDivElement>(null);
   const continueShoppingButtonRef = useRef<HTMLButtonElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleContinueShoppingButtonClick = () => {
+    onModalClose();
+    if (location.pathname.startsWith(AppRoute.Camera)) {
+      navigate(AppRoute.Main);
+    }
+  };
 
   UseModalAccessibility({
     isOpen,
@@ -39,18 +50,21 @@ function AddCameraSuccessModal (props: AddCameraSuccessModalProps) : JSX.Element
           <div className="modal__buttons">
             <button
               className="btn btn--transparent modal__btn"
-              onClick={onModalClose}
+              onClick={handleContinueShoppingButtonClick}
               ref={continueShoppingButtonRef}
             >
               Продолжить покупки
             </button>
 
 
-            <button
+            <Link
+              to={AppRoute.Card}
               className="btn btn--purple modal__btn modal__btn--fit-width"
+              onClick={onModalClose}
             >
               Перейти в корзину
-            </button>
+            </Link>
+
 
           </div>
           <button className="cross-btn" type="button" aria-label="Закрыть попап" onClick={onModalClose}>

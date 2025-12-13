@@ -1,7 +1,8 @@
 export enum AppRoute {
   Main = '/',
   NotFound = '*',
-  Camera = '/camera'
+  Camera = '/camera',
+  Card = '/card'
 }
 
 export enum NameSpace {

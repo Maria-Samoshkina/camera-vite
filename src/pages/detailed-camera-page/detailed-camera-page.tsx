@@ -15,11 +15,16 @@ import { getIsSimilarCamerasFetchingError, getIsSimilarCamerasDataLoading } from
 import { getIsReviewsFetchingError, getIsReviewsLoading } from '../../store/reviews/reviews-selectors';
 import { AppRoute } from '../../const';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
+import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
 
 function DetailedCameraPage (): JSX.Element {
 
   const { isAddToCartModalOpen,
-    handleAddToCartModalClose } = useAddToCartModal();
+    handleAddToCartModalClose,
+    isAddCameraSuccessModalOpen,
+    handleAddCameraSuccessModalClose,
+    handleBuyButtonClick
+  } = useAddToCartModal();
 
   const {cameraId} = useParams();
 
@@ -114,6 +119,7 @@ function DetailedCameraPage (): JSX.Element {
                   <button
                     className="btn btn--purple"
                     type="button"
+                    onClick={()=>handleBuyButtonClick(detailedCamera.id.toString())}
 
                   >
                     <svg width="24" height="16" aria-hidden="true">
@@ -154,6 +160,10 @@ function DetailedCameraPage (): JSX.Element {
       <AddCameraToCartModal
         isOpen={isAddToCartModalOpen}
         onModalClose = {handleAddToCartModalClose}
+      />
+      <AddCameraSuccessModal
+        isOpen = {isAddCameraSuccessModalOpen}
+        onModalClose = {handleAddCameraSuccessModalClose}
       />
 
       <Footer/>

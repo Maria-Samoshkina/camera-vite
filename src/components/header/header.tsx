@@ -1,7 +1,12 @@
 import { Link } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useAppSelector } from '../../hooks';
+import { getCamerasInCart } from '../../store/cart/cart-selectors';
 
 function Header (): JSX.Element {
+
+  const camerasInCart = useAppSelector(getCamerasInCart);
+
   return (
     <header className="header" id="header">
       <div className="container">
@@ -44,10 +49,13 @@ function Header (): JSX.Element {
             </svg><span className="visually-hidden">Сбросить поиск</span>
           </button>
         </div>
-        <Link className="header__basket-link" to="#">
+        <Link className="header__basket-link" to={AppRoute.Card}>
           <svg width="16" height="16" aria-hidden="true">
             <use xlinkHref="#icon-basket"></use>
           </svg>
+          {camerasInCart.length !== 0
+            ? <span className="header__basket-count">{camerasInCart.length}</span>
+            : null}
         </Link>
       </div>
     </header>
@@ -55,3 +63,5 @@ function Header (): JSX.Element {
 }
 
 export default Header;
+
+

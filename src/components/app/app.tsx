@@ -13,6 +13,7 @@ import { fetchCamerasAction, fetchPromoCamerasAction } from '../../store/api-act
 import LoadingPage from '../../pages/loading -page/loading-page';
 import DetailedCameraPage from '../../pages/detailed-camera-page/detailed-camera-page';
 import { getIsPromoCamerasFetchingError } from '../../store/promo-cameras/promo-cameras-selectors';
+import CartPage from '../../pages/cart-page/cart-page';
 
 
 function App (): JSX.Element {
@@ -62,6 +63,7 @@ function App (): JSX.Element {
       <Routes>
         <Route path={AppRoute.Main} element={<CatalogPage/>}/>
         <Route path={`${AppRoute.Camera}/:cameraId`} element={<DetailedCameraPage/>}/>
+        <Route path ={AppRoute.Card} element= {<CartPage/>}/>
         <Route path='*' element={<NotFoundPage/>}/>
       </Routes>
     </HelmetProvider>
