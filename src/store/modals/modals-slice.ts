@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { ModalsState} from '../../types/state';
-import { Camera } from '../../types/camera';
+import { Camera, CartItem } from '../../types/camera';
 
 
 const initialState: ModalsState = {
   isAddToCartModalOpen: false,
   selectedCameraForCart:  null,
-  isAddCameraSuccessModalOpen: false
+  isAddCameraSuccessModalOpen: false,
+  selectedCameraForRemoveFromCart: null,
+  isRemoveCameraFromCartOpen: false
 };
 
 export const modalsSlice = createSlice({
@@ -29,11 +31,24 @@ export const modalsSlice = createSlice({
     closeAddCameraSuccessModal: (state)=> {
       state.isAddCameraSuccessModalOpen = false;
     },
+    setSelectedCameraForRemoveFromCart: (state, action: PayloadAction<CartItem>) => {
+      state.selectedCameraForRemoveFromCart = action.payload;
+    },
+    openRemoveFromCartModal: (state)=> {
+      state.isRemoveCameraFromCartOpen = true;
+    },
+    closeRemoveFromCartModal: (state)=> {
+      state.isRemoveCameraFromCartOpen = false;
+    },
+
   }});
 
 export const {openAddToCartModal,
   closeAddToCartModal,
   setSelectedCameraForCart,
   openAddCameraSuccessModal,
-  closeAddCameraSuccessModal
+  closeAddCameraSuccessModal,
+  setSelectedCameraForRemoveFromCart,
+  openRemoveFromCartModal,
+  closeRemoveFromCartModal
 } = modalsSlice.actions;

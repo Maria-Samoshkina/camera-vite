@@ -1,11 +1,40 @@
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { useAppSelector } from '../../hooks';
+import RemoveCameraFromCartModal from '../../components/modals/remove-camera-from-cart-modal';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCamerasInCart } from '../../store/cart/cart-selectors';
+import { changeQuantity, decreaseQuantity, increaseQuantity } from '../../store/cart/cart-slice';
+import { getIsRemoveCameraFromCartOpen } from '../../store/modals/modals-selectors';
+import { closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraForRemoveFromCart } from '../../store/modals/modals-slice';
+import { CartItem } from '../../types/camera';
 
 function CartPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const handleDecreaseButtonClick = (cameraInCart: CartItem)=> {
+    if (cameraInCart.quantity > 1) {
+      dispatch(decreaseQuantity(cameraInCart));
+    } else {
+      dispatch(openRemoveFromCartModal());
+      dispatch(setSelectedCameraForRemoveFromCart(cameraInCart));
+    }
+  };
+
+  const handleIncreaseButtonClick = (cameraInCart: CartItem)=> {
+    dispatch(increaseQuantity(cameraInCart));
+  };
+
+  const handleRemoveFromCartButtonClick = (cartItem: CartItem)=> {
+    dispatch(setSelectedCameraForRemoveFromCart(cartItem));
+    dispatch(openRemoveFromCartModal());
+  };
+
+  const handleRemoveFromCartModalClose = () => {
+    dispatch(closeRemoveFromCartModal());
+  };
 
   const camerasInCart = useAppSelector(getCamerasInCart);
+  const isOpenRemoveCameraFromCartModal = useAppSelector(getIsRemoveCameraFromCartOpen);
 
 
   return (
@@ -66,23 +95,59 @@ function CartPage(): JSX.Element {
                       <div className="quantity">
 
 
-                        <button className="btn-icon btn-icon--prev" aria-label="уменьшить количество товара">
+                        <button
+                          className="btn-icon btn-icon--prev"
+                          aria-label="уменьшить количество товара"
+                          onClick={()=> {
+                            handleDecreaseButtonClick(cartItem);
+                          }}
+                        >
                           <svg width="7" height="12" aria-hidden="true">
                             <use xlinkHref="#icon-arrow"></use>
                           </svg>
                         </button>
                         <label className="visually-hidden" htmlFor={`counter${camera.id}`}></label>
-                        <input type="number" id={`counter${camera.id}`} value={quantity} min="1" max="9" aria-label="количество товара" readOnly/>
+                        <input
+                          type="number"
+                          id={`counter${camera.id}`}
+                          value={quantity}
+                          min="1"
+                          max="9"
+                          aria-label="количество товара"
+                          onChange={(evt) => {
+                            const value = Number(evt.target.value);
+                            if (!isNaN(value) && value >= 1 && value <= 9) {
+                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: value }));
+                            }
+                          }}
+                          onBlur={(evt) => {
+                            const value = Number(evt.target.value);
+                            if (isNaN(value) || value < 1) {
+                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: 1 }));
+                            } else if (value > 9) {
+                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: 9 }));
+                            }
+                          }}
+                        />
 
 
-                        <button className="btn-icon btn-icon--next" aria-label="увеличить количество товара">
+                        <button
+                          className="btn-icon btn-icon--next"
+                          aria-label="увеличить количество товара"
+                          onClick={()=> handleIncreaseButtonClick(cartItem)}
+                        >
                           <svg width="7" height="12" aria-hidden="true">
                             <use xlinkHref="#icon-arrow"></use>
                           </svg>
                         </button>
                       </div>
                       <div className="basket-item__total-price"><span className="visually-hidden">Общая цена:</span>{(camera.price * quantity).toLocaleString('ru-RU')} ₽</div>
-                      <button className="cross-btn" type="button" aria-label="Удалить товар">
+                      <button
+                        className="cross-btn"
+                        type="button"
+                        aria-label="Удалить товар"
+                        onClick={()=> handleRemoveFromCartButtonClick(cartItem)}
+                      >
                         <svg width="10" height="10" aria-hidden="true">
                           <use xlinkHref="#icon-close"></use>
                         </svg>
@@ -120,6 +185,10 @@ function CartPage(): JSX.Element {
             </div>
           </section>
         </div>
+        <RemoveCameraFromCartModal
+          isOpen = {isOpenRemoveCameraFromCartModal}
+          onModalClose={handleRemoveFromCartModalClose}
+        />
       </main>
       <Footer/>
     </div>

@@ -1,5 +1,5 @@
 import { store } from '../store';
-import { Camera, Cameras, DetailedCamera, DetailedCameras, PromoCameras, CartItems } from './camera';
+import { Camera, Cameras, DetailedCamera, DetailedCameras, PromoCameras, CartItems, CartItem } from './camera';
 import { Reviews } from './review';
 
 export type State = ReturnType<typeof store.getState>;
@@ -40,6 +40,8 @@ export type InitialState = {
   isAddToCartModalOpen: boolean;
   selectedCameraForCart: Camera| null;
   isAddCameraSuccessModalOpen: boolean;
+  selectedCameraForRemoveFromCart: CartItem|null;
+  isRemoveCameraFromCartOpen:boolean;
 
   camerasInCart: CartItems;
 
@@ -52,5 +54,5 @@ export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamer
 export type ErrorState = Pick<InitialState, 'error'>;
 export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'| 'sortType'| 'sortDirection'>
 export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
-export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' | 'isAddCameraSuccessModalOpen'>
+export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' | 'isAddCameraSuccessModalOpen' | 'selectedCameraForRemoveFromCart' | 'isRemoveCameraFromCartOpen'>
 export type CartState = Pick<InitialState, 'camerasInCart'>;
