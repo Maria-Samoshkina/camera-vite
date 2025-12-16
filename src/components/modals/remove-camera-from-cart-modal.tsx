@@ -4,6 +4,8 @@ import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
 import { getSelectedCameraForRemoveFromCart } from '../../store/modals/modals-selectors';
 import { deleteFromCart } from '../../store/cart/cart-slice';
 import { CartItem } from '../../types/camera';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type RemoveCameraFromCartModalProps = {
   isOpen: boolean;
@@ -32,6 +34,7 @@ function RemoveCameraFromCartModal (props:RemoveCameraFromCartModalProps):JSX.El
       onModalClose();
     }
   };
+
 
   return (
     <div className={isOpen ? 'modal is-active' : 'modal'}>
@@ -73,8 +76,11 @@ function RemoveCameraFromCartModal (props:RemoveCameraFromCartModalProps):JSX.El
             >
               Удалить
             </button>
-            <a className="btn btn--transparent modal__btn modal__btn--half-width" href="#">Продолжить покупки
-            </a>
+            <Link
+              className="btn btn--transparent modal__btn modal__btn--half-width" to={AppRoute.Main}
+            >
+              Продолжить покупки
+            </Link>
           </div>
           <button
             className="cross-btn"
