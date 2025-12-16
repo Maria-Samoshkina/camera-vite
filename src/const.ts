@@ -14,12 +14,14 @@ Error = 'ERROR',
 Filters = 'FILTERS',
 Reviews = 'REVIEWS',
 Modals = 'MODALS',
-Cart = 'CART'
+Cart = 'CART',
+Coupon = 'COUPON'
 }
 
 export enum ApiRoute {
   Cameras = '/cameras',
-  Promo = '/promo'
+  Promo = '/promo',
+  Coupon = '/coupons'
 }
 
 export const CAMERA_CATEGORIES = ['Фотокамера', 'Видеокамера'] as const;

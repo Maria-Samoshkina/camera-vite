@@ -45,6 +45,12 @@ export type InitialState = {
 
   camerasInCart: CartItems;
 
+  coupon: string | null;
+  discount: number;
+  isCouponValid: boolean | null;
+  isCouponChecking: boolean;
+  isCouponFetchingError: boolean;
+
 };
 
 export type CamerasState = Pick<InitialState, 'cameras'| 'isCamerasDataLoading'| 'isCamerasFetchingError'>;
@@ -56,3 +62,4 @@ export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'|
 export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
 export type ModalsState = Pick<InitialState, 'isAddToCartModalOpen' | 'selectedCameraForCart' | 'isAddCameraSuccessModalOpen' | 'selectedCameraForRemoveFromCart' | 'isRemoveCameraFromCartOpen'>
 export type CartState = Pick<InitialState, 'camerasInCart'>;
+export type CouponState = Pick<InitialState, 'coupon' | 'discount' | 'isCouponValid' | 'isCouponChecking' | 'isCouponFetchingError' >

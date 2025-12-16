@@ -5,6 +5,7 @@ import { AxiosInstance } from 'axios';
 import { ApiRoute, TIMEOUT_SHOW_ERROR } from '../const';
 import { Reviews } from '../types/review';
 import { setError } from './error/error-slice';
+import { Discount } from '../types/coupon';
 
 export const fetchCamerasAction = createAsyncThunk<Cameras, undefined, {
   dispatch: AppDispatch;
@@ -83,3 +84,20 @@ export const clearErrorAction = createAsyncThunk(
     setTimeout(() => dispatch(setError(null)), TIMEOUT_SHOW_ERROR);
   }
 );
+
+export const checkCouponAction = createAsyncThunk<{ coupon: string; discount: Discount }, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'CART/checkCoupon',
+  async (coupon, { extra: api, rejectWithValue }) => {
+    try {
+      const { data } = await api.post<Discount>(ApiRoute.Coupon, { coupon });
+      return { coupon, discount: data };
+    } catch (error) {
+      return rejectWithValue('Invalid coupon');
+    }
+  }
+);
+
