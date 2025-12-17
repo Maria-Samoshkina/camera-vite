@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import RemoveCameraFromCartModal from '../../components/modals/remove-camera-from-cart-modal';
@@ -8,6 +9,7 @@ import { getIsRemoveCameraFromCartOpen } from '../../store/modals/modals-selecto
 import { closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraForRemoveFromCart } from '../../store/modals/modals-slice';
 import { CartItem } from '../../types/camera';
 import CartSummary from './cart-summary';
+import { AppRoute } from '../../const';
 
 function CartPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -47,18 +49,18 @@ function CartPage(): JSX.Element {
             <div className="container">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="index.html">Главная
+                  <Link className="breadcrumbs__link" to={AppRoute.Main}>Главная
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item">
-                  <a className="breadcrumbs__link" href="catalog.html">Каталог
+                  <Link className="breadcrumbs__link" to={AppRoute.Main}>Каталог
                     <svg width="5" height="8" aria-hidden="true">
                       <use xlinkHref="#icon-arrow-mini"></use>
                     </svg>
-                  </a>
+                  </Link>
                 </li>
                 <li className="breadcrumbs__item"><span className="breadcrumbs__link breadcrumbs__link--active">Корзина</span>
                 </li>

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCoupon, getDiscount, getIsCouponChecking, getIsCouponFetchingError, getIsCouponValid } from '../../store/coupon/coupon-selectors';
 import { FormEvent, useEffect, useState } from 'react';
 import { checkCouponAction } from '../../store/api-actions';
+import { getCartItemsFromStorage } from '../../utils/cart-storage/cart-storage';
 
 function CartSummary (): JSX.Element {
 
@@ -21,9 +22,17 @@ function CartSummary (): JSX.Element {
     }
   }, [isCouponFetchingError]);
 
+  useEffect(() => {
+    if (coupon && isCouponValid === true) {
+      setCouponInput(coupon);
+    }
+  }, [coupon, isCouponValid]);
+
+
   const handleCouponChange = (couponOfUserInput: string)=>{
     const trimmedValue = couponOfUserInput.trim();
     setCouponInput(trimmedValue);
+
   };
 
 
@@ -34,6 +43,17 @@ function CartSummary (): JSX.Element {
       dispatch(checkCouponAction(couponInput));
     }
   };
+
+  const camerasInCart = getCartItemsFromStorage();
+
+  const total = camerasInCart.reduce(
+    (sum, item) => sum + item.camera.price * item.quantity,
+    0
+  );
+
+  const summaryOfDiscount = discount * total / 100;
+
+  const summaryForPay = total - summaryOfDiscount;
 
 
   return (
@@ -49,7 +69,7 @@ function CartSummary (): JSX.Element {
             onSubmit={handleCouponSubmit}
 
           >
-            <div className="custom-input">
+            <div className={`custom-input ${isCouponValid === false ? 'is-invalid' : ''} ${isCouponValid === true ? 'is-valid' : ''}`}>
               <label><span className="custom-input__label">Промокод</span>
                 <input
                   type="text"
@@ -57,17 +77,17 @@ function CartSummary (): JSX.Element {
                   placeholder="Введите промокод"
                   value={couponInput || ''}
                   onChange={(evt)=> handleCouponChange(evt.target.value)}
-                  disabled = {isCouponChecking}
+                  disabled = {isCouponChecking || isCouponValid === true}
 
                 />
               </label>
-              {isCouponValid === false && <p className="custom-input__error">Промокод неверный</p>}
-              {isCouponValid === true && <p className="custom-input__success">Промокод принят!</p>}
+              <p className="custom-input__error">Промокод неверный</p>
+              <p className="custom-input__success">Промокод принят!</p>
             </div>
             <button
               className="btn"
               type="submit"
-              disabled={!couponInput || isCouponChecking || isCouponValid === true}
+              disabled={!couponInput || isCouponChecking || (isCouponValid === true)}
             >
               {isCouponChecking ? 'Проверка...' : 'Применить'}
             </button>
@@ -75,9 +95,9 @@ function CartSummary (): JSX.Element {
         </div>
       </div>
       <div className="basket__summary-order">
-        <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">111 390 ₽</span></p>
-        <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">0 ₽</span></p>
-        <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">111 390 ₽</span></p>
+        <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{total} ₽</span></p>
+        <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{summaryOfDiscount} ₽</span></p>
+        <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{summaryForPay} ₽</span></p>
         <button className="btn btn--purple" type="submit">Оформить заказ
         </button>
       </div>

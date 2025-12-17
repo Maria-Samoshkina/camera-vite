@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { CouponState } from '../../types/state';
 import { checkCouponAction } from '../api-actions';
@@ -15,18 +15,7 @@ const initialState: CouponState = {
 export const couponSlice = createSlice ({
   name: NameSpace.Coupon,
   initialState,
-  reducers: {
-    applyCoupon: (state, action: PayloadAction<number>)=> {
-      state.isCouponValid = true;
-      state.discount = action.payload;
-    },
-
-    resetCoupon: (state)=> {
-      state.coupon = null;
-      state.isCouponValid = null;
-      state.discount = 0;
-    },
-  },
+  reducers: {},
   extraReducers(builder){
     builder
       .addCase(checkCouponAction.pending, (state)=> {
@@ -48,5 +37,3 @@ export const couponSlice = createSlice ({
 
   }
 });
-
-export const {applyCoupon, resetCoupon} = couponSlice.actions;
