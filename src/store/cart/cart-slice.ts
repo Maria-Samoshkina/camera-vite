@@ -3,6 +3,7 @@ import { NameSpace } from '../../const';
 import { CartState } from '../../types/state';
 import { Camera, CartItem } from '../../types/camera';
 import { getCartItemsFromStorage, saveCartItemsFromStorage } from '../../utils/cart-storage/cart-storage';
+import { createOrderAction } from '../api-actions';
 
 const initialState: CartState = {
   camerasInCart: getCartItemsFromStorage(),
@@ -56,6 +57,15 @@ export const cartSlice = createSlice ({
       saveCartItemsFromStorage(state.camerasInCart);
     },
   },
+  extraReducers(builder){
+    builder
+      .addCase(createOrderAction.fulfilled, (state)=> {
+        state.camerasInCart = [];
+        saveCartItemsFromStorage(state.camerasInCart);
+
+      });
+
+  }
 
 });
 

@@ -10,6 +10,7 @@ import { reviewsSlice } from './reviews/reviews-slice';
 import { modalsSlice } from './modals/modals-slice';
 import { cartSlice } from './cart/cart-slice';
 import { couponSlice } from './coupon/coupon-slice';
+import { orderSlice } from './order/order-slice';
 
 
 export const rootReducer = combineReducers(
@@ -23,7 +24,8 @@ export const rootReducer = combineReducers(
     [NameSpace.Reviews]:reviewsSlice.reducer,
     [NameSpace.Modals]: modalsSlice.reducer,
     [NameSpace.Cart]:cartSlice.reducer,
-    [NameSpace.Coupon]:couponSlice.reducer
+    [NameSpace.Coupon]:couponSlice.reducer,
+    [NameSpace.Order]:orderSlice.reducer
 
   }
 );

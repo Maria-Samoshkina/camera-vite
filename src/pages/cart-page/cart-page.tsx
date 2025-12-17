@@ -10,6 +10,8 @@ import { closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraFor
 import { CartItem } from '../../types/camera';
 import CartSummary from './cart-summary';
 import { AppRoute } from '../../const';
+import OrderSuccessModal from '../../components/modals/order-success-modal';
+import { getIsOrderSuccess } from '../../store/order/order-selectors';
 
 function CartPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -38,6 +40,8 @@ function CartPage(): JSX.Element {
 
   const camerasInCart = useAppSelector(getCamerasInCart);
   const isOpenRemoveCameraFromCartModal = useAppSelector(getIsRemoveCameraFromCartOpen);
+
+  const isOrderSuccess = useAppSelector(getIsOrderSuccess);
 
 
   return (
@@ -168,6 +172,9 @@ function CartPage(): JSX.Element {
         <RemoveCameraFromCartModal
           isOpen = {isOpenRemoveCameraFromCartModal}
           onModalClose={handleRemoveFromCartModalClose}
+        />
+        <OrderSuccessModal
+          isOpen = {isOrderSuccess}
         />
       </main>
       <Footer/>

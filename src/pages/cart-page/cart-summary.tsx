@@ -2,8 +2,10 @@ import { toast } from 'react-toastify';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCoupon, getDiscount, getIsCouponChecking, getIsCouponFetchingError, getIsCouponValid } from '../../store/coupon/coupon-selectors';
 import { FormEvent, useEffect, useState } from 'react';
-import { checkCouponAction } from '../../store/api-actions';
+import { checkCouponAction, createOrderAction } from '../../store/api-actions';
 import { getCartItemsFromStorage } from '../../utils/cart-storage/cart-storage';
+import { OrderData } from '../../types/order';
+import { resetCoupon } from '../../store/coupon/coupon-slice';
 
 function CartSummary (): JSX.Element {
 
@@ -15,6 +17,7 @@ function CartSummary (): JSX.Element {
   const isCouponChecking = useAppSelector(getIsCouponChecking);
   const isCouponFetchingError = useAppSelector(getIsCouponFetchingError);
   const dispatch = useAppDispatch();
+
 
   useEffect(() => {
     if (isCouponFetchingError) {
@@ -54,6 +57,16 @@ function CartSummary (): JSX.Element {
   const summaryOfDiscount = discount * total / 100;
 
   const summaryForPay = total - summaryOfDiscount;
+
+  const camerasIds = camerasInCart.map((cameraInCart) => cameraInCart.camera.id);
+
+
+  const handleOrderButtonClick = (orderData: OrderData)=> {
+    dispatch(createOrderAction(orderData));
+    dispatch(resetCoupon());
+    setCouponInput('');
+
+  };
 
 
   return (
@@ -98,7 +111,13 @@ function CartSummary (): JSX.Element {
         <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{total} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{summaryOfDiscount} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{summaryForPay} ₽</span></p>
-        <button className="btn btn--purple" type="submit">Оформить заказ
+        <button
+          className="btn btn--purple"
+          type="submit"
+          disabled={camerasInCart.length === 0}
+          onClick={()=> handleOrderButtonClick({camerasIds, coupon})}
+        >
+          Оформить заказ
         </button>
       </div>
     </div>

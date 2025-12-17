@@ -6,6 +6,7 @@ import { ApiRoute, TIMEOUT_SHOW_ERROR } from '../const';
 import { Reviews } from '../types/review';
 import { setError } from './error/error-slice';
 import { Discount } from '../types/coupon';
+import { OrderData } from '../types/order';
 
 export const fetchCamerasAction = createAsyncThunk<Cameras, undefined, {
   dispatch: AppDispatch;
@@ -101,3 +102,13 @@ export const checkCouponAction = createAsyncThunk<{ coupon: string; discount: Di
   }
 );
 
+export const createOrderAction = createAsyncThunk<
+  void,
+  OrderData,
+  { extra: AxiosInstance }
+>(
+  'order/create',
+  async (orderData, { extra: api }) => {
+    await api.post(ApiRoute.Order, orderData);
+  }
+);
