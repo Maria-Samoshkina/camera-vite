@@ -28,3 +28,8 @@ export const getIsRemoveCameraFromCartOpen = createSelector(
   [getModalsSlice],
   (state: ModalsState)=> state.isRemoveCameraFromCartOpen
 );
+
+export const getIsOrderSuccessModalOpen = createSelector(
+  [getModalsSlice],
+  (state: ModalsState)=> state.isOrderSuccessModalOpen
+);

@@ -6,6 +6,7 @@ import { checkCouponAction, createOrderAction } from '../../store/api-actions';
 import { getCartItemsFromStorage } from '../../utils/cart-storage/cart-storage';
 import { OrderData } from '../../types/order';
 import { resetCoupon } from '../../store/coupon/coupon-slice';
+import { getIsOrderLoading } from '../../store/order/order-selectors';
 
 function CartSummary (): JSX.Element {
 
@@ -17,7 +18,7 @@ function CartSummary (): JSX.Element {
   const isCouponChecking = useAppSelector(getIsCouponChecking);
   const isCouponFetchingError = useAppSelector(getIsCouponFetchingError);
   const dispatch = useAppDispatch();
-
+  const isOrderLoading = useAppSelector(getIsOrderLoading);
 
   useEffect(() => {
     if (isCouponFetchingError) {
@@ -111,14 +112,16 @@ function CartSummary (): JSX.Element {
         <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{total} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{summaryOfDiscount} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{summaryForPay} ₽</span></p>
+        {isOrderLoading && <p>Ожидайте! Заказ оформляется...</p>}
         <button
           className="btn btn--purple"
           type="submit"
-          disabled={camerasInCart.length === 0}
+          disabled={camerasInCart.length === 0 || isOrderLoading}
           onClick={()=> handleOrderButtonClick({camerasIds, coupon})}
         >
           Оформить заказ
         </button>
+
       </div>
     </div>
   );

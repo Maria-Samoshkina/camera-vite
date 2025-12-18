@@ -105,10 +105,12 @@ export const checkCouponAction = createAsyncThunk<{ coupon: string; discount: Di
 export const createOrderAction = createAsyncThunk<
   void,
   OrderData,
-  { extra: AxiosInstance }
+  { dispatch: AppDispatch;
+    extra: AxiosInstance; }
 >(
   'order/create',
   async (orderData, { extra: api }) => {
     await api.post(ApiRoute.Order, orderData);
+
   }
 );

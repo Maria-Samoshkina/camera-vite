@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { ModalsState} from '../../types/state';
 import { Camera, CartItem } from '../../types/camera';
+import { createOrderAction } from '../api-actions';
 
 
 const initialState: ModalsState = {
@@ -9,7 +10,8 @@ const initialState: ModalsState = {
   selectedCameraForCart:  null,
   isAddCameraSuccessModalOpen: false,
   selectedCameraForRemoveFromCart: null,
-  isRemoveCameraFromCartOpen: false
+  isRemoveCameraFromCartOpen: false,
+  isOrderSuccessModalOpen:false
 };
 
 export const modalsSlice = createSlice({
@@ -40,8 +42,21 @@ export const modalsSlice = createSlice({
     closeRemoveFromCartModal: (state)=> {
       state.isRemoveCameraFromCartOpen = false;
     },
+    closeOrderSuccessModal: (state)=> {
+      state.isOrderSuccessModalOpen = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createOrderAction.fulfilled, (state) => {
+        state.isOrderSuccessModalOpen = true;
+      })
+      .addCase(createOrderAction.rejected, (state) => {
+        state.isOrderSuccessModalOpen = true;
+      });
+  }
 
-  }});
+});
 
 export const {openAddToCartModal,
   closeAddToCartModal,
@@ -50,5 +65,6 @@ export const {openAddToCartModal,
   closeAddCameraSuccessModal,
   setSelectedCameraForRemoveFromCart,
   openRemoveFromCartModal,
-  closeRemoveFromCartModal
+  closeRemoveFromCartModal,
+  closeOrderSuccessModal
 } = modalsSlice.actions;

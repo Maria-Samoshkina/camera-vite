@@ -77,7 +77,9 @@ function RemoveCameraFromCartModal (props:RemoveCameraFromCartModalProps):JSX.El
               Удалить
             </button>
             <Link
-              className="btn btn--transparent modal__btn modal__btn--half-width" to={AppRoute.Main}
+              className="btn btn--transparent modal__btn modal__btn--half-width"
+              to={AppRoute.Main}
+              onClick = {onModalClose}
             >
               Продолжить покупки
             </Link>

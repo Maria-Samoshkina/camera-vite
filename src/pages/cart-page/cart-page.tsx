@@ -5,16 +5,21 @@ import RemoveCameraFromCartModal from '../../components/modals/remove-camera-fro
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getCamerasInCart } from '../../store/cart/cart-selectors';
 import { changeQuantity, decreaseQuantity, increaseQuantity } from '../../store/cart/cart-slice';
-import { getIsRemoveCameraFromCartOpen } from '../../store/modals/modals-selectors';
-import { closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraForRemoveFromCart } from '../../store/modals/modals-slice';
+import { getIsOrderSuccessModalOpen, getIsRemoveCameraFromCartOpen } from '../../store/modals/modals-selectors';
+import { closeOrderSuccessModal, closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraForRemoveFromCart } from '../../store/modals/modals-slice';
 import { CartItem } from '../../types/camera';
 import CartSummary from './cart-summary';
 import { AppRoute } from '../../const';
 import OrderSuccessModal from '../../components/modals/order-success-modal';
-import { getIsOrderSuccess } from '../../store/order/order-selectors';
+import { getIsOrderLoading } from '../../store/order/order-selectors';
 
 function CartPage(): JSX.Element {
   const dispatch = useAppDispatch();
+
+  const camerasInCart = useAppSelector(getCamerasInCart);
+  const isOpenRemoveCameraFromCartModal = useAppSelector(getIsRemoveCameraFromCartOpen);
+  const isOrderSuccessModalOpen = useAppSelector(getIsOrderSuccessModalOpen);
+
 
   const handleDecreaseButtonClick = (cameraInCart: CartItem)=> {
     if (cameraInCart.quantity > 1) {
@@ -38,10 +43,12 @@ function CartPage(): JSX.Element {
     dispatch(closeRemoveFromCartModal());
   };
 
-  const camerasInCart = useAppSelector(getCamerasInCart);
-  const isOpenRemoveCameraFromCartModal = useAppSelector(getIsRemoveCameraFromCartOpen);
 
-  const isOrderSuccess = useAppSelector(getIsOrderSuccess);
+  const handleOrderSuccessModalClose = () => {
+    dispatch(closeOrderSuccessModal());
+  };
+
+  const isOrderLoading = useAppSelector(getIsOrderLoading);
 
 
   return (
@@ -105,6 +112,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--prev"
                           aria-label="уменьшить количество товара"
+                          disabled={isOrderLoading}
                           onClick={()=> {
                             handleDecreaseButtonClick(cartItem);
                           }}
@@ -121,6 +129,7 @@ function CartPage(): JSX.Element {
                           min="1"
                           max="9"
                           aria-label="количество товара"
+                          disabled={isOrderLoading}
                           onChange={(evt) => {
                             const value = Number(evt.target.value);
                             if (!isNaN(value) && value >= 1 && value <= 9) {
@@ -141,6 +150,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--next"
                           aria-label="увеличить количество товара"
+                          disabled={isOrderLoading}
                           onClick={()=> handleIncreaseButtonClick(cartItem)}
                         >
                           <svg width="7" height="12" aria-hidden="true">
@@ -153,6 +163,7 @@ function CartPage(): JSX.Element {
                         className="cross-btn"
                         type="button"
                         aria-label="Удалить товар"
+                        disabled={isOrderLoading}
                         onClick={()=> handleRemoveFromCartButtonClick(cartItem)}
                       >
                         <svg width="10" height="10" aria-hidden="true">
@@ -174,7 +185,8 @@ function CartPage(): JSX.Element {
           onModalClose={handleRemoveFromCartModalClose}
         />
         <OrderSuccessModal
-          isOpen = {isOrderSuccess}
+          isOpen = {isOrderSuccessModalOpen}
+          onModalClose={handleOrderSuccessModalClose}
         />
       </main>
       <Footer/>
