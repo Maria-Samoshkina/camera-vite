@@ -45,3 +45,5 @@ export enum SortDirection {
   ascending = 'ascending',
   descending = 'descending'
 }
+
+export const MIN_SEARCH_LENGTH = 3;
