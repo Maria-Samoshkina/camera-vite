@@ -5,7 +5,13 @@ import { showMoreReviews } from '../../store/reviews/reviews-slice';
 import { formatReviewDate } from '../../utils/reviews/date';
 import StarsRating from '../../components/stars-rating/stars-rating';
 
-function ReviewsList (): JSX.Element {
+type ReviewsListProps = {
+  onAddNewReviewButtonClick: () => void;
+}
+
+function ReviewsList (props: ReviewsListProps): JSX.Element {
+
+  const {onAddNewReviewButtonClick} = props;
 
   const displayedReviews = useAppSelector(getDisplayedReviews);
   const hasMoreReviews = useAppSelector(getHasMoreReviews);
@@ -62,9 +68,9 @@ function ReviewsList (): JSX.Element {
             <button
               className="btn"
               type="button"
-              style={{ display: 'none' }}
+              onClick={()=> onAddNewReviewButtonClick()}
             >
-              Оставить свой отзы
+              Оставить свой отзыв
             </button>
           </div>
 

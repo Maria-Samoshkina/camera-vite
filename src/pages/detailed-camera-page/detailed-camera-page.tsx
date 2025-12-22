@@ -16,6 +16,9 @@ import { getIsReviewsFetchingError, getIsReviewsLoading } from '../../store/revi
 import { AppRoute } from '../../const';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
 import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
+import AddNewReviewModal from '../../components/modals/add-new-review-modal';
+import { openAddNewReviewModal, closeAddNewReviewModal } from '../../store/modals/modals-slice';
+import { getIsAddNewReviewModalOpen } from '../../store/modals/modals-selectors';
 
 function DetailedCameraPage (): JSX.Element {
 
@@ -36,6 +39,8 @@ function DetailedCameraPage (): JSX.Element {
   const isSimilarCamerasLoading = useAppSelector(getIsSimilarCamerasDataLoading);
   const isReviewsFetchingError = useAppSelector(getIsReviewsFetchingError);
   const isReviewsLoading = useAppSelector(getIsReviewsLoading);
+  const isAddNewReviewModalOpen = useAppSelector(getIsAddNewReviewModalOpen);
+
 
   useEffect(()=> {
     if(cameraId) {
@@ -67,6 +72,14 @@ function DetailedCameraPage (): JSX.Element {
   if(!detailedCamera){
     return <Navigate to = '*'/>;
   }
+
+  const handleAddNewReviewButtonClick = ()=> {
+    dispatch(openAddNewReviewModal());
+  };
+
+  const handleAddNewReviewModalClose = () => {
+    dispatch(closeAddNewReviewModal());
+  };
 
 
   return (
@@ -138,7 +151,9 @@ function DetailedCameraPage (): JSX.Element {
             <SimilarCameras />
           </div>
 
-          <ReviewsList/>
+          <ReviewsList
+            onAddNewReviewButtonClick = {handleAddNewReviewButtonClick}
+          />
         </div>
       </main>
 
@@ -164,6 +179,11 @@ function DetailedCameraPage (): JSX.Element {
       <AddCameraSuccessModal
         isOpen = {isAddCameraSuccessModalOpen}
         onModalClose = {handleAddCameraSuccessModalClose}
+      />
+
+      <AddNewReviewModal
+        isOpen = {isAddNewReviewModalOpen}
+        onModalClose = {handleAddNewReviewModalClose}
       />
 
       <Footer/>

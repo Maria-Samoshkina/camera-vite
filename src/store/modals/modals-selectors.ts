@@ -33,3 +33,8 @@ export const getIsOrderSuccessModalOpen = createSelector(
   [getModalsSlice],
   (state: ModalsState)=> state.isOrderSuccessModalOpen
 );
+
+export const getIsAddNewReviewModalOpen = createSelector(
+  [getModalsSlice],
+  (state: ModalsState)=> state.isAddNewReviewModalOpen
+);

@@ -11,7 +11,8 @@ const initialState: ModalsState = {
   isAddCameraSuccessModalOpen: false,
   selectedCameraForRemoveFromCart: null,
   isRemoveCameraFromCartOpen: false,
-  isOrderSuccessModalOpen:false
+  isOrderSuccessModalOpen:false,
+  isAddNewReviewModalOpen: false
 };
 
 export const modalsSlice = createSlice({
@@ -45,6 +46,12 @@ export const modalsSlice = createSlice({
     closeOrderSuccessModal: (state)=> {
       state.isOrderSuccessModalOpen = false;
     },
+    openAddNewReviewModal:(state)=>{
+      state.isAddNewReviewModalOpen = true;
+    },
+    closeAddNewReviewModal: (state)=>{
+      state.isAddNewReviewModalOpen = false;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -66,5 +73,7 @@ export const {openAddToCartModal,
   setSelectedCameraForRemoveFromCart,
   openRemoveFromCartModal,
   closeRemoveFromCartModal,
-  closeOrderSuccessModal
+  closeOrderSuccessModal,
+  openAddNewReviewModal,
+  closeAddNewReviewModal
 } = modalsSlice.actions;
