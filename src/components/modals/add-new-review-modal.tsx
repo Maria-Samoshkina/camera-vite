@@ -1,16 +1,23 @@
 import { useRef, useState } from 'react';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
+import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, RATING_MAX_VALUE, RATING_MIN_VALUE, TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from '../../const';
+import { useAppDispatch } from '../../hooks';
+import { closeAddNewReviewModal, openReviewSuccessModal } from '../../store/modals/modals-slice';
+import { postReviewAction } from '../../store/api-actions';
+
 
 type AddNewReviewModalProps ={
   isOpen: boolean;
   onModalClose: ()=> void;
+  id: string;
 }
 
 function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
 
-  const {isOpen, onModalClose} = props;
+  const {isOpen, onModalClose, id} = props;
   const modalRef = useRef<HTMLDivElement>(null);
   const postReviewButtonRef = useRef<HTMLButtonElement>(null);
+  const dispatch = useAppDispatch();
 
   const [rating, setRating] = useState<number>(0);
   const [ratingError, setRatingError] = useState<string>('');
@@ -40,7 +47,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
   });
 
   const validateRating = (valueOfRating: number)=> {
-    if (!Number.isInteger(valueOfRating) || valueOfRating < 1 || valueOfRating > 5){
+    if (!Number.isInteger(valueOfRating) || valueOfRating < RATING_MIN_VALUE || valueOfRating > RATING_MAX_VALUE){
       setRatingError('Нужно оценить товар');
       return false;
     }
@@ -50,7 +57,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
 
   const handleStarsRatingChange = (starsRatingValue: number)=> {
     const value = Math.floor(starsRatingValue);
-    if (value >= 1 && value <= 5) {
+    if (value >= RATING_MIN_VALUE && value <= RATING_MAX_VALUE) {
       setRating(value);
       setRatingError('');
     }
@@ -60,7 +67,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
 
 
   const validateUserName = (name: string)=> {
-    if (name.length < 2 || name.length > 15) {
+    if (name.length < NAME_MIN_LENGTH || name.length > NAME_MAX_LENGTH) {
       setUserNameError('Нужно указать имя');
       return false;
     }
@@ -74,13 +81,70 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
     fieldName: keyof typeof errors,
     errorMessage: string
   ): boolean => {
-    if (value.length < 10 || value.length > 160) {
+    if (value.length < TEXT_MIN_LENGTH || value.length > TEXT_MAX_LENGTH) {
       setErrors((prev) => ({ ...prev, [fieldName]: errorMessage }));
       return false;
     }
     setErrors((prev) => ({ ...prev, [fieldName]: '' }));
     return true;
   };
+
+
+  const handleReviewFormSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
+    dispatch(postReviewAction({
+      cameraId: Number(id),
+      userName: userName,
+      advantage: advantage,
+      disadvantage: disadvantage,
+      review: review,
+      rating: rating
+    }));
+    dispatch(closeAddNewReviewModal());
+    setRating(0);
+    setAdvantage('');
+    setDisadvantage('');
+    setUserName('');
+    setErrors({
+      advantage: '',
+      disadvantage: '',
+      review: ''
+    });
+    setReview('');
+
+    dispatch(openReviewSuccessModal());
+  };
+
+  //   {
+  //   "cameraId": 1,
+  //   "userName": "Кирилл",
+  //   "advantage": "Легкая в плане веса, удобная в интерфейсе",
+  //   "disadvantage": "Быстро садиться зарядка",
+  //   "review": "Это моя первая камера. Я в восторге, нареканий нет",
+  //   "rating": 5
+  // }
+
+  // const handleFormSubmit = (evt: FormEvent<HTMLFormElement>)=> {
+  //   evt.preventDefault();
+
+  //   if (!offerId) {
+  //     return null;
+  //   }
+
+  //   if (isSubmittingFailed) {
+  //     dispatch(resetIsSubmittingFailed());
+  //   }
+
+  //   dispatch(postReviewAction({
+  //     offerId,
+  //     reviewData: {
+  //       comment: reviewsText,
+  //       rating: starsRating,
+  //     }
+  //   }));
+  //   setReviewsText('');
+  //   setStarsRating(0);
+  // };
 
 
   return (
@@ -94,7 +158,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
         <div className="modal__content">
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
-            <form method="post">
+            <form method="post" onSubmit={handleReviewFormSubmit}>
               <div className="form-review__rate">
                 <fieldset className={`rate form-review__item ${ratingError ? 'is-invalid' : ''}`}>
                   <legend className="rate__caption">Рейтинг
@@ -297,17 +361,4 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
 
 export default AddNewReviewModal;
 
-
-// Валидные данные для значения рейтинга:
-
-// целое число,
-// минимальное значение 1,
-// максимальное 5.
-
-// Валидные данные для текстовых полей:
-// для поля Имя: минимальное количество символов 2 — максимальное 15;
-// для других текстов: минимальное количество символов 10
-// и максимальное количество символов 160.
-
-/// поля: звезды, имя, достоинства, недостатки, коммент
 

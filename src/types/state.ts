@@ -44,6 +44,7 @@ export type InitialState = {
   isRemoveCameraFromCartOpen:boolean;
   isOrderSuccessModalOpen:boolean;
   isAddNewReviewModalOpen:boolean;
+  isReviewSuccessModalOpen: boolean;
 
   camerasInCart: CartItems;
 
@@ -73,7 +74,8 @@ export type ModalsState = Pick<InitialState,
 'selectedCameraForRemoveFromCart' |
 'isRemoveCameraFromCartOpen' |
 'isOrderSuccessModalOpen' |
-'isAddNewReviewModalOpen'
+'isAddNewReviewModalOpen' |
+'isReviewSuccessModalOpen'
 >
 export type CartState = Pick<InitialState, 'camerasInCart'>;
 export type CouponState = Pick<InitialState, 'coupon' | 'discount' | 'isCouponValid' | 'isCouponChecking' | 'isCouponFetchingError' >

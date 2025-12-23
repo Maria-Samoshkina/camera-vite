@@ -3,7 +3,7 @@ import { Cameras, DetailedCamera, DetailedCameras, PromoCameras } from '../types
 import { AppDispatch, State } from '../types/state';
 import { AxiosInstance } from 'axios';
 import { ApiRoute, TIMEOUT_SHOW_ERROR } from '../const';
-import { Reviews } from '../types/review';
+import { Review, Reviews, NewReview } from '../types/review';
 import { setError } from './error/error-slice';
 import { Discount } from '../types/coupon';
 import { OrderData } from '../types/order';
@@ -111,6 +111,33 @@ export const createOrderAction = createAsyncThunk<
   'order/create',
   async (orderData, { extra: api }) => {
     await api.post(ApiRoute.Order, orderData);
+
+  }
+);
+
+export const postReviewAction = createAsyncThunk<
+  Review,
+  NewReview,
+  { dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }
+>(
+  'DATA/postReview',
+  async (reviewData, {extra: api }) => {
+
+    const { data } = await api.post<Review>(
+      ApiRoute.Reviews,
+      {
+        cameraId: reviewData.cameraId,
+        userName: reviewData.userName,
+        advantage: reviewData.advantage,
+        disadvantage: reviewData.disadvantage,
+        review: reviewData.review,
+        rating: reviewData.rating
+      }
+    );
+    return data;
 
   }
 );

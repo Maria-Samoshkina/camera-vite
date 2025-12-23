@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { INITIAL_REVIEWS_COUNT, NameSpace, REVIEWS_COUNT_STEP } from '../../const';
 import { ReviewsState } from '../../types/state';
-import { fetchReviewsAction } from '../api-actions';
+import { fetchReviewsAction, postReviewAction } from '../api-actions';
 
 const initialState: ReviewsState = {
   reviews: [],
@@ -33,6 +33,9 @@ export const reviewsSlice = createSlice({
       .addCase(fetchReviewsAction.rejected, (state)=> {
         state.isReviewsLoading = false;
         state.isReviewsFetchingError = true;
+      })
+      .addCase(postReviewAction.fulfilled, (state, action)=> {
+        state.reviews.push(action.payload);
       });
   }
 });

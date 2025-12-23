@@ -23,7 +23,8 @@ export enum ApiRoute {
   Cameras = '/cameras',
   Promo = '/promo',
   Coupon = '/coupons',
-  Order= '/orders'
+  Order= '/orders',
+  Reviews = '/reviews'
 }
 
 export const CAMERA_CATEGORIES = ['Фотокамера', 'Видеокамера'] as const;
@@ -47,3 +48,12 @@ export enum SortDirection {
 }
 
 export const MIN_SEARCH_LENGTH = 3;
+
+export const NAME_MIN_LENGTH = 2;
+export const NAME_MAX_LENGTH = 15;
+
+export const TEXT_MIN_LENGTH = 10;
+export const TEXT_MAX_LENGTH = 160;
+
+export const RATING_MIN_VALUE = 1;
+export const RATING_MAX_VALUE = 5;

@@ -12,6 +12,7 @@ import CartSummary from './cart-summary';
 import { AppRoute } from '../../const';
 import OrderSuccessModal from '../../components/modals/order-success-modal';
 import { getIsOrderLoading } from '../../store/order/order-selectors';
+import ReviewSuccessModal from '../../components/modals/review-success-modal';
 
 function CartPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -188,6 +189,7 @@ function CartPage(): JSX.Element {
           isOpen = {isOrderSuccessModalOpen}
           onModalClose={handleOrderSuccessModalClose}
         />
+
       </main>
       <Footer/>
     </div>

@@ -68,7 +68,7 @@ function ReviewsList (props: ReviewsListProps): JSX.Element {
             <button
               className="btn"
               type="button"
-              onClick={()=> onAddNewReviewButtonClick()}
+              onClick={onAddNewReviewButtonClick}
             >
               Оставить свой отзыв
             </button>

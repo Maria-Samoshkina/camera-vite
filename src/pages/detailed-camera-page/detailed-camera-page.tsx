@@ -17,8 +17,9 @@ import { AppRoute } from '../../const';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
 import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
 import AddNewReviewModal from '../../components/modals/add-new-review-modal';
-import { openAddNewReviewModal, closeAddNewReviewModal } from '../../store/modals/modals-slice';
-import { getIsAddNewReviewModalOpen } from '../../store/modals/modals-selectors';
+import { openAddNewReviewModal, closeAddNewReviewModal, closeReviewSuccessModal } from '../../store/modals/modals-slice';
+import { getIsAddNewReviewModalOpen, getIsReviewSuccessModalOpen } from '../../store/modals/modals-selectors';
+import ReviewSuccessModal from '../../components/modals/review-success-modal';
 
 function DetailedCameraPage (): JSX.Element {
 
@@ -40,7 +41,7 @@ function DetailedCameraPage (): JSX.Element {
   const isReviewsFetchingError = useAppSelector(getIsReviewsFetchingError);
   const isReviewsLoading = useAppSelector(getIsReviewsLoading);
   const isAddNewReviewModalOpen = useAppSelector(getIsAddNewReviewModalOpen);
-
+  const isReviewSuccessModalOpen = useAppSelector(getIsReviewSuccessModalOpen);
 
   useEffect(()=> {
     if(cameraId) {
@@ -79,6 +80,10 @@ function DetailedCameraPage (): JSX.Element {
 
   const handleAddNewReviewModalClose = () => {
     dispatch(closeAddNewReviewModal());
+  };
+
+  const handleReviewSuccessModalClose = ()=>{
+    dispatch(closeReviewSuccessModal());
   };
 
 
@@ -184,6 +189,12 @@ function DetailedCameraPage (): JSX.Element {
       <AddNewReviewModal
         isOpen = {isAddNewReviewModalOpen}
         onModalClose = {handleAddNewReviewModalClose}
+        id = {cameraId ?? ''}
+      />
+
+      <ReviewSuccessModal
+        isOpen = {isReviewSuccessModalOpen}
+        onModalClose={handleReviewSuccessModalClose}
       />
 
       <Footer/>
