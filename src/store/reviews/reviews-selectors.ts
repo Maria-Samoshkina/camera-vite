@@ -43,4 +43,17 @@ export const getHasMoreReviews = createSelector(
   (sortedReviews, displayedReviewsCount) => sortedReviews.length > displayedReviewsCount
 );
 
+export const getIsSubmitting = createSelector(
+  [getReviewsSlice],
+  (state: ReviewsState)=>state.isSubmitting
+);
 
+export const getIsSubmittingFailed = createSelector(
+  [getReviewsSlice],
+  (state: ReviewsState)=> state.isSubmittingFailed
+);
+
+export const getIsSubmittingSuccess = createSelector(
+  [getReviewsSlice],
+  (state: ReviewsState)=> state.isSubmittingSuccess
+);

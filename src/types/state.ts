@@ -36,6 +36,9 @@ export type InitialState = {
   isReviewsLoading:boolean;
   isReviewsFetchingError: boolean;
   displayedReviewsCount: number;
+  isSubmitting: boolean;
+  isSubmittingSuccess: boolean;
+  isSubmittingFailed: boolean;
 
   isAddToCartModalOpen: boolean;
   selectedCameraForCart: Camera| null;
@@ -66,7 +69,15 @@ export type SimilarCamerasState = Pick<InitialState, 'similarCameras'| 'isSimila
 export type PromoCamerasState = Pick<InitialState, 'promoCameras'| 'isPromoCamerasLoading'| 'isPromoCamerasFetchingError'>;
 export type ErrorState = Pick<InitialState, 'error'>;
 export type FiltersState = Pick<InitialState, 'camerasCategory'| 'camerasTypes'| 'camerasLevels'| 'priceFrom' | 'priceTo'| 'sortType'| 'sortDirection'>
-export type ReviewsState = Pick<InitialState, 'reviews'|'isReviewsLoading'| 'isReviewsFetchingError' | 'displayedReviewsCount'>
+export type ReviewsState = Pick<InitialState,
+'reviews'|
+'isReviewsLoading'|
+'isReviewsFetchingError'|
+'displayedReviewsCount' |
+'isSubmitting'|
+'isSubmittingSuccess'|
+'isSubmittingFailed'
+  >
 export type ModalsState = Pick<InitialState,
 'isAddToCartModalOpen' |
 'selectedCameraForCart' |

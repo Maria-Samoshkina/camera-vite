@@ -7,8 +7,10 @@ const initialState: ReviewsState = {
   reviews: [],
   isReviewsLoading: true,
   isReviewsFetchingError: false,
-  displayedReviewsCount: INITIAL_REVIEWS_COUNT
-
+  displayedReviewsCount: INITIAL_REVIEWS_COUNT,
+  isSubmitting:false,
+  isSubmittingFailed: false,
+  isSubmittingSuccess: false
 };
 
 export const reviewsSlice = createSlice({
@@ -17,7 +19,12 @@ export const reviewsSlice = createSlice({
   reducers: {
     showMoreReviews: (state) => {
       state.displayedReviewsCount += REVIEWS_COUNT_STEP;
-    }
+    },
+    resetSubmitStatus: (state) => {
+      state.isSubmitting = false;
+      state.isSubmittingSuccess = false;
+      state.isSubmittingFailed = false;
+    },
   },
   extraReducers (builder){
     builder
@@ -34,11 +41,24 @@ export const reviewsSlice = createSlice({
         state.isReviewsLoading = false;
         state.isReviewsFetchingError = true;
       })
+      .addCase(postReviewAction.pending, (state)=> {
+        state.isSubmitting = true;
+        state.isSubmittingSuccess = false;
+        state.isSubmittingFailed = false;
+      })
       .addCase(postReviewAction.fulfilled, (state, action)=> {
         state.reviews.push(action.payload);
+        state.isSubmitting = false;
+        state.isSubmittingSuccess = true;
+        state.isSubmittingFailed = false;
+      })
+      .addCase(postReviewAction.rejected, (state)=> {
+        state.isSubmitting = false;
+        state.isSubmittingSuccess = false;
+        state.isSubmittingFailed = true;
       });
   }
 });
 
-export const { showMoreReviews } = reviewsSlice.actions;
+export const { showMoreReviews, resetSubmitStatus } = reviewsSlice.actions;
 

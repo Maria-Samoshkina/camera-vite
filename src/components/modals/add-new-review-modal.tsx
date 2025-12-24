@@ -1,9 +1,11 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
 import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, RATING_MAX_VALUE, RATING_MIN_VALUE, TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from '../../const';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { closeAddNewReviewModal, openReviewSuccessModal } from '../../store/modals/modals-slice';
 import { postReviewAction } from '../../store/api-actions';
+import { getIsSubmitting, getIsSubmittingFailed, getIsSubmittingSuccess } from '../../store/reviews/reviews-selectors';
+import { resetSubmitStatus } from '../../store/reviews/reviews-slice';
 
 
 type AddNewReviewModalProps ={
@@ -13,6 +15,10 @@ type AddNewReviewModalProps ={
 }
 
 function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
+
+  const isSubmittingFailed = useAppSelector(getIsSubmittingFailed);
+  const isSubmitting = useAppSelector(getIsSubmitting);
+  const isSubmittingSuccess = useAppSelector(getIsSubmittingSuccess);
 
   const {isOpen, onModalClose, id} = props;
   const modalRef = useRef<HTMLDivElement>(null);
@@ -89,18 +95,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
     return true;
   };
 
-
-  const handleReviewFormSubmit = (evt: React.FormEvent) => {
-    evt.preventDefault();
-    dispatch(postReviewAction({
-      cameraId: Number(id),
-      userName: userName,
-      advantage: advantage,
-      disadvantage: disadvantage,
-      review: review,
-      rating: rating
-    }));
-    dispatch(closeAddNewReviewModal());
+  const resetForm = () => {
     setRating(0);
     setAdvantage('');
     setDisadvantage('');
@@ -111,40 +106,51 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
       review: ''
     });
     setReview('');
-
-    dispatch(openReviewSuccessModal());
   };
 
-  //   {
-  //   "cameraId": 1,
-  //   "userName": "Кирилл",
-  //   "advantage": "Легкая в плане веса, удобная в интерфейсе",
-  //   "disadvantage": "Быстро садиться зарядка",
-  //   "review": "Это моя первая камера. Я в восторге, нареканий нет",
-  //   "rating": 5
-  // }
+  useEffect(()=> {
+    if(isSubmittingSuccess){
+      dispatch(closeAddNewReviewModal());
+      resetForm();
+      dispatch(openReviewSuccessModal());
+      dispatch(resetSubmitStatus());
+    }
+  },[isSubmittingSuccess, dispatch]
+  );
 
-  // const handleFormSubmit = (evt: FormEvent<HTMLFormElement>)=> {
-  //   evt.preventDefault();
+  useEffect(()=> {
+    if(isSubmittingFailed){
+      const timer = setTimeout(()=> {
+        dispatch(resetSubmitStatus());
+      }, 5000);
 
-  //   if (!offerId) {
-  //     return null;
-  //   }
+      return ()=> clearTimeout(timer);
+    }
+  }, [isSubmittingFailed, dispatch]);
 
-  //   if (isSubmittingFailed) {
-  //     dispatch(resetIsSubmittingFailed());
-  //   }
+  const handleReviewFormSubmit = (evt: React.FormEvent) => {
+    evt.preventDefault();
 
-  //   dispatch(postReviewAction({
-  //     offerId,
-  //     reviewData: {
-  //       comment: reviewsText,
-  //       rating: starsRating,
-  //     }
-  //   }));
-  //   setReviewsText('');
-  //   setStarsRating(0);
-  // };
+    const isRatingValid = validateRating(rating);
+    const isUserNameValid = validateUserName(userName);
+    const isAdvantageValid = validateTextField(advantage, 'advantage', 'Нужно указать достоинства');
+    const isDisadvantageValid = validateTextField(disadvantage, 'disadvantage', 'Нужно указать недостатки');
+    const isReviewValid = validateTextField(review, 'review', 'Нужно добавить комментарий');
+
+    if (!isRatingValid || !isUserNameValid || !isAdvantageValid || !isDisadvantageValid || !isReviewValid) {
+      return;
+    }
+
+    dispatch(postReviewAction({
+      cameraId: Number(id),
+      userName: userName,
+      advantage: advantage,
+      disadvantage: disadvantage,
+      review: review,
+      rating: rating
+    }));
+
+  };
 
 
   return (
@@ -335,9 +341,14 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
                 className="btn btn--purple form-review__btn"
                 type="submit"
                 ref ={postReviewButtonRef}
+                disabled={isSubmitting}
               >
-                Отправить отзыв
+                {isSubmitting ? 'Отправляется' : 'Отправить отзыв'}
               </button>
+              {isSubmittingFailed &&
+                <p className="error-message" style={{ color: 'red', marginTop: '10px' }}>
+    Упс! Ошибка отправки. Попробуйте снова.
+                </p>}
             </form>
           </div>
 
