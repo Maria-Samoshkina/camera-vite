@@ -1,4 +1,4 @@
-import { useCallback, } from 'react';
+import { useCallback, useEffect, } from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { useAppSelector } from '../../hooks';
@@ -11,8 +11,8 @@ import { getFilteredSortedCameras} from '../../store/filters/filters-selectors';
 import useAddToCartModal from '../../hooks/use-add-to-cart-modal';
 import Sort from '../../components/sort/sort';
 import Pagination from '../../components/pagination/pagination';
-import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { Link, useSearchParams } from 'react-router-dom';
+import { AppRoute, ITEMS_PER_PAGE } from '../../const';
 import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
 
 
@@ -20,6 +20,15 @@ function CatalogPage (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
   const filteredSortedCameras = useAppSelector(getFilteredSortedCameras);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get('page')) || 1;
+
+  const totalPages = Math.ceil(filteredSortedCameras.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const visibleCameras = filteredSortedCameras.slice(startIndex, endIndex);
 
 
   const handleCameraHover = useCallback((cameraId: string) => {
@@ -33,6 +42,33 @@ function CatalogPage (): JSX.Element {
     isAddCameraSuccessModalOpen,
     handleAddCameraSuccessModalClose
   } = useAddToCartModal();
+
+  const handleNextPageClick = () => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      const current = Number(params.get('page')) || 1;
+      params.set('page', String(current + 1));
+      return params;
+    });
+  };
+
+  const handlePrevPageClick = () => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      const current = Number(params.get('page')) || 1;
+      params.set('page', String(current - 1));
+      return params;
+    });
+  };
+
+  const handlePageClick = (selectedPage: number)=> {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      params.set('page', String(selectedPage));
+      return params;
+    });
+
+  };
 
 
   return (
@@ -69,7 +105,7 @@ function CatalogPage (): JSX.Element {
                   <Sort/>
                   <div className="cards catalog__cards">
 
-                    {filteredSortedCameras.map((cameraItem)=>
+                    {visibleCameras.map((cameraItem)=>
                       (
                         <CameraCard
                           className = ''
@@ -82,7 +118,13 @@ function CatalogPage (): JSX.Element {
                     )}
                   </div>
 
-                  <Pagination/>
+                  <Pagination
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    onPageClick = {handlePageClick}
+
+
+                  />
                 </div>
               </div>
             </div>
