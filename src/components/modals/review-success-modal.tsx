@@ -1,6 +1,4 @@
 import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AppRoute } from '../../const';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
 
 type ReviewSuccessModalProps = {
@@ -14,8 +12,6 @@ function ReviewSuccessModal (props: ReviewSuccessModalProps): JSX.Element {
   const {isOpen, onModalClose} = props;
   const modalRef = useRef<HTMLDivElement>(null);
   const continueShoppingButtonRef = useRef<HTMLButtonElement>(null);
-
-  const navigate = useNavigate();
 
   const handleContinueShoppingButtonClick = () => {
     onModalClose();
@@ -38,7 +34,7 @@ function ReviewSuccessModal (props: ReviewSuccessModalProps): JSX.Element {
           onClick={onModalClose}
         >
         </div>
-        <div className="modal__content">
+        <div className="modal__content" ref={modalRef}>
           <p className="title title--h4">Спасибо за отзыв</p>
           <svg className="modal__icon" width="80" height="78" aria-hidden="true">
             <use xlinkHref="#icon-review-success"></use>

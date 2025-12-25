@@ -161,7 +161,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
           onClick={onModalClose}
         >
         </div>
-        <div className="modal__content">
+        <div className="modal__content" ref={modalRef}>
           <p className="title title--h4">Оставить отзыв</p>
           <div className="form-review">
             <form method="post" onSubmit={handleReviewFormSubmit}>

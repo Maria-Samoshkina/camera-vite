@@ -3,15 +3,15 @@ import { describe, it, expect, vi } from 'vitest';
 import CatalogPage from './catalog-page';
 import { makeFakeCamera, makeFakeStore, makeFakePromoCamera } from '../../utils-mocks/mocks';
 import { NameSpace } from '../../const';
-import { getFilteredCameras } from '../../store/filters/filters-selectors';
+import { getFilteredSortedCameras } from '../../store/filters/filters-selectors';
 import { withStore, withHistory } from '../../utils-mocks/mock-components';
 
 
 vi.mock('../../store/filters/filters-selectors', () => ({
-  getFilteredCameras: vi.fn(),
+  getFilteredSortedCameras: vi.fn(),
 }));
 
-const mockGetFilteredCameras = vi.mocked(getFilteredCameras);
+const mockGetFilteredSortedCameras = vi.mocked(getFilteredSortedCameras);
 
 vi.mock('../../components/header/header', () => ({
   default: () => <div data-testid="header">Header</div>,
@@ -94,7 +94,7 @@ describe('Page: CatalogPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    mockGetFilteredCameras.mockReturnValue([mockCamera1, mockCamera2]);
+    mockGetFilteredSortedCameras.mockReturnValue([mockCamera1, mockCamera2]);
   });
 
   it('should render catalog page correctly', () => {
