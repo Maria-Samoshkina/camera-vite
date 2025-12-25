@@ -3,6 +3,7 @@ import { Camera } from '../../types/camera';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
 import { useAppSelector } from '../../hooks';
 import { getCamerasInCart } from '../../store/cart/cart-selectors';
+import { AppRoute } from '../../const';
 
 type CameraCardProps = {
   className: string;
@@ -70,15 +71,15 @@ function CameraCard (props: CameraCardProps): JSX.Element {
             Купить
           </button>
         ) : (
-          <button
+          <Link
             className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
-            type="button"
+            to={AppRoute.Card}
           >
             <svg width="16" height="16" aria-hidden="true">
               <use xlinkHref="#icon-basket"></use>
             </svg>
             В корзине
-          </button>
+          </Link>
         )}
 
         <Link
