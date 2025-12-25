@@ -58,3 +58,5 @@ export const TEXT_MAX_LENGTH = 160;
 export const RATING_MIN_VALUE = 1;
 export const RATING_MAX_VALUE = 5;
 export const ITEMS_PER_PAGE = 9;
+export const PAGES_PER_GROUP = 3;
+

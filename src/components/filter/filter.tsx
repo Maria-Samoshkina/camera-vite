@@ -56,22 +56,34 @@ function Filter (): JSX.Element {
 
 
   useEffect(()=> {
-    const params = new URLSearchParams();
-
-    if (priceFrom){
-      params.set('priceFrom', priceFrom.toString());
-    }
-    if (priceTo){
-      params.set('priceTo', priceTo.toString());
+    if (!isInitialized.current) {
+      return;
     }
 
-    if(selectedCamerasCategory){
-      params.set('category', selectedCamerasCategory);
-    }
-    selectedCamerasTypes.forEach((cameraType)=> params.append('type', cameraType));
-    selectedCamerasLevels.forEach((cameraLevel)=> params.append('level',cameraLevel));
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
 
-    setSearchParams(params, { replace: true });
+      params.delete('priceFrom');
+      params.delete('priceTo');
+      params.delete('category');
+      params.delete('type');
+      params.delete('level');
+
+      if (priceFrom){
+        params.set('priceFrom', priceFrom.toString());
+      }
+      if (priceTo){
+        params.set('priceTo', priceTo.toString());
+      }
+
+      if(selectedCamerasCategory){
+        params.set('category', selectedCamerasCategory);
+      }
+      selectedCamerasTypes.forEach((cameraType)=> params.append('type', cameraType));
+      selectedCamerasLevels.forEach((cameraLevel)=> params.append('level',cameraLevel));
+
+      return params;
+    }, { replace: true });
   }, [priceFrom, priceTo, selectedCamerasTypes, setSearchParams,selectedCamerasCategory, selectedCamerasLevels]);
 
   return (

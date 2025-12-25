@@ -26,10 +26,19 @@ function CatalogPage (): JSX.Element {
 
   const totalPages = Math.ceil(filteredSortedCameras.length / ITEMS_PER_PAGE);
 
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setSearchParams((prev) => {
+        const params = new URLSearchParams(prev);
+        params.set('page', String(totalPages));
+        return params;
+      });
+    }
+  }, [currentPage, totalPages, setSearchParams]);
+
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const visibleCameras = filteredSortedCameras.slice(startIndex, endIndex);
-
 
   const handleCameraHover = useCallback((cameraId: string) => {
     const currentCamera = cameras.find((camera) => (camera.id).toString() === cameraId);
@@ -42,24 +51,6 @@ function CatalogPage (): JSX.Element {
     isAddCameraSuccessModalOpen,
     handleAddCameraSuccessModalClose
   } = useAddToCartModal();
-
-  const handleNextPageClick = () => {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      const current = Number(params.get('page')) || 1;
-      params.set('page', String(current + 1));
-      return params;
-    });
-  };
-
-  const handlePrevPageClick = () => {
-    setSearchParams((prev) => {
-      const params = new URLSearchParams(prev);
-      const current = Number(params.get('page')) || 1;
-      params.set('page', String(current - 1));
-      return params;
-    });
-  };
 
   const handlePageClick = (selectedPage: number)=> {
     setSearchParams((prev) => {
@@ -118,13 +109,13 @@ function CatalogPage (): JSX.Element {
                     )}
                   </div>
 
-                  <Pagination
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    onPageClick = {handlePageClick}
+                  {totalPages > 1 &&
+                <Pagination
+                  totalPages={totalPages}
+                  currentPage={currentPage}
+                  onPageClick = {handlePageClick}
+                /> }
 
-
-                  />
                 </div>
               </div>
             </div>
