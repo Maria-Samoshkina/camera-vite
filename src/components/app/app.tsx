@@ -3,7 +3,7 @@ import {HelmetProvider} from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import { AppRoute } from '../../const';
 import CatalogPage from '../../pages/catalog-page/catalog-page';
-import NotFoundPage from '../../pages/not-found-page/not-fonund-page';
+import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getIsCamerasDataLoading, getIsCamerasFetchingError } from '../../store/catalog/cameras-selectors';
 import { getError } from '../../store/error/error-selectors';

@@ -112,7 +112,14 @@ function CartSummary (): JSX.Element {
         <p className="basket__summary-item"><span className="basket__summary-text">Всего:</span><span className="basket__summary-value">{total} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text">Скидка:</span><span className="basket__summary-value basket__summary-value--bonus">{summaryOfDiscount} ₽</span></p>
         <p className="basket__summary-item"><span className="basket__summary-text basket__summary-text--total">К оплате:</span><span className="basket__summary-value basket__summary-value--total">{summaryForPay} ₽</span></p>
-        {isOrderLoading && <p>Ожидайте! Заказ оформляется...</p>}
+        {isOrderLoading && (
+          <div className="basket__loading">
+            <svg className="spinner" viewBox="0 0 50 50" width="30" height="30">
+              <circle cx="25" cy="25" r="20" fill="none" stroke="#7575e2" strokeWidth="4" strokeDasharray="90 60" />
+            </svg>
+            <p>Оформляем заказ...</p>
+          </div>
+        )}
         <button
           className="btn btn--purple"
           type="submit"

@@ -12,7 +12,6 @@ import CartSummary from './cart-summary';
 import { AppRoute } from '../../const';
 import OrderSuccessModal from '../../components/modals/order-success-modal';
 import { getIsOrderLoading } from '../../store/order/order-selectors';
-import ReviewSuccessModal from '../../components/modals/review-success-modal';
 
 function CartPage(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -151,7 +150,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--next"
                           aria-label="увеличить количество товара"
-                          disabled={isOrderLoading}
+                          disabled={isOrderLoading || quantity >= 9}
                           onClick={()=> handleIncreaseButtonClick(cartItem)}
                         >
                           <svg width="7" height="12" aria-hidden="true">
