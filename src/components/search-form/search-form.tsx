@@ -123,6 +123,11 @@ function SearchForm (): JSX.Element {
                   <Link
                     to={`${AppRoute.Camera}/${camera.id}`}
                     className="form-search__select-link"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setIsDropDownOpen(false);
+                      setSelectedIndex(-1);
+                    }}
                   >
                     {camera.name}
                   </Link>
