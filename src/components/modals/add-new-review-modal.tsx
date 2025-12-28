@@ -235,7 +235,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
                       />
                       <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
                     </div>
-                    <div className="rate__progress"><span className="rate__stars">0</span> <span>/</span> <span className="rate__all-stars">5</span>
+                    <div className="rate__progress"><span className="rate__stars">{rating}</span> <span>/</span> <span className="rate__all-stars">5</span>
                     </div>
                   </div>
                   <p className="rate__message">{ratingError}</p>
@@ -320,7 +320,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
                     </span>
                     <textarea
                       name="user-comment"
-                      minLength={5}
+                      minLength={TEXT_MIN_LENGTH}
                       placeholder="Поделитесь своим опытом покупки"
                       value={review}
                       onChange={(evt)=> {
