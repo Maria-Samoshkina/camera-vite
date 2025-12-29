@@ -3,12 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
 import { AppRoute } from '../../const';
 
-type AddCameraSuccessModalProps = {
+type AddCameraToCartSuccessModalProps = {
   isOpen: boolean;
   onModalClose: ()=> void;
 }
 
-function AddCameraSuccessModal (props: AddCameraSuccessModalProps) : JSX.Element | null {
+function AddCameraToCartSuccessModal (props: AddCameraToCartSuccessModalProps) : JSX.Element | null {
 
   const {isOpen, onModalClose} = props;
   const modalRef = useRef<HTMLDivElement>(null);
@@ -79,4 +79,4 @@ function AddCameraSuccessModal (props: AddCameraSuccessModalProps) : JSX.Element
 
 }
 
-export default AddCameraSuccessModal;
+export default AddCameraToCartSuccessModal;

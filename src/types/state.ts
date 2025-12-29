@@ -42,7 +42,7 @@ export type InitialState = {
 
   isAddToCartModalOpen: boolean;
   selectedCameraForCart: Camera| null;
-  isAddCameraSuccessModalOpen: boolean;
+  isAddCameraToCartSuccessModalOpen: boolean;
   selectedCameraForRemoveFromCart: CartItem|null;
   isRemoveCameraFromCartOpen:boolean;
   isOrderSuccessModalOpen:boolean;
@@ -81,7 +81,7 @@ export type ReviewsState = Pick<InitialState,
 export type ModalsState = Pick<InitialState,
 'isAddToCartModalOpen' |
 'selectedCameraForCart' |
-'isAddCameraSuccessModalOpen' |
+'isAddCameraToCartSuccessModalOpen' |
 'selectedCameraForRemoveFromCart' |
 'isRemoveCameraFromCartOpen' |
 'isOrderSuccessModalOpen' |

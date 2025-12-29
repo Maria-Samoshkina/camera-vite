@@ -14,9 +14,9 @@ export const getSelectedCameraForCart = createSelector(
   (state: ModalsState)=> state.selectedCameraForCart
 );
 
-export const getIsAddCameraSuccessModalOpen = createSelector(
+export const getIsAddCameraToCartSuccessModalOpen = createSelector(
   [getModalsSlice],
-  (state: ModalsState)=> state.isAddCameraSuccessModalOpen
+  (state: ModalsState)=> state.isAddCameraToCartSuccessModalOpen
 );
 
 export const getSelectedCameraForRemoveFromCart = createSelector(

@@ -90,6 +90,30 @@ describe('Application Routing', () => {
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
 
+  it('should render CartPage when user navigates to "/card"', () => {
+    const withHistoryComponent = withHistory(<App />, mockHistory);
+
+    const { withStoreComponent } = withStore(
+      withHistoryComponent,
+      makeFakeStore({
+        [NameSpace.Cameras]: {
+          cameras: [],
+          isCamerasDataLoading: false,
+          isCamerasFetchingError: false,
+        },
+        [NameSpace.Cart]: {
+          camerasInCart: [],
+        },
+      })
+    );
+
+    mockHistory.push(AppRoute.Card);
+
+    render(withStoreComponent);
+
+    expect(screen.getByRole('heading', { name: 'Корзина' })).toBeInTheDocument();
+  });
+
   it('should render NotFoundPage when user navigates to non-existent route', () => {
     const withHistoryComponent = withHistory(<App />, mockHistory);
     const unknownRoute = '/unknown-route';

@@ -1,12 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
-import { withHistory } from '../../utils-mocks/mock-components';
+import { withHistory, withStore } from '../../utils-mocks/mock-components';
+import { makeFakeStore } from '../../utils-mocks/mocks';
 import Header from './header';
 
 describe('Component: Header', () => {
   const renderComponent = () => {
     const componentWithHistory = withHistory(<Header />);
-    return render(componentWithHistory);
+    const { withStoreComponent } = withStore(componentWithHistory, makeFakeStore());
+    return render(withStoreComponent);
   };
 
   it('should render header component correctly', () => {
@@ -48,17 +50,21 @@ describe('Component: Header', () => {
     expect(searchInput).toHaveAttribute('autoComplete', 'off');
   });
 
-
-  it('should render search reset button', () => {
+  it('should render basket link', () => {
     renderComponent();
 
-    const resetButton = screen.getByText('Сбросить поиск');
-    expect(resetButton).toBeInTheDocument();
-    expect(resetButton).toHaveClass('visually-hidden');
+    const basketLinks = screen.getAllByRole('link');
+    const cartLink = basketLinks.find((link) => link.getAttribute('href') === '/card');
 
-    const resetButtonElement = resetButton.closest('button');
-    expect(resetButtonElement).toHaveClass('form-search__reset');
-    expect(resetButtonElement).toHaveAttribute('type', 'reset');
+    expect(cartLink).toBeInTheDocument();
+    expect(cartLink).toHaveClass('header__basket-link');
+  });
+
+  it('should not render basket count when cart is empty', () => {
+    renderComponent();
+
+    const basketCount = document.querySelector('.header__basket-count');
+    expect(basketCount).not.toBeInTheDocument();
   });
 
 });

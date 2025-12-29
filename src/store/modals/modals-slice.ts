@@ -8,7 +8,7 @@ import { createOrderAction } from '../api-actions';
 const initialState: ModalsState = {
   isAddToCartModalOpen: false,
   selectedCameraForCart:  null,
-  isAddCameraSuccessModalOpen: false,
+  isAddCameraToCartSuccessModalOpen: false,
   selectedCameraForRemoveFromCart: null,
   isRemoveCameraFromCartOpen: false,
   isOrderSuccessModalOpen:false,
@@ -29,11 +29,11 @@ export const modalsSlice = createSlice({
     setSelectedCameraForCart: (state, action: PayloadAction<Camera>) => {
       state.selectedCameraForCart = action.payload;
     },
-    openAddCameraSuccessModal: (state)=> {
-      state.isAddCameraSuccessModalOpen = true;
+    openAddCameraToCartSuccessModal: (state)=> {
+      state.isAddCameraToCartSuccessModalOpen = true;
     },
-    closeAddCameraSuccessModal: (state)=> {
-      state.isAddCameraSuccessModalOpen = false;
+    closeAddCameraToCartSuccessModal: (state)=> {
+      state.isAddCameraToCartSuccessModalOpen = false;
     },
     setSelectedCameraForRemoveFromCart: (state, action: PayloadAction<CartItem>) => {
       state.selectedCameraForRemoveFromCart = action.payload;
@@ -75,8 +75,8 @@ export const modalsSlice = createSlice({
 export const {openAddToCartModal,
   closeAddToCartModal,
   setSelectedCameraForCart,
-  openAddCameraSuccessModal,
-  closeAddCameraSuccessModal,
+  openAddCameraToCartSuccessModal,
+  closeAddCameraToCartSuccessModal,
   setSelectedCameraForRemoveFromCart,
   openRemoveFromCartModal,
   closeRemoveFromCartModal,

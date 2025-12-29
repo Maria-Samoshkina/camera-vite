@@ -27,6 +27,13 @@ describe('Component: AddCameraToCartModal', () => {
         [NameSpace.Modals]: {
           selectedCameraForCart: selectedCamera,
           isAddToCartModalOpen: isOpen,
+          isAddCameraToCartSuccessModalOpen: false,
+          selectedCameraForRemoveFromCart: null,
+          isRemoveCameraFromCartOpen: false,
+          isOrderSuccessModalOpen: false,
+          isAddNewReviewModalOpen: false,
+          isReviewSuccessModalOpen: false,
+
         }
       })
     );

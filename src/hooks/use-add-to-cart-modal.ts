@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from '.';
 import { addToCart } from '../store/cart/cart-slice';
 import { getCameras } from '../store/catalog/cameras-selectors';
-import { getIsAddCameraSuccessModalOpen, getIsAddToCartModalOpen, getSelectedCameraForCart } from '../store/modals/modals-selectors';
-import { closeAddCameraSuccessModal, closeAddToCartModal, openAddCameraSuccessModal, openAddToCartModal, setSelectedCameraForCart } from '../store/modals/modals-slice';
+import { getIsAddCameraToCartSuccessModalOpen, getIsAddToCartModalOpen, getSelectedCameraForCart } from '../store/modals/modals-selectors';
+import { closeAddCameraToCartSuccessModal, closeAddToCartModal, openAddCameraToCartSuccessModal, openAddToCartModal, setSelectedCameraForCart } from '../store/modals/modals-slice';
 
 const useAddToCartModal = ()=> {
   const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ const useAddToCartModal = ()=> {
   const selectedCameraForCart = useAppSelector(getSelectedCameraForCart);
   const cameras = useAppSelector(getCameras);
 
-  const isAddCameraSuccessModalOpen = useAppSelector(getIsAddCameraSuccessModalOpen);
+  const isAddCameraToCartSuccessModalOpen = useAppSelector(getIsAddCameraToCartSuccessModalOpen);
 
   const handleBuyButtonClick = (cameraId:string) => {
     const currentCamera = cameras.find((camera)=> camera.id.toString() === cameraId);
@@ -29,12 +29,12 @@ const useAddToCartModal = ()=> {
     if (selectedCameraForCart) {
       dispatch(addToCart(selectedCameraForCart));
       dispatch(closeAddToCartModal());
-      dispatch(openAddCameraSuccessModal());
+      dispatch(openAddCameraToCartSuccessModal());
     }
   };
 
-  const handleAddCameraSuccessModalClose = () => {
-    dispatch(closeAddCameraSuccessModal());
+  const handleAddCameraToCartSuccessModalClose = () => {
+    dispatch(closeAddCameraToCartSuccessModal());
   };
 
   return {
@@ -42,9 +42,9 @@ const useAddToCartModal = ()=> {
     handleBuyButtonClick,
     handleAddToCartModalClose,
     selectedCameraForCart,
-    isAddCameraSuccessModalOpen,
+    isAddCameraToCartSuccessModalOpen,
     handleAddToCartButtonClick,
-    handleAddCameraSuccessModalClose
+    handleAddCameraToCartSuccessModalClose
   };
 };
 

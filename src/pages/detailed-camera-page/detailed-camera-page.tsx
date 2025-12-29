@@ -15,7 +15,7 @@ import { getIsSimilarCamerasFetchingError, getIsSimilarCamerasDataLoading } from
 import { getIsReviewsFetchingError, getIsReviewsLoading } from '../../store/reviews/reviews-selectors';
 import { AppRoute } from '../../const';
 import StarsRaiting from '../../components/stars-rating/stars-rating';
-import AddCameraSuccessModal from '../../components/modals/add-camera-success-modal';
+import AddCameraToCartSuccessModal from '../../components/modals/add-camera-to-cart-success-modal';
 import AddNewReviewModal from '../../components/modals/add-new-review-modal';
 import { openAddNewReviewModal, closeAddNewReviewModal, closeReviewSuccessModal } from '../../store/modals/modals-slice';
 import { getIsAddNewReviewModalOpen, getIsReviewSuccessModalOpen } from '../../store/modals/modals-selectors';
@@ -25,8 +25,8 @@ function DetailedCameraPage (): JSX.Element {
 
   const { isAddToCartModalOpen,
     handleAddToCartModalClose,
-    isAddCameraSuccessModalOpen,
-    handleAddCameraSuccessModalClose,
+    isAddCameraToCartSuccessModalOpen,
+    handleAddCameraToCartSuccessModalClose,
     handleBuyButtonClick
   } = useAddToCartModal();
 
@@ -181,9 +181,9 @@ function DetailedCameraPage (): JSX.Element {
         isOpen={isAddToCartModalOpen}
         onModalClose = {handleAddToCartModalClose}
       />
-      <AddCameraSuccessModal
-        isOpen = {isAddCameraSuccessModalOpen}
-        onModalClose = {handleAddCameraSuccessModalClose}
+      <AddCameraToCartSuccessModal
+        isOpen = {isAddCameraToCartSuccessModalOpen}
+        onModalClose = {handleAddCameraToCartSuccessModalClose}
       />
 
       <AddNewReviewModal
