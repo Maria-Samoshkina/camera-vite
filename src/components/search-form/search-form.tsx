@@ -10,7 +10,7 @@ function SearchForm (): JSX.Element {
 
   const cameras = useAppSelector(getCameras);
 
-  const [searchQuery, setSearchQuery] = useState(''); //текст запроса
+  const [searchQuery, setSearchQuery] = useState('');
   const [isDropdownOpen, setIsDropDownOpen] = useState(false);
   const [filteredCamerasByName, setFilteredCamerasByName] = useState<Cameras>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
