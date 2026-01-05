@@ -41,7 +41,7 @@ describe('Component: RemoveCameraFromCartModal', () => {
           isRemoveCameraFromCartOpen: isOpen,
           isAddToCartModalOpen: false,
           selectedCameraForCart: null,
-          isAddCameraSuccessModalOpen: false,
+          isAddCameraToCartSuccessModalOpen: false,
           isOrderSuccessModalOpen: false,
           isAddNewReviewModalOpen: false,
           isReviewSuccessModalOpen: false,
@@ -70,7 +70,7 @@ describe('Component: RemoveCameraFromCartModal', () => {
 
     expect(screen.getByText(mockCamera.name)).toBeInTheDocument();
     expect(screen.getByText(mockCamera.vendorCode)).toBeInTheDocument();
-    expect(screen.getByText(mockCamera.category)).toBeInTheDocument();
+    expect(screen.getByText(`${mockCamera.type} ${mockCamera.category.toLowerCase()}`)).toBeInTheDocument();
   });
 
   it('should render delete and cancel buttons', () => {

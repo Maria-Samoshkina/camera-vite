@@ -20,6 +20,8 @@ mockIntersectionObserver.mockReturnValue({
 window.IntersectionObserver = mockIntersectionObserver;
 
 describe('Component: ReviewsList', () => {
+  const mockOnAddNewReviewButtonClick = vi.fn();
+
   const mockReviews: Review[] = [
     {
       id: 'review-1',
@@ -43,6 +45,10 @@ describe('Component: ReviewsList', () => {
     },
   ];
 
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   const renderComponent = (initialState = {}) => {
     const defaultState = makeFakeStore({
       [NameSpace.Reviews]: {
@@ -50,12 +56,15 @@ describe('Component: ReviewsList', () => {
         isReviewsLoading: false,
         isReviewsFetchingError: false,
         displayedReviewsCount: 3,
+        isSubmitting: false,
+        isSubmittingSuccess: false,
+        isSubmittingFailed: false,
         ...initialState,
       },
     });
 
     const { withStoreComponent, mockStore } = withStore(
-      <ReviewsList />,
+      <ReviewsList onAddNewReviewButtonClick={mockOnAddNewReviewButtonClick} />,
       defaultState
     );
 
@@ -132,4 +141,85 @@ describe('Component: ReviewsList', () => {
     expect(reviewsList).toBeInTheDocument();
     expect(reviewsList).toBeEmptyDOMElement();
   });
+
+  it('should render "Add new review" button', () => {
+    renderComponent();
+
+    const addReviewButton = screen.getByText('Оставить свой отзыв');
+    expect(addReviewButton).toBeInTheDocument();
+    expect(addReviewButton).toHaveClass('btn');
+  });
+
+  it('should call onAddNewReviewButtonClick when "Add review" button is clicked', () => {
+    renderComponent();
+
+    const addReviewButton = screen.getByText('Оставить свой отзыв');
+    fireEvent.click(addReviewButton);
+
+    expect(mockOnAddNewReviewButtonClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render review sections (advantages, disadvantages, comments)', () => {
+    renderComponent();
+
+    expect(screen.getAllByText('Достоинства:').length).toBe(2);
+    expect(screen.getAllByText('Недостатки:').length).toBe(2);
+    expect(screen.getAllByText('Комментарий:').length).toBe(2);
+  });
+
+  it('should render reviews with correct structure', () => {
+    renderComponent();
+
+    const reviewCards = document.querySelectorAll('.review-card');
+    expect(reviewCards.length).toBe(2);
+
+    reviewCards.forEach((card) => {
+      expect(card.querySelector('.review-card__head')).toBeInTheDocument();
+      expect(card.querySelector('.review-card__data')).toBeInTheDocument();
+      expect(card.querySelector('.review-card__rate')).toBeInTheDocument();
+      expect(card.querySelector('.review-card__list')).toBeInTheDocument();
+    });
+  });
+
+  it('should render time element with correct datetime attribute', () => {
+    renderComponent();
+
+    const timeElements = document.querySelectorAll('.review-card__data');
+    expect(timeElements[0]).toHaveAttribute('dateTime', '2023-12-01T10:00:00.000Z');
+    expect(timeElements[1]).toHaveAttribute('dateTime', '2023-11-28T14:30:00.000Z');
+  });
+
+  it('should render StarsRating component for each review', () => {
+    renderComponent();
+
+    const ratingElements = document.querySelectorAll('.review-card__rate');
+    expect(ratingElements.length).toBe(2);
+  });
+
+  it('should display reviews in correct order', () => {
+    renderComponent();
+
+    const userNames = screen.getAllByText(/Иван Петров|Мария Сидорова/);
+    expect(userNames[0]).toHaveTextContent('Иван Петров');
+    expect(userNames[1]).toHaveTextContent('Мария Сидорова');
+  });
+
+  it('should render review with all fields correctly', () => {
+    renderComponent();
+
+    const firstReview = mockReviews[0];
+    expect(screen.getByText(firstReview.userName)).toBeInTheDocument();
+    expect(screen.getByText(firstReview.advantage)).toBeInTheDocument();
+    expect(screen.getByText(firstReview.disadvantage)).toBeInTheDocument();
+    expect(screen.getByText(firstReview.review)).toBeInTheDocument();
+  });
+
+  it('should set ref on the last review item', () => {
+    renderComponent();
+
+    const reviewCards = document.querySelectorAll('.review-card');
+    expect(reviewCards.length).toBe(2);
+  });
+
+
 });

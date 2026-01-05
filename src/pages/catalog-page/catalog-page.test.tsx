@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import CatalogPage from './catalog-page';
 import { makeFakeCamera, makeFakeStore, makeFakePromoCamera } from '../../utils-mocks/mocks';
-import { NameSpace } from '../../const';
+import { NameSpace, SortDirection, SortType } from '../../const';
 import { getFilteredSortedCameras } from '../../store/filters/filters-selectors';
 import { withStore, withHistory } from '../../utils-mocks/mock-components';
 
@@ -85,10 +85,18 @@ describe('Page: CatalogPage', () => {
       camerasLevels: [],
       priceFrom: null,
       priceTo: null,
+      sortType: SortType.price,
+      sortDirection: SortDirection.ascending
     },
     [NameSpace.Modals]: {
       isAddToCartModalOpen: false,
       selectedCameraForCart: null,
+      isAddCameraToCartSuccessModalOpen: false,
+      selectedCameraForRemoveFromCart: null,
+      isRemoveCameraFromCartOpen: false,
+      isOrderSuccessModalOpen:false,
+      isAddNewReviewModalOpen: false,
+      isReviewSuccessModalOpen: false
     },
   });
 
@@ -127,7 +135,30 @@ describe('Page: CatalogPage', () => {
 
     expect(screen.getByTestId('filter')).toBeInTheDocument();
     expect(screen.getByTestId('sort')).toBeInTheDocument();
+  });
+
+  it('should render pagination when there are more than 9 cameras', () => {
+    const manyCameras = Array.from({ length: 10 }, (_, i) => ({ ...makeFakeCamera(), id: i + 1 }));
+    mockGetFilteredSortedCameras.mockReturnValue(manyCameras);
+
+    const storeWithManyCameras = makeFakeStore({
+      ...defaultStoreData,
+      [NameSpace.Cameras]: {
+        cameras: manyCameras,
+        isCamerasDataLoading: false,
+        isCamerasFetchingError: false,
+      },
+    });
+
+    renderComponent(storeWithManyCameras);
+
     expect(screen.getByTestId('pagination')).toBeInTheDocument();
+  });
+
+  it('should not render pagination when there are 9 or fewer cameras', () => {
+    renderComponent(defaultStoreData);
+
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
   it('should render filtered cameras', () => {
@@ -152,6 +183,12 @@ describe('Page: CatalogPage', () => {
       [NameSpace.Modals]: {
         isAddToCartModalOpen: true,
         selectedCameraForCart: mockCamera1,
+        isAddCameraToCartSuccessModalOpen: false,
+        selectedCameraForRemoveFromCart: null,
+        isRemoveCameraFromCartOpen: false,
+        isOrderSuccessModalOpen:false,
+        isAddNewReviewModalOpen: false,
+        isReviewSuccessModalOpen: false
       },
     });
 

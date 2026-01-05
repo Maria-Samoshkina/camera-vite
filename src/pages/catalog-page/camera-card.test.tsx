@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import CameraCard from './camera-card';
 import { makeFakeCamera } from '../../utils-mocks/mocks';
-import { withHistory } from '../../utils-mocks/mock-components';
+import { withHistory, withStore } from '../../utils-mocks/mock-components';
 
 describe('Component: CameraCard', () => {
   const mockCamera = makeFakeCamera();
@@ -18,7 +18,10 @@ describe('Component: CameraCard', () => {
       ...props,
     };
 
-    const componentWithHistory = withHistory(<CameraCard {...defaultProps} />);
+    const { withStoreComponent } = withStore(<CameraCard {...defaultProps} />, {
+      CART: { camerasInCart: [] },
+    });
+    const componentWithHistory = withHistory(withStoreComponent);
     return render(componentWithHistory);
   };
 

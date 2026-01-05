@@ -13,6 +13,9 @@ import { fetchCamerasAction,
   fetchPromoCamerasAction,
   fetchReviewsAction,
   clearErrorAction,
+  checkCouponAction,
+  createOrderAction,
+  postReviewAction
 } from './api-actions';
 
 import { ApiRoute } from '../const';
@@ -236,6 +239,139 @@ describe('Async actions', () => {
         clearErrorAction.fulfilled.type,
       ]);
 
+    });
+  });
+
+  describe('checkCouponAction', () => {
+    it('should dispatch "checkCouponAction.pending", "checkCouponAction.fulfilled", when server response 200', async () => {
+      const mockDiscount = 15;
+
+      mockAxiosAdapter.onPost(ApiRoute.Coupon).reply(200, mockDiscount);
+
+      await store.dispatch(checkCouponAction('camera-333'));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+      const checkCouponActionFulfilled = emittedActions.at(1) as ReturnType<typeof checkCouponAction.fulfilled>;
+
+      expect(extractedActionsTypes).toEqual([
+        checkCouponAction.pending.type,
+        checkCouponAction.fulfilled.type,
+      ]);
+      expect(checkCouponActionFulfilled.payload).toEqual({
+        coupon: 'camera-333',
+        discount: mockDiscount,
+      });
+    });
+
+    it('should dispatch "checkCouponAction.pending", "checkCouponAction.rejected", when server response 400', async () => {
+      mockAxiosAdapter.onPost(ApiRoute.Coupon).reply(400, {});
+
+      await store.dispatch(checkCouponAction('INVALID'));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+
+      expect(extractedActionsTypes).toEqual([
+        checkCouponAction.pending.type,
+        checkCouponAction.rejected.type,
+      ]);
+    });
+  });
+
+  describe('createOrderAction', () => {
+    it('should dispatch "createOrderAction.pending", "createOrderAction.fulfilled", when server response 200', async () => {
+      const orderData = {
+        camerasIds: [1, 2],
+        coupon: 'camera-444',
+      };
+
+      mockAxiosAdapter.onPost(ApiRoute.Order).reply(200);
+
+      await store.dispatch(createOrderAction(orderData));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+
+      expect(extractedActionsTypes).toEqual([
+        createOrderAction.pending.type,
+        createOrderAction.fulfilled.type,
+      ]);
+    });
+
+    it('should dispatch "createOrderAction.pending", "createOrderAction.rejected", when server response 400', async () => {
+      const orderData = {
+        camerasIds: [1],
+        coupon: null,
+      };
+
+      mockAxiosAdapter.onPost(ApiRoute.Order).reply(400, {});
+
+      await store.dispatch(createOrderAction(orderData));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+
+      expect(extractedActionsTypes).toEqual([
+        createOrderAction.pending.type,
+        createOrderAction.rejected.type,
+      ]);
+    });
+  });
+
+  describe('postReviewAction', () => {
+    it('should dispatch "postReviewAction.pending", "postReviewAction.fulfilled", when server response 200', async () => {
+      const reviewData = {
+        cameraId: 1,
+        userName: 'Test User',
+        advantage: 'Great camera',
+        disadvantage: 'Heavy',
+        review: 'Overall very satisfied',
+        rating: 5,
+      };
+
+      const mockResponse = {
+        id: '123',
+        createAt: '2024-01-01T12:00:00.000Z',
+        ...reviewData,
+      };
+
+      mockAxiosAdapter.onPost(ApiRoute.Reviews).reply(200, mockResponse);
+
+      await store.dispatch(postReviewAction(reviewData));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+      const postReviewActionFulfilled = emittedActions.at(1) as ReturnType<typeof postReviewAction.fulfilled>;
+
+      expect(extractedActionsTypes).toEqual([
+        postReviewAction.pending.type,
+        postReviewAction.fulfilled.type,
+      ]);
+      expect(postReviewActionFulfilled.payload).toEqual(mockResponse);
+    });
+
+    it('should dispatch "postReviewAction.pending", "postReviewAction.rejected", when server response 400', async () => {
+      const reviewData = {
+        cameraId: 1,
+        userName: 'Test User',
+        advantage: 'Great',
+        disadvantage: 'None',
+        review: 'Good',
+        rating: 5,
+      };
+
+      mockAxiosAdapter.onPost(ApiRoute.Reviews).reply(400, {});
+
+      await store.dispatch(postReviewAction(reviewData));
+
+      const emittedActions = store.getActions();
+      const extractedActionsTypes = extractActionsTypes(emittedActions);
+
+      expect(extractedActionsTypes).toEqual([
+        postReviewAction.pending.type,
+        postReviewAction.rejected.type,
+      ]);
     });
   });
 });

@@ -1,4 +1,4 @@
-import NotFoundPage from './not-fonund-page';
+import NotFoundPage from './not-found-page';
 import { screen, render } from '@testing-library/react';
 import { withHistory } from '../../utils-mocks/mock-components';
 
