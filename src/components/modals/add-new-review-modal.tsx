@@ -22,7 +22,8 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
 
   const {isOpen, onModalClose, id} = props;
   const modalRef = useRef<HTMLDivElement>(null);
-  const postReviewButtonRef = useRef<HTMLButtonElement>(null);
+  const nameInputRef = useRef(null);
+
   const dispatch = useAppDispatch();
 
   const [rating, setRating] = useState<number>(0);
@@ -49,7 +50,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
     isOpen,
     onModalClose,
     modalRef,
-    initialFocusRef: postReviewButtonRef as unknown as React.RefObject<HTMLElement>,
+    initialFocusRef: nameInputRef as unknown as React.RefObject<HTMLElement>,
   });
 
   const validateRating = (valueOfRating: number)=> {
@@ -250,6 +251,7 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
                       </svg>
                     </span>
                     <input
+                      ref= {nameInputRef}
                       type="text"
                       name="user-name"
                       placeholder="Введите ваше имя"
@@ -340,7 +342,6 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
               <button
                 className="btn btn--purple form-review__btn"
                 type="submit"
-                ref ={postReviewButtonRef}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? 'Отправляется' : 'Отправить отзыв'}

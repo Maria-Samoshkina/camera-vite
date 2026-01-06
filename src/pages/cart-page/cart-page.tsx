@@ -24,9 +24,6 @@ function CartPage(): JSX.Element {
   const handleDecreaseButtonClick = (cameraInCart: CartItem)=> {
     if (cameraInCart.quantity > 1) {
       dispatch(decreaseQuantity(cameraInCart));
-    } else {
-      dispatch(openRemoveFromCartModal());
-      dispatch(setSelectedCameraForRemoveFromCart(cameraInCart));
     }
   };
 
@@ -112,7 +109,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--prev"
                           aria-label="уменьшить количество товара"
-                          disabled={isOrderLoading}
+                          disabled={isOrderLoading || quantity <= 1}
                           onClick={()=> {
                             handleDecreaseButtonClick(cartItem);
                           }}
@@ -130,6 +127,7 @@ function CartPage(): JSX.Element {
                           max="9"
                           aria-label="количество товара"
                           disabled={isOrderLoading}
+                          onFocus={(evt) => evt.currentTarget.select()}
                           onChange={(evt) => {
                             const value = Number(evt.target.value);
                             if (!isNaN(value) && value >= 1 && value <= 9) {
