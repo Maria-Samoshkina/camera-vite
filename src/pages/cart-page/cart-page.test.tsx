@@ -88,9 +88,9 @@ describe('CartPage Component', () => {
 
     renderComponent(stateWithCartItems);
 
-    const quantityInput = document.querySelector(`#counter${mockCamera.id}`) as HTMLInputElement;
+    const quantityInput = screen.getByRole('spinbutton', { name: /количество товара/i });
     expect(quantityInput).toBeInTheDocument();
-    expect(quantityInput.value).toBe('2');
+    expect(quantityInput).toHaveValue(2);
 
     const decreaseBtn = screen.getAllByLabelText('уменьшить количество товара')[0];
     const increaseBtn = screen.getAllByLabelText('увеличить количество товара')[0];
@@ -144,12 +144,12 @@ describe('CartPage Component', () => {
 
     renderComponent(stateWithCartItems);
 
-    const quantityInput = document.querySelector(`#counter${mockCamera.id}`) as HTMLInputElement;
+    const quantityInput = screen.getByRole('spinbutton', { name: /количество товара/i });
     const decreaseBtn = screen.getAllByLabelText('уменьшить количество товара')[0];
     const increaseBtn = screen.getAllByLabelText('увеличить количество товара')[0];
     const removeBtn = screen.getByLabelText('Удалить товар');
 
-    expect(quantityInput.disabled).toBe(true);
+    expect(quantityInput).toBeDisabled();
     expect(decreaseBtn).toHaveAttribute('disabled');
     expect(increaseBtn).toHaveAttribute('disabled');
     expect(removeBtn).toHaveAttribute('disabled');
@@ -184,9 +184,9 @@ describe('CartPage Component', () => {
 
     renderComponent(stateWithCartItems);
 
-    const quantityInput = document.querySelector(`#counter${mockCamera.id}`) as HTMLInputElement;
+    const quantityInput = screen.getByRole('spinbutton', { name: /количество товара/i });
     expect(quantityInput).toBeInTheDocument();
-    expect(quantityInput.disabled).toBe(false);
+    expect(quantityInput).toBeEnabled();
     expect(quantityInput).toHaveAttribute('type', 'number');
   });
 
@@ -199,7 +199,7 @@ describe('CartPage Component', () => {
 
     renderComponent(stateWithCartItems);
 
-    const quantityInput = document.querySelector(`#counter${mockCamera.id}`) as HTMLInputElement;
+    const quantityInput = screen.getByRole('spinbutton', { name: /количество товара/i });
     expect(quantityInput).toHaveAttribute('min', '1');
     expect(quantityInput).toHaveAttribute('max', '9');
   });
