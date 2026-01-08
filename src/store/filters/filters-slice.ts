@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { NameSpace, SortDirection, SortType} from '../../const';
+import { CAMERA_CATEGORY_VIDEO, CAMERA_TYPE_FILM, CAMERA_TYPE_INSTANT, NameSpace, SortDirection, SortType} from '../../const';
 import { FiltersState } from '../../types/state';
 
 
@@ -21,9 +21,9 @@ export const filtersSlice = createSlice({
       const selectedCategory = action.payload;
       state.camerasCategory = selectedCategory;
 
-      if (selectedCategory === 'Видеокамера') {
+      if (selectedCategory === CAMERA_CATEGORY_VIDEO) {
         state.camerasTypes = state.camerasTypes.filter(
-          (type) => type !== 'Плёночная' && type !== 'Моментальная'
+          (type) => type !== CAMERA_TYPE_FILM && type !== CAMERA_TYPE_INSTANT
         );
       }
     },

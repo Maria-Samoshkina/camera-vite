@@ -9,7 +9,7 @@ import { getIsOrderSuccessModalOpen, getIsRemoveCameraFromCartOpen } from '../..
 import { closeOrderSuccessModal, closeRemoveFromCartModal, openRemoveFromCartModal, setSelectedCameraForRemoveFromCart } from '../../store/modals/modals-slice';
 import { CartItem } from '../../types/camera';
 import CartSummary from './cart-summary';
-import { AppRoute } from '../../const';
+import { AppRoute, MAX_CART_QUANTITY, MIN_CART_QUANTITY } from '../../const';
 import OrderSuccessModal from '../../components/modals/order-success-modal';
 import { getIsOrderLoading } from '../../store/order/order-selectors';
 
@@ -109,7 +109,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--prev"
                           aria-label="уменьшить количество товара"
-                          disabled={isOrderLoading || quantity <= 1}
+                          disabled={isOrderLoading || quantity <= MIN_CART_QUANTITY}
                           onClick={()=> {
                             handleDecreaseButtonClick(cartItem);
                           }}
@@ -130,16 +130,16 @@ function CartPage(): JSX.Element {
                           onFocus={(evt) => evt.currentTarget.select()}
                           onChange={(evt) => {
                             const value = Number(evt.target.value);
-                            if (!isNaN(value) && value >= 1 && value <= 9) {
+                            if (!isNaN(value) && value >= MIN_CART_QUANTITY && value <= MAX_CART_QUANTITY) {
                               dispatch(changeQuantity({ cameraId: camera.id, newQuantity: value }));
                             }
                           }}
                           onBlur={(evt) => {
                             const value = Number(evt.target.value);
-                            if (isNaN(value) || value < 1) {
-                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: 1 }));
-                            } else if (value > 9) {
-                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: 9 }));
+                            if (isNaN(value) || value < MIN_CART_QUANTITY) {
+                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: MIN_CART_QUANTITY }));
+                            } else if (value > MAX_CART_QUANTITY) {
+                              dispatch(changeQuantity({ cameraId: camera.id, newQuantity: MAX_CART_QUANTITY }));
                             }
                           }}
                         />
@@ -148,7 +148,7 @@ function CartPage(): JSX.Element {
                         <button
                           className="btn-icon btn-icon--next"
                           aria-label="увеличить количество товара"
-                          disabled={isOrderLoading || quantity >= 9}
+                          disabled={isOrderLoading || quantity >= MAX_CART_QUANTITY}
                           onClick={()=> handleIncreaseButtonClick(cartItem)}
                         >
                           <svg width="7" height="12" aria-hidden="true">

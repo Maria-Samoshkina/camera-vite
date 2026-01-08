@@ -7,6 +7,7 @@ import { getCartItemsFromStorage } from '../../utils/cart-storage/cart-storage';
 import { OrderData } from '../../types/order';
 import { resetCoupon } from '../../store/coupon/coupon-slice';
 import { getIsOrderLoading } from '../../store/order/order-selectors';
+import { PERCENT_DIVISOR } from '../../const';
 
 function CartSummary (): JSX.Element {
 
@@ -55,7 +56,7 @@ function CartSummary (): JSX.Element {
     0
   );
 
-  const summaryOfDiscount = discount * total / 100;
+  const summaryOfDiscount = discount * total / PERCENT_DIVISOR;
 
   const summaryForPay = total - summaryOfDiscount;
 

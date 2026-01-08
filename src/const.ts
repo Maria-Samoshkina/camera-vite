@@ -61,3 +61,11 @@ export const ITEMS_PER_PAGE = 9;
 export const PAGES_PER_GROUP = 3;
 
 export const RATING_STARS = ['отлично', 'хорошо', 'нормально', 'плохо', 'ужасно'];
+
+export const MIN_CART_QUANTITY = 1;
+export const MAX_CART_QUANTITY = 9;
+export const PERCENT_DIVISOR = 100;
+
+export const CAMERA_CATEGORY_VIDEO = 'Видеокамера';
+export const CAMERA_TYPE_FILM = 'Плёночная';
+export const CAMERA_TYPE_INSTANT = 'Моментальная';
