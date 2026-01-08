@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { UseModalAccessibility } from '../../hooks/use-modal-accessibility';
-import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, RATING_MAX_VALUE, RATING_MIN_VALUE, TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from '../../const';
+import { NAME_MAX_LENGTH, NAME_MIN_LENGTH, RATING_MAX_VALUE, RATING_MIN_VALUE, RATING_STARS, TEXT_MAX_LENGTH, TEXT_MIN_LENGTH } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { closeAddNewReviewModal, openReviewSuccessModal } from '../../store/modals/modals-slice';
 import { postReviewAction } from '../../store/api-actions';
@@ -175,66 +175,26 @@ function AddNewReviewModal (props: AddNewReviewModalProps): JSX.Element {
                   </legend>
                   <div className="rate__bar">
                     <div className="rate__group">
-                      <input
-                        className="visually-hidden"
-                        id="star-5"
-                        name="rate"
-                        type="radio"
-                        value="5"
-                        onChange={(evt)=> {
-                          handleStarsRatingChange(Number(evt.target.value));
-                        }}
-                        checked = {rating === 5}
-                      />
-                      <label className="rate__label" htmlFor="star-5" title="Отлично"></label>
 
-                      <input
-                        className="visually-hidden"
-                        id="star-4"
-                        name="rate"
-                        type="radio"
-                        value="4"
-                        onChange={(evt)=> {
-                          handleStarsRatingChange(Number(evt.target.value));
-                        }}
-                        checked = {rating === 4}
-                      />
-                      <label className="rate__label" htmlFor="star-4" title="Хорошо"></label>
-                      <input
-                        className="visually-hidden"
-                        id="star-3" name="rate"
-                        type="radio"
-                        value="3"
-                        onChange={(evt)=> {
-                          handleStarsRatingChange(Number(evt.target.value));
-                        }}
-                        checked = {rating === 3}
-                      />
-                      <label className="rate__label" htmlFor="star-3" title="Нормально"></label>
-                      <input
-                        className="visually-hidden"
-                        id="star-2"
-                        name="rate"
-                        type="radio"
-                        value="2"
-                        onChange={(evt)=> {
-                          handleStarsRatingChange(Number(evt.target.value));
-                        }}
-                        checked = {rating === 2}
-                      />
-                      <label className="rate__label" htmlFor="star-2" title="Плохо"></label>
-                      <input
-                        className="visually-hidden"
-                        id="star-1"
-                        name="rate"
-                        type="radio"
-                        value="1"
-                        onChange={(evt)=> {
-                          handleStarsRatingChange(Number(evt.target.value));
-                        }}
-                        checked = {rating === 1}
-                      />
-                      <label className="rate__label" htmlFor="star-1" title="Ужасно"></label>
+
+                      {RATING_STARS.map((title, index) => {
+                        const value = RATING_MAX_VALUE - index;
+                        return (
+                          <Fragment key={value}>
+                            <input
+                              className="visually-hidden"
+                              id={`star-${value}`}
+                              name="rate"
+                              type="radio"
+                              value={value}
+                              onChange={(evt) => handleStarsRatingChange(Number(evt.target.value))}
+                              checked={rating === value}
+                            />
+                            <label className="rate__label" htmlFor={`star-${value}`} title={title}></label>
+                          </Fragment>
+                        );
+                      })}
+
                     </div>
                     <div className="rate__progress"><span className="rate__stars">{rating}</span> <span>/</span> <span className="rate__all-stars">5</span>
                     </div>

@@ -60,3 +60,4 @@ export const RATING_MAX_VALUE = 5;
 export const ITEMS_PER_PAGE = 9;
 export const PAGES_PER_GROUP = 3;
 
+export const RATING_STARS = ['отлично', 'хорошо', 'нормально', 'плохо', 'ужасно'];
