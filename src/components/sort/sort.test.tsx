@@ -29,8 +29,8 @@ describe('Component: Sort', () => {
       camerasLevels: [],
       priceFrom: null,
       priceTo: null,
-      sortType: SortType.price,
-      sortDirection: SortDirection.ascending,
+      sortType: SortType.Price,
+      sortDirection: SortDirection.Ascending,
     };
 
     const { withStoreComponent } = withStore(
@@ -119,8 +119,8 @@ describe('Component: Sort', () => {
       const priceRadio = screen.getByLabelText('по цене') ;
       const popularRadio = screen.getByLabelText('по популярности') ;
 
-      expect(priceRadio).toHaveAttribute('value', SortType.price);
-      expect(popularRadio).toHaveAttribute('value', SortType.popularity);
+      expect(priceRadio).toHaveAttribute('value', SortType.Price);
+      expect(popularRadio).toHaveAttribute('value', SortType.Popularity);
     });
 
     it('should mark price radio as checked when sortType is price', () => {
@@ -131,8 +131,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Ascending,
         }
       });
 
@@ -151,8 +151,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.popularity,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Popularity,
+          sortDirection: SortDirection.Ascending,
         }
       });
 
@@ -194,9 +194,9 @@ describe('Component: Sort', () => {
       const downButton = screen.getByLabelText('По убыванию') ;
 
       expect(upButton).toHaveAttribute('id', 'up');
-      expect(upButton).toHaveAttribute('value', SortDirection.ascending);
+      expect(upButton).toHaveAttribute('value', SortDirection.Ascending);
       expect(downButton).toHaveAttribute('id', 'down');
-      expect(downButton).toHaveAttribute('value', SortDirection.descending);
+      expect(downButton).toHaveAttribute('value', SortDirection.Descending);
     });
 
     it('should mark ascending button as checked when sortDirection is ascending', () => {
@@ -207,8 +207,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Ascending,
         }
       });
 
@@ -227,8 +227,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.descending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Descending,
         }
       });
 
@@ -297,8 +297,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.popularity,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Popularity,
+          sortDirection: SortDirection.Ascending,
         }
       });
 
@@ -318,8 +318,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Ascending,
         }
       });
 
@@ -341,8 +341,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.descending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Descending,
         }
       });
 
@@ -362,8 +362,8 @@ describe('Component: Sort', () => {
           camerasLevels: [],
           priceFrom: null,
           priceTo: null,
-          sortType: SortType.price,
-          sortDirection: SortDirection.ascending,
+          sortType: SortType.Price,
+          sortDirection: SortDirection.Ascending,
         }
       });
 

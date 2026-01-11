@@ -12,7 +12,7 @@ function FilterReset (): JSX.Element {
     setSearchParams(new URLSearchParams(), { replace: true });
   };
 
-  const handleResetKeyDown = (evt: React.KeyboardEvent<HTMLButtonElement>) => {
+  const handleFiltersResetButtonKeyDown = (evt: React.KeyboardEvent<HTMLButtonElement>) => {
     if (evt.key === 'Enter' || evt.key === ' ') {
       evt.preventDefault();
       handleFiltersResetButtonClick();
@@ -25,7 +25,7 @@ function FilterReset (): JSX.Element {
       className="btn catalog-filter__reset-btn"
       type="reset"
       onClick={handleFiltersResetButtonClick}
-      onKeyDown={handleResetKeyDown}
+      onKeyDown={handleFiltersResetButtonKeyDown}
     >
               Сбросить фильтры
     </button>

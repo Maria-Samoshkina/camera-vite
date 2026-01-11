@@ -9,8 +9,8 @@ const initialState: FiltersState = {
   camerasLevels: [],
   priceFrom: null,
   priceTo: null,
-  sortType: SortType.price,
-  sortDirection: SortDirection.ascending
+  sortType: SortType.Price,
+  sortDirection: SortDirection.Ascending
 };
 
 export const filtersSlice = createSlice({

@@ -38,13 +38,13 @@ export const TIMEOUT_SHOW_ERROR = 2000;
 
 
 export enum SortType {
-  price = 'price',
- popularity = 'popularity'
+Price = 'Price',
+Popularity = 'Popularity'
 }
 
 export enum SortDirection {
-  ascending = 'ascending',
-  descending = 'descending'
+Ascending = 'Ascending',
+Descending = 'Descending'
 }
 
 export const MIN_SEARCH_LENGTH = 3;

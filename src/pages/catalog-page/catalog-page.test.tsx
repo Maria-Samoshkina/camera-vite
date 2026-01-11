@@ -85,8 +85,8 @@ describe('Page: CatalogPage', () => {
       camerasLevels: [],
       priceFrom: null,
       priceTo: null,
-      sortType: SortType.price,
-      sortDirection: SortDirection.ascending
+      sortType: SortType.Price,
+      sortDirection: SortDirection.Ascending
     },
     [NameSpace.Modals]: {
       isAddToCartModalOpen: false,

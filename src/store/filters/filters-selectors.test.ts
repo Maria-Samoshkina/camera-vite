@@ -24,8 +24,8 @@ describe('filters selectors', () => {
     camerasLevels: ['Любительский'],
     priceFrom: 1000,
     priceTo: 5000,
-    sortType: SortType.price,
-    sortDirection: SortDirection.ascending
+    sortType: SortType.Price,
+    sortDirection: SortDirection.Ascending
   };
 
   const state = {
@@ -111,11 +111,11 @@ describe('filters selectors', () => {
 
   describe('Sort selectors', () => {
     it('getSortType should return sort type', () => {
-      expect(getSortType(state)).toBe(SortType.price);
+      expect(getSortType(state)).toBe(SortType.Price);
     });
 
     it('getSortDirection should return sort direction', () => {
-      expect(getSortDirection(state)).toBe(SortDirection.ascending);
+      expect(getSortDirection(state)).toBe(SortDirection.Ascending);
     });
 
     it('getSortType should return popularity when set', () => {
@@ -123,11 +123,11 @@ describe('filters selectors', () => {
         ...state,
         [NameSpace.Filters]: {
           ...filtersState,
-          sortType: SortType.popularity,
+          sortType: SortType.Popularity,
         },
       } as unknown as State;
 
-      expect(getSortType(stateWithPopularity)).toBe(SortType.popularity);
+      expect(getSortType(stateWithPopularity)).toBe(SortType.Popularity);
     });
 
     it('getSortDirection should return descending when set', () => {
@@ -135,11 +135,11 @@ describe('filters selectors', () => {
         ...state,
         [NameSpace.Filters]: {
           ...filtersState,
-          sortDirection: SortDirection.descending,
+          sortDirection: SortDirection.Descending,
         },
       } as unknown as State;
 
-      expect(getSortDirection(stateWithDescending)).toBe(SortDirection.descending);
+      expect(getSortDirection(stateWithDescending)).toBe(SortDirection.Descending);
     });
   });
 

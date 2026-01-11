@@ -28,7 +28,7 @@ function SearchForm (): JSX.Element {
   }, [selectedIndex]);
 
 
-  const handleFormSearch = (value: string) => {
+  const handleSearchInputChange = (value: string) => {
     setSearchQuery(value);
 
     if(value.length < MIN_SEARCH_LENGTH){
@@ -43,7 +43,7 @@ function SearchForm (): JSX.Element {
     setIsDropDownOpen(filteredCameras.length > 0);
   };
 
-  const handleButtonClear = ()=> {
+  const handleClearButtonClick = ()=> {
     if(searchQuery){
       setSearchQuery('');
       setIsDropDownOpen(false);
@@ -52,7 +52,7 @@ function SearchForm (): JSX.Element {
     }
   };
 
-  const handleKeyDown = (evt: React.KeyboardEvent<HTMLInputElement | HTMLLIElement>) => {
+  const handleSearchInputKeyDown = (evt: React.KeyboardEvent<HTMLInputElement | HTMLLIElement>) => {
     if (!isDropdownOpen || filteredCamerasByName.length === 0) {
       return;
     }
@@ -98,8 +98,8 @@ function SearchForm (): JSX.Element {
             type="text" autoComplete="off"
             placeholder="Поиск по сайту"
             value={searchQuery}
-            onChange={(evt)=> handleFormSearch(evt.target.value)}
-            onKeyDown={handleKeyDown}
+            onChange={(evt)=> handleSearchInputChange(evt.target.value)}
+            onKeyDown={handleSearchInputKeyDown}
             ref={inputRef}
 
           />
@@ -118,7 +118,7 @@ function SearchForm (): JSX.Element {
                   onMouseEnter={() => setSelectedIndex(index)}
                   tabIndex={0}
                   onFocus={() => setSelectedIndex(index)}
-                  onKeyDown={handleKeyDown}
+                  onKeyDown={handleSearchInputKeyDown}
                 >
                   <Link
                     to={`${AppRoute.Camera}/${camera.id}`}
@@ -140,7 +140,7 @@ function SearchForm (): JSX.Element {
       <button
         className="form-search__reset"
         type="reset"
-        onClick={handleButtonClear}
+        onClick={handleClearButtonClick}
       >
         <svg width="10" height="10" aria-hidden="true">
           <use xlinkHref="#icon-close"></use>

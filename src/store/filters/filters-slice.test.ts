@@ -9,8 +9,8 @@ describe('filtersSlice', () => {
     camerasLevels: [],
     priceFrom: null,
     priceTo: null,
-    sortType: SortType.price,
-    sortDirection: SortDirection.ascending
+    sortType: SortType.Price,
+    sortDirection: SortDirection.Ascending
   };
 
   it('should handle initial state', () => {
@@ -56,8 +56,8 @@ describe('filtersSlice', () => {
       camerasLevels: ['Любительский'],
       priceFrom: 1000,
       priceTo: 5000,
-      sortType: SortType.popularity,
-      sortDirection: SortDirection.descending
+      sortType: SortType.Popularity,
+      sortDirection: SortDirection.Descending
     };
     const state = filtersSlice.reducer(filledState, resetFilters());
     expect(state.camerasCategory).toBeNull();
@@ -173,19 +173,19 @@ describe('filtersSlice', () => {
 
   describe('Sort actions', () => {
     it('should handle changeSortType', () => {
-      let state = filtersSlice.reducer(initialState, changeSortType(SortType.popularity));
-      expect(state.sortType).toBe(SortType.popularity);
+      let state = filtersSlice.reducer(initialState, changeSortType(SortType.Popularity));
+      expect(state.sortType).toBe(SortType.Popularity);
 
-      state = filtersSlice.reducer(state, changeSortType(SortType.price));
-      expect(state.sortType).toBe(SortType.price);
+      state = filtersSlice.reducer(state, changeSortType(SortType.Price));
+      expect(state.sortType).toBe(SortType.Price);
     });
 
     it('should handle changeSortDirection', () => {
-      let state = filtersSlice.reducer(initialState, changeSortDirection(SortDirection.descending));
-      expect(state.sortDirection).toBe(SortDirection.descending);
+      let state = filtersSlice.reducer(initialState, changeSortDirection(SortDirection.Descending));
+      expect(state.sortDirection).toBe(SortDirection.Descending);
 
-      state = filtersSlice.reducer(state, changeSortDirection(SortDirection.ascending));
-      expect(state.sortDirection).toBe(SortDirection.ascending);
+      state = filtersSlice.reducer(state, changeSortDirection(SortDirection.Ascending));
+      expect(state.sortDirection).toBe(SortDirection.Ascending);
     });
   });
 
@@ -196,16 +196,16 @@ describe('filtersSlice', () => {
       state = filtersSlice.reducer(state, changeCamerasLevel('Профессиональный'));
       state = filtersSlice.reducer(state, changePriceFrom(10000));
       state = filtersSlice.reducer(state, changePriceTo(50000));
-      state = filtersSlice.reducer(state, changeSortType(SortType.popularity));
-      state = filtersSlice.reducer(state, changeSortDirection(SortDirection.descending));
+      state = filtersSlice.reducer(state, changeSortType(SortType.Popularity));
+      state = filtersSlice.reducer(state, changeSortDirection(SortDirection.Descending));
 
       expect(state.camerasCategory).toBe('Фотокамера');
       expect(state.camerasTypes).toContain('Цифровая');
       expect(state.camerasLevels).toContain('Профессиональный');
       expect(state.priceFrom).toBe(10000);
       expect(state.priceTo).toBe(50000);
-      expect(state.sortType).toBe(SortType.popularity);
-      expect(state.sortDirection).toBe(SortDirection.descending);
+      expect(state.sortType).toBe(SortType.Popularity);
+      expect(state.sortDirection).toBe(SortDirection.Descending);
 
       state = filtersSlice.reducer(state, resetFilters());
 

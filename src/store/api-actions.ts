@@ -108,7 +108,7 @@ export const createOrderAction = createAsyncThunk<
   { dispatch: AppDispatch;
     extra: AxiosInstance; }
 >(
-  'order/create',
+  'ORDER/create',
   async (orderData, { extra: api }) => {
     await api.post(ApiRoute.Order, orderData);
 

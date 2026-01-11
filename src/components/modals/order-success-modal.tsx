@@ -109,6 +109,3 @@ function OrderSuccessModal (props: OrderSuccessModalProps): JSX.Element {
 
 export default OrderSuccessModal;
 
-//При возникновении ошибки
-// в попапе отображается текст ошибки.
-// Текст остаётся на усмотрение разработчика. Корзина не очищается.

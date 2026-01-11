@@ -9,23 +9,23 @@ describe('sortCameras', () => {
   const cameras = [camera1, camera2, camera3];
 
   it('sorts by price ascending', () => {
-    const sorted = sortCameras(cameras, SortType.price, SortDirection.ascending);
+    const sorted = sortCameras(cameras, SortType.Price, SortDirection.Ascending);
     expect(sorted.map((camera) => camera.id)).toEqual([2, 3, 1]);
     expect(cameras.map((camera) => camera.id)).toEqual([1, 2, 3]);
   });
 
   it('sorts by price descending', () => {
-    const sorted = sortCameras(cameras, SortType.price, SortDirection.descending);
+    const sorted = sortCameras(cameras, SortType.Price, SortDirection.Descending);
     expect(sorted.map((camera) => camera.id)).toEqual([1, 3, 2]);
   });
 
   it('sorts by popularity descending', () => {
-    const sorted = sortCameras(cameras, SortType.popularity, SortDirection.descending);
+    const sorted = sortCameras(cameras, SortType.Popularity, SortDirection.Descending);
     expect(sorted.map((camera) => camera.id)).toEqual([2, 1, 3]);
   });
 
   it('returns original array for unknown sort type', () => {
-    const result = sortCameras(cameras, 'unknown', SortDirection.ascending);
+    const result = sortCameras(cameras, 'unknown', SortDirection.Ascending);
     expect(result).toBe(cameras);
   });
 });

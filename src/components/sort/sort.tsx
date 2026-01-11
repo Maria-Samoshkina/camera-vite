@@ -13,7 +13,7 @@ function Sort (): JSX.Element {
     dispatch(changeSortType(sortType));
   };
 
-  const handleSortDirection = (sortDirection: string)=> {
+  const handleSortDirectionChange = (sortDirection: string)=> {
     dispatch(changeSortDirection(sortDirection));
   };
 
@@ -29,8 +29,8 @@ function Sort (): JSX.Element {
                 type="radio"
                 id="sortPrice"
                 name="sort"
-                value={SortType.price}
-                checked ={selectedSortType === SortType.price}
+                value={SortType.Price}
+                checked ={selectedSortType === SortType.Price}
                 onChange={(evt)=> handleSortTypeChange(evt.target.value) }
               />
               <label htmlFor="sortPrice">по цене</label>
@@ -42,8 +42,8 @@ function Sort (): JSX.Element {
                 type="radio"
                 id="sortPopular"
                 name="sort"
-                value={SortType.popularity}
-                checked = {selectedSortType === SortType.popularity}
+                value={SortType.Popularity}
+                checked = {selectedSortType === SortType.Popularity}
                 onChange={(evt)=> handleSortTypeChange(evt.target.value) }
 
               />
@@ -56,9 +56,9 @@ function Sort (): JSX.Element {
                 type="radio"
                 id="up"
                 name="sort-icon"
-                value={SortDirection.ascending}
-                checked = {selectedSortDirection === SortDirection.ascending}
-                onChange={(evt)=> handleSortDirection(evt.target.value)}
+                value={SortDirection.Ascending}
+                checked = {selectedSortDirection === SortDirection.Ascending}
+                onChange={(evt)=> handleSortDirectionChange(evt.target.value)}
                 aria-label="По возрастанию"
               />
               <label htmlFor="up">
@@ -73,9 +73,9 @@ function Sort (): JSX.Element {
                 id="down"
                 name="sort-icon"
                 aria-label="По убыванию"
-                value={SortDirection.descending}
-                checked = {selectedSortDirection === SortDirection.descending}
-                onChange={(evt)=> handleSortDirection(evt.target.value)}
+                value={SortDirection.Descending}
+                checked = {selectedSortDirection === SortDirection.Descending}
+                onChange={(evt)=> handleSortDirectionChange(evt.target.value)}
               />
               <label htmlFor="down">
                 <svg width="16" height="14" aria-hidden="true">
